@@ -1,0 +1,24 @@
+{
+  "name": "web-gsitae",
+  "version": "1.0.0",
+  "description": "Portal de acceso unificado a laboratorios remotos de la ETSIDI facultad de la UPM",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/gsitae/web-gsitae.git"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "react",
+    "semantic-ui",
+    "acceso-unificado",
+    "gsitae"
+  ],
+  "author": "Kevin Julián Martínez Escobar",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/gsitae/web-gsitae#readme"
+}
