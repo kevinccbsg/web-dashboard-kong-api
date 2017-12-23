@@ -38,4 +38,5 @@ typings/
 # work
 build/
 babel_cache/
-
+!logs/empty
+package-lock.json
