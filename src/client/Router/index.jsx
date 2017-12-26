@@ -2,16 +2,19 @@ import React from 'react';
 import {
   BrowserRouter as Router,
   Route,
+  Switch,
 } from 'react-router-dom';
 import Login from './../Login';
+import Home from './../Home';
 import Error404 from '../common/Error404';
 
 const AppRouter = () => (
   <Router>
-    <div>
+    <Switch>
+      <Route path="/" component={Home} />
       <Route path="/login" component={Login} />
-      <Route path="*" component={Error404} />
-    </div>
+      <Route component={Error404} />
+    </Switch>
   </Router>
 );
 
