@@ -1,9 +1,10 @@
-import 'semantic-ui-css/semantic.min.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Button } from 'semantic-ui-react';
+import 'semantic-ui-css/semantic.min.css';
+import Intl from './Intl';
+import './styles/styles.styl';
 
 ReactDOM.render(
-  <Button primary>Click Here</Button>,
+  <Intl />,
   document.getElementById('root'),
 );
