@@ -17,14 +17,18 @@ const SidebarMenu = props => (
     <Menu.Item name="GSITAE">
       <Header as="h2">GSITAE</Header>
     </Menu.Item>
-    <Menu.Item className="sidebar-item" name="grid layout">
-      <Icon name="grid layout" />
-      Home
-    </Menu.Item>
-    <Menu.Item className="sidebar-item" name="user">
-      <Icon name="user" />
-      User Profile
-    </Menu.Item>
+    <Link to="/">
+      <Menu.Item className="sidebar-item" name="grid layout">
+        <Icon name="grid layout" />
+        Home
+      </Menu.Item>
+    </Link>
+    <Link to="/userprofile">
+      <Menu.Item className="sidebar-item" name="user">
+        <Icon name="user" />
+        User Profile
+      </Menu.Item>
+    </Link>
     <div className="logout-button">
       <Link to="/logout">
         <Icon size="big" name="log out" />

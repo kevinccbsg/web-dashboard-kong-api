@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import { Sidebar, Segment, Button, Header } from 'semantic-ui-react';
-import SidebarMenu from '../Sidebar';
+import { Switch, Route } from 'react-router-dom';
+import { Sidebar, Segment, Button } from 'semantic-ui-react';
+import SidebarMenu from './../Sidebar';
+import Labs from '../Labs';
+import UserProfile from './../UserProfile';
 
 class Home extends Component {
   constructor() {
@@ -23,7 +26,10 @@ class Home extends Component {
         <SidebarMenu visible={visible} />
         <Sidebar.Pusher>
           <Segment basic>
-            <Header as="h3">Application Content</Header>
+            <Switch>
+              <Route exact path="/" component={Labs} />
+              <Route path="/userprofile" component={UserProfile} />
+            </Switch>
             <Button
               size="big"
               color="black"
