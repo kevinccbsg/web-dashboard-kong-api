@@ -4,10 +4,14 @@ import {
   Route,
 } from 'react-router-dom';
 import Login from './../Login';
+import Error404 from '../common/Error404';
 
 const AppRouter = () => (
   <Router>
-    <Route exact path="/" component={Login} />
+    <div>
+      <Route path="/login" component={Login} />
+      <Route path="*" component={Error404} />
+    </div>
   </Router>
 );
 
