@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Icon } from 'semantic-ui-react';
+import { Card, Button } from 'semantic-ui-react';
 
 class LabItem extends Component {
   constructor() {
@@ -7,12 +7,21 @@ class LabItem extends Component {
     this.state = {
       expanded: false,
     };
+    this.handleExpanded = this.handleExpanded.bind(this);
+  }
+
+  handleExpanded() {
+    const { expanded } = this.state;
+    this.setState({
+      expanded: !expanded,
+    });
   }
 
   render() {
     const { expanded } = this.state;
+    const contentText = (expanded) ? 'lab-item open' : 'lab-item';
     return (
-      <Card className="lab-item">
+      <Card className={contentText}>
         <Card.Content>
           <Card.Header>
             Matthew
@@ -23,16 +32,36 @@ class LabItem extends Component {
             </span>
           </Card.Meta>
           <Card.Description className="lab-description">
+            Matthew is a musician living in Nashville. Matthew is a musician living in Nashville.
+            Matthew is a musician living in Nashville.
+            Matthew is a musician living in Nashville.
             Matthew is a musician living in Nashville.
           </Card.Description>
         </Card.Content>
         <Card.Content className="icon-container" extra>
-          <Icon size="large" name="file pdf outline" />
+          <Button
+            className="button-item"
+            size="large"
+            basic
+            icon="file pdf outline"
+          />
           {expanded && (
-            <Icon size="large" name="expand" />
+            <Button
+              className="button-item"
+              onClick={this.handleExpanded}
+              size="large"
+              icon="expand"
+              basic
+            />
           )}
           {!expanded && (
-            <Icon size="large" name="compress" />
+            <Button
+              className="button-item"
+              onClick={this.handleExpanded}
+              size="large"
+              icon="compress"
+              basic
+            />
           )}
         </Card.Content>
       </Card>

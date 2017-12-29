@@ -6,6 +6,19 @@
   & > .lab-item
     width: calc(25% - 20px)
     margin: 20px 10px !important
-    transition: all .3s linear;
+    transition: all .3s linear
+    .lab-description
+      transition: all .2s linear
+      max-height: 0
+      overflow: hidden
+    &.open
+      width: calc(50% - 20px)
+      .lab-description
+        max-height: 150px
+        overflow: auto
     .icon-container
       text-align: right
+      .button-item
+        box-shadow: none
+        &:hover, &:focus, &:visited
+          box-shadow: none

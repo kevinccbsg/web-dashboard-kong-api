@@ -8,7 +8,7 @@
     "clean": "./node_modules/.bin/rimraf build/public/dist",
     "webpack:prod": "./node_modules/.bin/webpack",
     "webpack": "npm run clean && npm run webpack:prod",
-    "webpack:watch": "./node_modules/.bin/webpack -w",
+    "webpack:watch": "./node_modules/.bin/webpack --watch",
     "webpack:dev": "npm run clean && npm run webpack:watch",
     "build-server": "./node_modules/.bin/babel src/server -d build --copy-files",
     "build-server:dev": "./node_modules/.bin/babel src/server -w -d build --copy-files",
