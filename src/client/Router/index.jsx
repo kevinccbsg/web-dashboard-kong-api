@@ -11,8 +11,8 @@ import Error404 from '../common/Error404';
 const AppRouter = () => (
   <Router>
     <Switch>
-      <Route path="/" component={Home} />
       <Route path="/login" component={Login} />
+      <Route path="/" component={Home} />
       <Route component={Error404} />
     </Switch>
   </Router>

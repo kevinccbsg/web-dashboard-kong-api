@@ -11,7 +11,7 @@ const VideoItem = props => (
   >
     <source
       src={props.sourceUrl}
-      type="video/webm"
+      type="video/mp4"
     />
   </video>
 );

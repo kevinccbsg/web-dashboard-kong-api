@@ -6,7 +6,7 @@ const Login = () => (
   <div className="video-container">
     <VideoItem
       videoClass="bgvid"
-      sourceUrl="http://mazwai.com/system/posts/videos/000/000/109/webm/leif_eliasson--glaciartopp.webm?1410742112"
+      sourceUrl="/video/loginVideo.mp4"
     />
     <LoginContainer />
   </div>
