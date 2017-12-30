@@ -1,5 +1,8 @@
 import mongoose from 'mongoose';
 
+// Set mongoose.Promise to any Promise implementation
+mongoose.Promise = Promise;
+
 const connect = uri => (
   new Promise((resolve, reject) => {
     mongoose.connect(uri);

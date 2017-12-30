@@ -6,6 +6,7 @@ import helmet from 'helmet';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import expressSession from 'express-session';
+import api from './router';
 import logger from './utils/logger';
 import connect from './utils/ddbb';
 
@@ -38,6 +39,8 @@ app.get('*.js', (req, res, next) => {
   res.set('Content-Encoding', 'gzip');
   next();
 });
+
+app.use('/GSITAE', api);
 
 app.get('*', (req, res) => {
   debug('Render home');
