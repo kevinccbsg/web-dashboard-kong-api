@@ -6,16 +6,14 @@ import helmet from 'helmet';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import expressSession from 'express-session';
-import winston from 'winston';
+import logger from './utils/logger';
+import connect from './utils/ddbb';
 
 const debug = require('debug')('GSITAE:server');
 
-const logger = new (winston.Logger)({
-  transports: [
-    new (winston.transports.Console)(),
-    new (winston.transports.File)({ filename: path.join(__dirname, './../logs', '/GSITAE.log') }),
-  ],
-});
+connect(config.mongodb.uri)
+.then(() => logger.info('Successfull connection'))
+.catch(err => logger.error(err));
 
 const app = new Express();
 
