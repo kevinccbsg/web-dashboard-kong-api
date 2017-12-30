@@ -29,6 +29,12 @@ const SidebarMenu = props => (
         User Profile
       </Menu.Item>
     </Link>
+    <Link to="/usermanagment">
+      <Menu.Item className="sidebar-item" name="user">
+        <Icon name="users" />
+        Users Managment
+      </Menu.Item>
+    </Link>
     <div className="logout-button">
       <Link to="/logout">
         <Icon size="big" name="log out" />
