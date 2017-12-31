@@ -35,7 +35,7 @@ class RowItem extends Component {
 
   render() {
     const { active, selected } = this.state;
-    const { item } = this.props;
+    const { item, keyNames } = this.props;
     return (
       <Table.Row
         active={active}
@@ -46,12 +46,9 @@ class RowItem extends Component {
             checked={selected}
           />
         </Table.Cell>
-        <Table.Cell>{item.code}</Table.Cell>
-        <Table.Cell>{item.name}</Table.Cell>
-        <Table.Cell>{item.email}</Table.Cell>
-        <Table.Cell>{item.grade}</Table.Cell>
-        <Table.Cell>{item.roles}</Table.Cell>
-        <Table.Cell>{item.permissions}</Table.Cell>
+        {keyNames.map(obj => (
+          <Table.Cell key={item[obj]}>{item[obj]}</Table.Cell>
+        ))}
       </Table.Row>
     );
   }
@@ -61,6 +58,7 @@ RowItem.propTypes = {
   onClickRow: PropTypes.func,
   item: PropTypes.object,
   alreadySelected: PropTypes.bool,
+  keyNames: PropTypes.array.isRequired,
 };
 
 RowItem.defaultProps = {
