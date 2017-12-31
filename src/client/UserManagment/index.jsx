@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Header, Button, Icon, Table } from 'semantic-ui-react';
+import { Header, Table } from 'semantic-ui-react';
 import RowItem from './RowItem';
+import FooterItem from './FooterItem';
 
 class UserManagment extends Component {
   constructor() {
@@ -70,23 +71,9 @@ class UserManagment extends Component {
             )}
           </Table.Body>
 
-          <Table.Footer fullWidth>
-            <Table.Row>
-              <Table.HeaderCell />
-              <Table.HeaderCell colSpan="6">
-                {!selected && (
-                  <Button floated="right" icon labelPosition="left" primary size="small">
-                    <Icon name="user" /> Add User
-                  </Button>
-                )}
-                {selected && (
-                  <Button floated="right" icon labelPosition="left" primary size="small">
-                    <Icon name="edit" /> Edit User
-                  </Button>
-                )}
-              </Table.HeaderCell>
-            </Table.Row>
-          </Table.Footer>
+          <FooterItem
+            selected={selected}
+          />
         </Table>
       </div>
     );
