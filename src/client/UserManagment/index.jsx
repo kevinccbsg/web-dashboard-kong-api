@@ -6,11 +6,41 @@ class UserManagment extends Component {
   constructor() {
     super();
     this.state = {
-      items: [],
+      items: [
+        {
+          code: 50083,
+          name: 'Kevin Julián Martinez Escobar',
+          email: 'kevinjulian.martinezescobar@alumnos.upm.es',
+          grade: 'Electronica industrial y automatica',
+          roles: 'Admin',
+          permissions: 'Admin, Peltier, FPGA, Compilador C',
+        },
+        {
+          code: 50084,
+          name: 'Kevin Julián Martinez Escobar',
+          email: 'kevinjulian.martinezescobar@alumnos.upm.es',
+          grade: 'Electronica industrial y automatica',
+          roles: 'Admin',
+          permissions: 'Admin, Peltier, FPGA, Compilador C',
+        },
+      ],
+      codeSelected: '',
+      selected: false,
     };
+    this.handleIsselected = this.handleIsselected.bind(this);
+  }
+
+  handleIsselected(code) {
+    const { codeSelected, selected } = this.state;
+    if ((code === codeSelected) && selected) {
+      this.setState({ codeSelected: '', selected: false });
+    } else if ((code !== codeSelected) && !selected) {
+      this.setState({ codeSelected: code, selected: true });
+    }
   }
 
   render() {
+    const { items, selected } = this.state;
     return (
       <div className="inside-container">
         <Header as="h1">User managment</Header>
@@ -28,19 +58,32 @@ class UserManagment extends Component {
           </Table.Header>
 
           <Table.Body>
-            <RowItem />
-            <RowItem />
-            <RowItem />
-            <RowItem />
+            {(items.length !== 0) && (
+              items.map(obj => (
+                <RowItem
+                  key={obj.code}
+                  item={obj}
+                  alreadySelected={selected}
+                  onClickRow={this.handleIsselected}
+                />
+              ))
+            )}
           </Table.Body>
 
           <Table.Footer fullWidth>
             <Table.Row>
               <Table.HeaderCell />
               <Table.HeaderCell colSpan="6">
-                <Button floated="right" icon labelPosition="left" primary size="small">
-                  <Icon name="user" /> Add User
-                </Button>
+                {!selected && (
+                  <Button floated="right" icon labelPosition="left" primary size="small">
+                    <Icon name="user" /> Add User
+                  </Button>
+                )}
+                {selected && (
+                  <Button floated="right" icon labelPosition="left" primary size="small">
+                    <Icon name="edit" /> Edit User
+                  </Button>
+                )}
               </Table.HeaderCell>
             </Table.Row>
           </Table.Footer>
