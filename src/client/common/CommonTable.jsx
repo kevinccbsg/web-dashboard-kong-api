@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Table } from 'semantic-ui-react';
 import _ from 'lodash';
+import uuid from 'uuid';
 import RowItem from './RowItem';
 import FooterItem from './FooterItem';
 
@@ -21,14 +22,26 @@ class CommonTable extends Component {
       this.setState({ codeSelected: '', selected: false });
     } else if ((code !== codeSelected) && !selected) {
       this.setState({ codeSelected: code, selected: true });
+      this.props.onSelected(code);
     }
   }
 
   render() {
-    const { items, keyNames } = this.props;
-    const { selected } = this.state;
+    const {
+      items,
+      keyNames,
+      headersText,
+      addText,
+      editText,
+      deleteText,
+      onAdd,
+      onEdit,
+      onDelete,
+      keySelected,
+    } = this.props;
+    const { selected, codeSelected } = this.state;
     if (items.length === 0) return <h3>No items</h3>;
-    const headers = _.keys(_.pick(items[0], keyNames));
+    const headers = headersText || _.keys(_.pick(items[0], keyNames));
     return (
       <Table celled compact definition>
         <Table.Header fullWidth>
@@ -44,11 +57,12 @@ class CommonTable extends Component {
           {(items.length !== 0) && (
             items.map(obj => (
               <RowItem
-                key={obj.code}
+                key={uuid.v4()}
                 item={obj}
-                alreadySelected={selected}
                 onClickRow={this.handleIsselected}
                 keyNames={keyNames}
+                keySelected={keySelected}
+                codeSelected={codeSelected}
               />
             ))
           )}
@@ -56,6 +70,12 @@ class CommonTable extends Component {
 
         <FooterItem
           selected={selected}
+          addText={addText}
+          editText={editText}
+          deleteText={deleteText}
+          onAdd={onAdd}
+          onEdit={onEdit}
+          onDelete={onDelete}
         />
       </Table>
     );
@@ -63,13 +83,30 @@ class CommonTable extends Component {
 }
 
 CommonTable.propTypes = {
+  keySelected: PropTypes.string.isRequired,
   items: PropTypes.array,
   keyNames: PropTypes.array,
+  headersText: PropTypes.array,
+  addText: PropTypes.string,
+  editText: PropTypes.string,
+  deleteText: PropTypes.string,
+  onAdd: PropTypes.func,
+  onEdit: PropTypes.func,
+  onDelete: PropTypes.func,
+  onSelected: PropTypes.func,
 };
 
 CommonTable.defaultProps = {
   items: [],
   keyNames: [],
+  headersText: [],
+  addText: '',
+  editText: '',
+  deleteText: '',
+  onAdd: () => 0,
+  onEdit: () => 0,
+  onDelete: () => 0,
+  onSelected: () => 0,
 };
 
 export default CommonTable;

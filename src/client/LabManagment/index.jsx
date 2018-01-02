@@ -2,33 +2,33 @@ import React, { Component } from 'react';
 import { Header, Modal, Button, Icon } from 'semantic-ui-react';
 import CommonTable from '../common/CommonTable';
 
-class UserManagment extends Component {
+class LabManagment extends Component {
   constructor() {
     super();
     this.state = {
       items: [
         {
-          code: 50083,
-          name: 'Kevin Julián Martinez Escobar',
-          email: 'kevinjulian.martinezescobar@alumnos.upm.es',
-          grade: 'Electronica industrial y automatica',
-          roles: 'Admin',
-          permissions: 'Admin, Peltier, FPGA, Compilador C',
+          name: 'Api-one',
+          uris: '/apione',
+          upstream_url: 'http://api-one:3001',
+          description: 'Aplicacion de prueba',
+          strip_uri: true,
+          preserve_host: false,
         },
         {
-          code: 50084,
-          name: 'Kevin Julián Martinez Escobar',
-          email: 'kevinjulian.martinezescobar@alumnos.upm.es',
-          grade: 'Electronica industrial y automatica',
-          roles: 'Admin',
-          permissions: 'Admin, Peltier, FPGA, Compilador C',
+          name: 'Api-two',
+          uris: '/apitwo',
+          upstream_url: 'http://api-two:3001',
+          description: 'Aplicacion de prueba',
+          strip_uri: true,
+          preserve_host: false,
         },
       ],
       openModal: false,
       basic: false,
       edit: false,
     };
-    this.userModal = this.userModal.bind(this);
+    this.labModal = this.labModal.bind(this);
     this.deleteModal = this.deleteModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.handleSelected = this.handleSelected.bind(this);
@@ -38,7 +38,7 @@ class UserManagment extends Component {
     this.setState({ codeSelected: code });
   }
 
-  userModal() {
+  labModal() {
     this.setState({ openModal: true });
   }
 
@@ -54,33 +54,33 @@ class UserManagment extends Component {
     const { items, openModal, basic } = this.state;
     return (
       <div className="inside-container">
-        <Header as="h1">User managment</Header>
+        <Header as="h1">Lab managment</Header>
         <CommonTable
           items={items}
           keyNames={[
-            'code',
             'name',
-            'email',
-            'grade',
-            'roles',
-            'permissions',
+            'uris',
+            'upstream_url',
+            'description',
+            'strip_uri',
+            'preserve_host',
           ]}
           headersText={[
-            'código',
-            'name',
-            'email',
-            'grade',
-            'roles',
-            'permissions',
+            'Nombre',
+            'uris',
+            'upstream_url',
+            'description',
+            'strip_uri',
+            'preserve_host',
           ]}
-          addText="Añadir Usuario"
-          editText="Editar Usuario"
-          deleteText="Eliminar Usuario"
-          onAdd={this.userModal}
-          onEdit={() => this.userModal(true)}
+          addText="Añadir laboratorio"
+          editText="Editar laboratorio"
+          deleteText="Eliminar laboratorio"
+          onAdd={this.labModal}
+          onEdit={() => this.labModal(true)}
           onDelete={this.deleteModal}
           onSelected={this.handleSelected}
-          keySelected="code"
+          keySelected="name"
         />
         <Modal
           open={openModal}
@@ -107,4 +107,4 @@ class UserManagment extends Component {
   }
 }
 
-export default UserManagment;
+export default LabManagment;

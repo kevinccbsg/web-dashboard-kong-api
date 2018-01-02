@@ -1,54 +1,53 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { Checkbox, Table } from 'semantic-ui-react';
+import { Checkbox, Table, Icon } from 'semantic-ui-react';
+import _ from 'lodash';
 
 class RowItem extends Component {
-  constructor() {
+  constructor(props) {
+    const { item, keySelected, codeSelected } = props;
+    const isSelected = (item[keySelected] === codeSelected);
     super();
     this.state = {
-      active: false,
-      selected: false,
+      active: isSelected,
+      selected: isSelected,
     };
     this.handleClick = this.handleClick.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (!nextProps.alreadySelected) {
-      this.setState({
-        active: false,
-        selected: false,
-      });
-    }
-  }
-
   handleClick(code) {
-    const { active, selected } = this.state;
-    const { alreadySelected } = this.props;
-    if (!alreadySelected) {
-      this.setState({
-        active: !active,
-        selected: !selected,
-      });
-    }
     this.props.onClickRow(code);
   }
 
   render() {
     const { active, selected } = this.state;
-    const { item, keyNames } = this.props;
+    const { item, keyNames, keySelected } = this.props;
     return (
       <Table.Row
         active={active}
       >
         <Table.Cell>
           <Checkbox
-            onClick={() => this.handleClick(item.code)}
+            onClick={() => this.handleClick(item[keySelected])}
             checked={selected}
           />
         </Table.Cell>
-        {keyNames.map(obj => (
-          <Table.Cell key={item[obj]}>{item[obj]}</Table.Cell>
-        ))}
+        {keyNames.map((obj) => {
+          if (_.isBoolean(item[obj]) && item[obj]) {
+            return (
+              <Table.Cell key={item[obj]}>
+                <Icon color="green" name="checkmark" size="large" />
+              </Table.Cell>
+            );
+          } else if (_.isBoolean(item[obj]) && !item[obj]) {
+            return (
+              <Table.Cell key={item[obj]}>
+                <Icon color="red" name="remove" size="large" />
+              </Table.Cell>
+            );
+          }
+          return <Table.Cell key={item[obj]}>{item[obj]}</Table.Cell>;
+        })}
       </Table.Row>
     );
   }
@@ -57,14 +56,15 @@ class RowItem extends Component {
 RowItem.propTypes = {
   onClickRow: PropTypes.func,
   item: PropTypes.object,
-  alreadySelected: PropTypes.bool,
   keyNames: PropTypes.array.isRequired,
+  keySelected: PropTypes.string.isRequired,
+  codeSelected: PropTypes.string,
 };
 
 RowItem.defaultProps = {
   onClickRow: () => 0,
   item: {},
-  alreadySelected: false,
+  codeSelected: '',
 };
 
 export default RowItem;
