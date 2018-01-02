@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { Header, Modal, Button, Icon } from 'semantic-ui-react';
+import { Header } from 'semantic-ui-react';
 import CommonTable from '../common/CommonTable';
+import DeleteLab from './DeleteLab';
+import LabModal from './LabModal';
 
 class LabManagment extends Component {
   constructor() {
@@ -24,9 +26,11 @@ class LabManagment extends Component {
           preserve_host: false,
         },
       ],
+      itemSelected: {},
       openModal: false,
       basic: false,
       edit: false,
+      codeSelected: '',
     };
     this.labModal = this.labModal.bind(this);
     this.deleteModal = this.deleteModal.bind(this);
@@ -35,7 +39,9 @@ class LabManagment extends Component {
   }
 
   handleSelected(code) {
-    this.setState({ codeSelected: code });
+    const { items } = this.state;
+    const itemSelected = items.find(obj => obj.name === code);
+    this.setState({ codeSelected: code, itemSelected });
   }
 
   labModal() {
@@ -43,7 +49,7 @@ class LabManagment extends Component {
   }
 
   deleteModal() {
-    this.setState({ openModal: true, basic: true });
+    this.setState({ openModal: false, basic: true });
   }
 
   closeModal() {
@@ -51,7 +57,7 @@ class LabManagment extends Component {
   }
 
   render() {
-    const { items, openModal, basic } = this.state;
+    const { items, openModal, basic, itemSelected } = this.state;
     return (
       <div className="inside-container">
         <Header as="h1">Lab managment</Header>
@@ -82,26 +88,15 @@ class LabManagment extends Component {
           onSelected={this.handleSelected}
           keySelected="name"
         />
-        <Modal
-          open={openModal}
-          basic={basic}
-          size="small"
-          onClose={this.closeModal}
-        >
-          <Header icon="delete" content="Delete Users" />
-          <Modal.Content>
-            <p>Your inbox is getting full, would you
-            like us to enable automatic archiving of old messages?</p>
-          </Modal.Content>
-          <Modal.Actions>
-            <Button basic color="red" inverted>
-              <Icon name="remove" /> No
-            </Button>
-            <Button color="green" inverted>
-              <Icon name="checkmark" /> Yes
-            </Button>
-          </Modal.Actions>
-        </Modal>
+        <DeleteLab
+          openModal={basic}
+          onCloseModal={this.closeModal}
+        />
+        <LabModal
+          openModal={openModal}
+          item={itemSelected}
+          onCloseModal={this.closeModal}
+        />
       </div>
     );
   }

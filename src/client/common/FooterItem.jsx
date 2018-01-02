@@ -26,11 +26,11 @@ const FooterItem = (props) => {
               floated="right"
               icon
               labelPosition="left"
-              primary
+              color="red"
               size="small"
-              onClick={props.onEdit}
+              onClick={props.onDelete}
             >
-              <Icon name="edit" /> {props.editText}
+              <Icon name="delete" /> {props.deleteText}
             </Button>
           )}
           {selected && (
@@ -38,12 +38,10 @@ const FooterItem = (props) => {
               floated="right"
               icon
               labelPosition="left"
-              primary
-              color="red"
               size="small"
-              onClick={props.onDelete}
+              onClick={props.onEdit}
             >
-              <Icon name="delete" /> {props.deleteText}
+              <Icon name="edit" /> {props.editText}
             </Button>
           )}
         </Table.HeaderCell>
