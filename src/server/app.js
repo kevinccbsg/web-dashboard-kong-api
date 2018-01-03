@@ -6,9 +6,13 @@ import helmet from 'helmet';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import expressSession from 'express-session';
+import passport from 'passport';
+import connectEnsureLogin from 'connect-ensure-login';
 import api from './router';
 import logger from './utils/logger';
 import connect from './utils/ddbb';
+
+const Strategy = require('passport-local').Strategy;
 
 const debug = require('debug')('GSITAE:server');
 
@@ -30,9 +34,39 @@ app.use(expressSession({
   resave: config.config.session.resave,
   saveUninitialized: config.config.session.saveUninitialized,
 }));
-
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(Express.static(path.join(__dirname, 'public')));
 
+passport.use(new Strategy(
+  (username, password, done) => {
+    debug(username);
+    if (username === 'kevinccbsg' && password === '123456') {
+      const user = {
+        username,
+        roles: 'ADMIN',
+      };
+      return done(null, user);
+    }
+    return done(null, false);
+  },
+));
+
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+
+passport.deserializeUser((user, done) => {
+  done(null, user);
+});
+
+
+app.post('/GSITAE/login', passport.authenticate('local', { failureRedirect: '/login' }), (req, res) => {
+  debug('Login GSITAE');
+  res.redirect('/');
+});
+
+app.use('/GSITAE', api);
 
 app.get('*.js', (req, res, next) => {
   req.url = `${req.url}.gz`;
@@ -40,10 +74,16 @@ app.get('*.js', (req, res, next) => {
   next();
 });
 
-app.use('/GSITAE', api);
-
-app.get('*', (req, res) => {
+app.get('/login', (req, res) => {
   debug('Render home');
+  debug(req.session);
+  logger.info('[app] - renderizado de la home');
+  res.sendFile(path.join(__dirname, 'public', 'dist', 'index.html'));
+});
+
+app.get('*', connectEnsureLogin.ensureLoggedIn('/login'), (req, res) => {
+  debug('Render home');
+  debug(req.session);
   logger.info('[app] - renderizado de la home');
   res.sendFile(path.join(__dirname, 'public', 'dist', 'index.html'));
 });
