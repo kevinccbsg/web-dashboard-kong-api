@@ -61,7 +61,7 @@ passport.deserializeUser((user, done) => {
 });
 
 
-app.post('/GSITAE/login', passport.authenticate('local', { failureRedirect: '/login' }), (req, res) => {
+app.post('/GSITAE/login', passport.authenticate('local', { failureRedirect: '/login?error' }), (req, res) => {
   debug('Login GSITAE');
   res.redirect('/');
 });
