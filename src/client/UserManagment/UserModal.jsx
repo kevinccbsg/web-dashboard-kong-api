@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { Header, Modal, Button, Icon, Form, Input, Message } from 'semantic-ui-react';
+import { Header, Modal, Button, Icon, Form, Input, Message, Dropdown } from 'semantic-ui-react';
 import _ from 'lodash';
 
 const initialState = {
@@ -13,7 +13,7 @@ const initialState = {
   grade: '',
   faculty: '',
   roles: '',
-  permissions: '',
+  permissions: [],
   listError: [],
   listErrorMessages: [],
 };
@@ -174,24 +174,29 @@ class UserModal extends Component {
               />
             </Form.Group>
             <Form.Group widths="equal">
-              <Form.Select
+              <Form.Dropdown
                 id="form-textarea-lab-roles"
-                control={Input}
+                control={Dropdown}
                 name="roles"
                 value={roles}
                 onChange={this.handleChange}
                 options={options}
+                fluid
+                selection
                 label="Roles"
                 placeholder="Roles"
                 error={listError.includes('roles')}
               />
-              <Form.Select
+              <Form.Dropdown
                 id="form-textarea-lab-permissions"
-                control={Input}
+                control={Dropdown}
                 name="permissions"
                 value={permissions}
                 onChange={this.handleChange}
                 options={options}
+                fluid
+                multiple
+                selection
                 label="Permissions"
                 placeholder="Permissions"
                 error={listError.includes('permissions')}
