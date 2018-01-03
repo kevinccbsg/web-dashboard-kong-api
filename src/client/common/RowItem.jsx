@@ -58,7 +58,10 @@ RowItem.propTypes = {
   item: PropTypes.object,
   keyNames: PropTypes.array.isRequired,
   keySelected: PropTypes.string.isRequired,
-  codeSelected: PropTypes.string,
+  codeSelected: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
 };
 
 RowItem.defaultProps = {

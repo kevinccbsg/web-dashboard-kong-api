@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { Header, Modal, Button, Icon } from 'semantic-ui-react';
+import { Header } from 'semantic-ui-react';
 import CommonTable from '../common/CommonTable';
+import DeleteUser from './DeleteUser';
+import UserModal from './UserModal';
 
 class UserManagment extends Component {
   constructor() {
@@ -24,9 +26,11 @@ class UserManagment extends Component {
           permissions: 'Admin, Peltier, FPGA, Compilador C',
         },
       ],
+      itemSelected: {},
       openModal: false,
       basic: false,
       edit: false,
+      codeSelected: '',
     };
     this.userModal = this.userModal.bind(this);
     this.deleteModal = this.deleteModal.bind(this);
@@ -35,7 +39,9 @@ class UserManagment extends Component {
   }
 
   handleSelected(code) {
-    this.setState({ codeSelected: code });
+    const { items } = this.state;
+    const itemSelected = items.find(obj => obj.code === code);
+    this.setState({ codeSelected: code, itemSelected });
   }
 
   userModal() {
@@ -43,7 +49,7 @@ class UserManagment extends Component {
   }
 
   deleteModal() {
-    this.setState({ openModal: true, basic: true });
+    this.setState({ openModal: false, basic: true });
   }
 
   closeModal() {
@@ -51,7 +57,7 @@ class UserManagment extends Component {
   }
 
   render() {
-    const { items, openModal, basic } = this.state;
+    const { items, openModal, basic, itemSelected } = this.state;
     return (
       <div className="inside-container">
         <Header as="h1">User managment</Header>
@@ -82,26 +88,15 @@ class UserManagment extends Component {
           onSelected={this.handleSelected}
           keySelected="code"
         />
-        <Modal
-          open={openModal}
-          basic={basic}
-          size="small"
-          onClose={this.closeModal}
-        >
-          <Header icon="delete" content="Delete Users" />
-          <Modal.Content>
-            <p>Your inbox is getting full, would you
-            like us to enable automatic archiving of old messages?</p>
-          </Modal.Content>
-          <Modal.Actions>
-            <Button basic color="red" inverted>
-              <Icon name="remove" /> No
-            </Button>
-            <Button color="green" inverted>
-              <Icon name="checkmark" /> Yes
-            </Button>
-          </Modal.Actions>
-        </Modal>
+        <DeleteUser
+          openModal={basic}
+          onCloseModal={this.closeModal}
+        />
+        <UserModal
+          openModal={openModal}
+          item={itemSelected}
+          onCloseModal={this.closeModal}
+        />
       </div>
     );
   }
