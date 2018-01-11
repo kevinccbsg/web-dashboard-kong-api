@@ -124,8 +124,8 @@ class ApiModal extends Component {
               value={name}
               disabled={selected}
               onChange={this.handleChange}
-              label="Lab name"
-              placeholder="Lab name"
+              label="Api name"
+              placeholder="Api name"
               error={listError.includes('name')}
             />
             <Form.Field

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { Header, Modal, Button, Icon, Form, Input, TextArea, Checkbox, Message } from 'semantic-ui-react';
+import { Header, Modal, Button, Icon, Form, Input, TextArea, Message } from 'semantic-ui-react';
 import _ from 'lodash';
 
 const initialState = {
@@ -10,6 +10,7 @@ const initialState = {
   client_id: '',
   client_secret: '',
   redirect_uri: '',
+  description: '',
   listError: [],
   listErrorMessages: [],
 };
@@ -17,6 +18,7 @@ const initialState = {
 const fields = [
   'name',
   'redirect_uri',
+  'description',
 ];
 
 class LabModal extends Component {
@@ -80,6 +82,7 @@ class LabModal extends Component {
       name,
       client_id,
       client_secret,
+      description,
       redirect_uri,
       listError,
       listErrorMessages,
@@ -119,6 +122,16 @@ class LabModal extends Component {
                 error={listError.includes('redirect_uri')}
               />
             </Form.Group>
+            <Form.Field
+              id="form-input-api-description"
+              control={TextArea}
+              name="description"
+              value={description}
+              onChange={this.handleChange}
+              label="Description"
+              placeholder="Description"
+              error={listError.includes('description')}
+            />
             <Form.Group widths="equal">
               <Form.Field
                 id="form-textarea-api-client_id"

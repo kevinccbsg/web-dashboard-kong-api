@@ -82,12 +82,14 @@ class LabManagment extends Component {
           items={items}
           keyNames={[
             'name',
+            'description',
             'client_id',
             'client_secret',
             'redirect_uri',
           ]}
           headersText={[
             'Nombre',
+            'description',
             'client_id',
             'client_secret',
             'redirect_uri',

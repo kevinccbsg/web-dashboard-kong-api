@@ -26,7 +26,7 @@ router.delete('/api/:nameapi', deleteApi);
 
 router.get('/labs', getLabs);
 router.post('/lab', createLab);
-router.delete('/lab', deleteLabs);
+router.delete('/lab/:nameLab', deleteLabs);
 
 // User endpoints
 

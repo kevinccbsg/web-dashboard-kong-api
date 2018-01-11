@@ -39,7 +39,7 @@ const createAPIOauth2 = async (payload, globalCredentials) => {
   try {
     await client.postRequest('/apis', payload);
     debug('create api');
-    // await client.postRequest(`/apis/${payload.name}/plugins`, payloadKong);
+    await client.postRequest(`/apis/${payload.name}/plugins`, payloadKong);
     return true;
   } catch (err) {
     throw err;
