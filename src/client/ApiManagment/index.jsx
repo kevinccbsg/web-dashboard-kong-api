@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Header } from 'semantic-ui-react';
 import CommonTable from '../common/CommonTable';
-import DeleteLab from './DeleteLab';
-import LabModal from './LabModal';
+import DeleteApi from './DeleteApi';
+import ApiModal from './ApiModal';
 
 class LabManagment extends Component {
   constructor() {
@@ -32,7 +32,7 @@ class LabManagment extends Component {
       edit: false,
       codeSelected: '',
     };
-    this.labModal = this.labModal.bind(this);
+    this.apiModal = this.apiModal.bind(this);
     this.deleteModal = this.deleteModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.handleSelected = this.handleSelected.bind(this);
@@ -44,7 +44,7 @@ class LabManagment extends Component {
     this.setState({ codeSelected: code, itemSelected });
   }
 
-  labModal() {
+  apiModal() {
     this.setState({ openModal: true });
   }
 
@@ -60,7 +60,7 @@ class LabManagment extends Component {
     const { items, openModal, basic, itemSelected } = this.state;
     return (
       <div className="inside-container">
-        <Header as="h1">Lab managment</Header>
+        <Header as="h1">Api managment</Header>
         <CommonTable
           items={items}
           keyNames={[
@@ -79,20 +79,20 @@ class LabManagment extends Component {
             'strip_uri',
             'preserve_host',
           ]}
-          addText="Añadir laboratorio"
-          editText="Editar laboratorio"
-          deleteText="Eliminar laboratorio"
-          onAdd={this.labModal}
-          onEdit={() => this.labModal(true)}
+          addText="Añadir Api"
+          editText="Editar Api"
+          deleteText="Eliminar Api"
+          onAdd={this.apiModal}
+          onEdit={() => this.apiModal(true)}
           onDelete={this.deleteModal}
           onSelected={this.handleSelected}
           keySelected="name"
         />
-        <DeleteLab
+        <DeleteApi
           openModal={basic}
           onCloseModal={this.closeModal}
         />
-        <LabModal
+        <ApiModal
           openModal={openModal}
           item={itemSelected}
           onCloseModal={this.closeModal}

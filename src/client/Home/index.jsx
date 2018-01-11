@@ -5,7 +5,7 @@ import SidebarMenu from './../Sidebar';
 import Labs from '../Labs';
 import UserProfile from './../UserProfile';
 import UserManagment from './../UserManagment';
-import LabManagment from './../LabManagment';
+import ApiManagment from './../ApiManagment';
 
 class Home extends Component {
   constructor() {
@@ -31,7 +31,7 @@ class Home extends Component {
             <Switch>
               <Route exact path="/" component={Labs} />
               <Route path="/userprofile" component={UserProfile} />
-              <Route path="/labmanagment" component={LabManagment} />
+              <Route path="/apimanagment" component={ApiManagment} />
               <Route path="/usermanagment" component={UserManagment} />
             </Switch>
             <Button

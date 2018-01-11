@@ -102,11 +102,11 @@ class LabModal extends Component {
         size="small"
         onClose={this.props.onCloseModal}
       >
-        <Header icon="trash outline" content="Delete Lab" />
+        <Header icon="trash outline" content="Delete Api" />
         <Modal.Content>
           <Form error={error} loading={loading}>
             <Form.Field
-              id="form-input-lab-name"
+              id="form-input-api-name"
               control={Input}
               name="name"
               value={name}
@@ -117,7 +117,7 @@ class LabModal extends Component {
               error={listError.includes('name')}
             />
             <Form.Field
-              id="form-input-lab-description"
+              id="form-input-api-description"
               control={TextArea}
               name="description"
               value={description}
@@ -128,7 +128,7 @@ class LabModal extends Component {
             />
             <Form.Group widths="equal">
               <Form.Field
-                id="form-textarea-lab-uris"
+                id="form-textarea-api-uris"
                 control={Input}
                 name="uris"
                 value={uris}
@@ -138,7 +138,7 @@ class LabModal extends Component {
                 error={listError.includes('uris')}
               />
               <Form.Field
-                id="form-textarea-lab-manualReference"
+                id="form-textarea-api-manualReference"
                 control={Input}
                 name="manualReference"
                 value={manualReference}
@@ -150,7 +150,7 @@ class LabModal extends Component {
             </Form.Group>
             <Form.Group widths="equal">
               <Form.Field
-                id="form-textarea-lab-strip_uri"
+                id="form-textarea-api-strip_uri"
                 control={Checkbox}
                 name="strip_uri"
                 checked={strip_uri}
@@ -158,7 +158,7 @@ class LabModal extends Component {
                 label="strip uri"
               />
               <Form.Field
-                id="form-textarea-lab-preserve_host"
+                id="form-textarea-api-preserve_host"
                 control={Checkbox}
                 name="preserve_host"
                 checked={preserve_host}
@@ -167,7 +167,7 @@ class LabModal extends Component {
               />
             </Form.Group>
             <Form.Field
-              id="form-input-lab-upstream_url"
+              id="form-input-api-upstream_url"
               control={Input}
               name="upstream_url"
               value={upstream_url}
@@ -178,7 +178,7 @@ class LabModal extends Component {
             />
             <Message
               error
-              header="Error create Lab"
+              header="Error create api"
               list={listErrorMessages}
             />
           </Form>
