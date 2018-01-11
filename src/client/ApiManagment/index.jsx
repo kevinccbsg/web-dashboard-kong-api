@@ -51,7 +51,11 @@ class ApiManagment extends Component {
   }
 
   handleApi(data) {
-    console.log(data);
+    axios.post('/GSITAE/api', data)
+    .then((response) => {
+      console.log(response);
+    })
+    .catch(err => console.log(err.response));
   }
 
   handleSelected(code) {

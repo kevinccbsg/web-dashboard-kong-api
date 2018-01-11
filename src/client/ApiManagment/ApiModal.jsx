@@ -57,9 +57,16 @@ class ApiModal extends Component {
         this.setState({ [name]: !oldValue });
       }
     } else {
-      const { listError } = this.state;
+      const { listError, listErrorMessages } = this.state;
       const resetError = listError.filter(obj => obj !== name);
-      this.setState({ [name]: value, listError: resetError });
+      const resetMessages = listErrorMessages.filter(obj => !obj.includes(name));
+      const error = (resetMessages.length !== 0);
+      this.setState({
+        [name]: value,
+        listError: resetError,
+        listErrorMessages: resetMessages,
+        error,
+      });
     }
   }
 

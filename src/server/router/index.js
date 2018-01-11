@@ -20,7 +20,7 @@ const router = Express.Router();
 
 router.get('/apis', apiList);
 router.post('/api', createApi);
-router.delete('/api/:nameLab', deleteApi);
+router.delete('/api/:nameapi', deleteApi);
 
 // Lab endpoints
 

@@ -20,11 +20,12 @@ const apiSchema = mongoose.Schema({
   },
   strip_uri: Boolean,
   preserve_host: Boolean,
+  global_credentials: Boolean,
   upstream_url: {
     type: String,
     required: true,
   },
-}, { versionKey: false, collection: 'labs' });
+}, { versionKey: false, collection: 'apis' });
 
 const Api = mongoose.model('Api', apiSchema);
 

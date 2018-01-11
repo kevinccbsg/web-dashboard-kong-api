@@ -26,11 +26,20 @@ const apiList = async (req, res) => {
   }
 };
 
-const createAPIOauth2 = async (payload) => {
+const createAPIOauth2 = async (payload, globalCredentials) => {
   debug('[apiController] createAPIOauth2');
+  const payloadKong = {
+    ...config.config.kongOauth2Plugin,
+    'config.enable_client_credentials': globalCredentials,
+  };
+  debug('payload api');
+  debug(payload);
+  debug('payload api');
+  debug(payloadKong);
   try {
     await client.postRequest('/apis', payload);
-    await client.postRequest(`/apis/${payload.name}/plugins`, config.config.kongOauth2Plugin);
+    debug('create api');
+    // await client.postRequest(`/apis/${payload.name}/plugins`, payloadKong);
     return true;
   } catch (err) {
     throw err;
@@ -43,9 +52,9 @@ const createApi = async (req, res) => {
   try {
     const newapi = new Api(req.body);
     await newapi.save();
-    kongApiPayload = _.omit(req.body, ['description', 'manualReference']);
+    kongApiPayload = _.omit(req.body, ['description', 'manualReference', 'global_credentials']);
     logger.info('[apiController] createapi');
-    await createAPIOauth2(kongApiPayload);
+    await createAPIOauth2(kongApiPayload, req.body.global_credentials);
     return response(res, true, req.body, 201);
   } catch (err) {
     debug('[apiController] Error');
@@ -54,7 +63,7 @@ const createApi = async (req, res) => {
       return response(res, false, 'Resource Conflict', 409);
     }
     if (kongApiPayload.name) {
-      debug('[apiController] Error in mongo save');
+      debug('[apiController] Error in api save');
       await Api.remove({ name: req.body.name })
       .then(() => {
         debug('Deleted mongo api created');
@@ -86,6 +95,7 @@ const deleteApi = async (req, res) => {
       };
       throw error;
     }
+    await client.deleteRequest(`/apis/${nameapi}`);
     return response(res, false, 'api removed', 204);
   } catch (err) {
     debug('[apiController] Error');
