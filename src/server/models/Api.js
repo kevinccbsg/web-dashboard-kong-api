@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const labSchema = mongoose.Schema({
+const apiSchema = mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -26,6 +26,6 @@ const labSchema = mongoose.Schema({
   },
 }, { versionKey: false, collection: 'labs' });
 
-const Lab = mongoose.model('Lab', labSchema);
+const Api = mongoose.model('Api', apiSchema);
 
-export default Lab;
+export default Api;

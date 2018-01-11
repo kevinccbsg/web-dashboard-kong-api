@@ -1,5 +1,5 @@
 import Express from 'express';
-import { labList, createLab, deleteLab } from './../controllers/labController';
+import { apiList, createApi, deleteApi } from './../controllers/apiController';
 import {
   userList,
   createUser,
@@ -8,14 +8,25 @@ import {
   addRolePermission,
   deleteUser,
 } from './../controllers/userController';
+import {
+  getLabs,
+  createLab,
+  deleteLabs,
+} from './../controllers/labController';
 
 const router = Express.Router();
 
+// Api endpoints
+
+router.get('/apis', apiList);
+router.post('/api', createApi);
+router.delete('/api/:nameLab', deleteApi);
+
 // Lab endpoints
 
-router.get('/labs', labList);
+router.get('/labs', getLabs);
 router.post('/lab', createLab);
-router.delete('/lab/:nameLab', deleteLab);
+router.delete('/lab', deleteLabs);
 
 // User endpoints
 
