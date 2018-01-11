@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Checkbox, Table, Icon } from 'semantic-ui-react';
+import uuid from 'uuid';
 import _ from 'lodash';
 
 class RowItem extends Component {
@@ -35,13 +36,13 @@ class RowItem extends Component {
         {keyNames.map((obj) => {
           if (_.isBoolean(item[obj]) && item[obj]) {
             return (
-              <Table.Cell key={item[obj]}>
+              <Table.Cell key={uuid.v4()}>
                 <Icon color="green" name="checkmark" size="large" />
               </Table.Cell>
             );
           } else if (_.isBoolean(item[obj]) && !item[obj]) {
             return (
-              <Table.Cell key={item[obj]}>
+              <Table.Cell key={uuid.v4()}>
                 <Icon color="red" name="remove" size="large" />
               </Table.Cell>
             );

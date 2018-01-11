@@ -12,6 +12,7 @@ const initialState = {
   manualReference: '',
   strip_uri: false,
   preserve_host: false,
+  global_credentials: false,
   upstream_url: '',
   listError: [],
   listErrorMessages: [],
@@ -25,9 +26,10 @@ const fields = [
   'strip_uri',
   'preserve_host',
   'upstream_url',
+  'global_credentials',
 ];
 
-class LabModal extends Component {
+class ApiModal extends Component {
   constructor() {
     super();
     this.state = initialState;
@@ -49,13 +51,15 @@ class LabModal extends Component {
   }
 
   handleChange(e, { name, value }) {
-    if (name === 'strip_uri' || name === 'preserve_host') {
+    if (name === 'strip_uri' || name === 'preserve_host' || name === 'global_credentials') {
       if (e.type === 'change') {
         const oldValue = this.state[name];
         this.setState({ [name]: !oldValue });
       }
     } else {
-      this.setState({ [name]: value });
+      const { listError } = this.state;
+      const resetError = listError.filter(obj => obj !== name);
+      this.setState({ [name]: value, listError: resetError });
     }
   }
 
@@ -77,7 +81,7 @@ class LabModal extends Component {
         listError,
       });
     }
-    return console.log('Send form');
+    return this.props.onSubmit(formFields);
   }
 
   render() {
@@ -92,6 +96,7 @@ class LabModal extends Component {
       upstream_url,
       listError,
       listErrorMessages,
+      global_credentials,
       error,
     } = this.state;
     const { openModal, item } = this.props;
@@ -165,6 +170,14 @@ class LabModal extends Component {
                 onChange={this.handleChange}
                 label="Preserve host"
               />
+              <Form.Field
+                id="form-textarea-api-global_credentials"
+                control={Checkbox}
+                name="global_credentials"
+                checked={global_credentials}
+                onChange={this.handleChange}
+                label="global_credentials"
+              />
             </Form.Group>
             <Form.Field
               id="form-input-api-upstream_url"
@@ -206,16 +219,18 @@ class LabModal extends Component {
   }
 }
 
-LabModal.propTypes = {
+ApiModal.propTypes = {
   item: PropTypes.object,
   openModal: PropTypes.bool,
   onCloseModal: PropTypes.func,
+  onSubmit: PropTypes.func,
 };
 
-LabModal.defaultProps = {
+ApiModal.defaultProps = {
   item: {},
   openModal: false,
   onCloseModal: () => 0,
+  onSubmit: () => 0,
 };
 
-export default LabModal;
+export default ApiModal;

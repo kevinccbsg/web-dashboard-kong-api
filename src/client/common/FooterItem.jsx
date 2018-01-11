@@ -8,7 +8,7 @@ const FooterItem = (props) => {
     <Table.Footer fullWidth>
       <Table.Row>
         <Table.HeaderCell />
-        <Table.HeaderCell colSpan="6">
+        <Table.HeaderCell colSpan={props.colSpan}>
           {!selected && (
             <Button
               floated="right"
@@ -58,6 +58,7 @@ FooterItem.propTypes = {
   addText: PropTypes.string,
   editText: PropTypes.string,
   deleteText: PropTypes.string,
+  colSpan: PropTypes.number,
 };
 
 FooterItem.defaultProps = {
@@ -68,6 +69,7 @@ FooterItem.defaultProps = {
   addText: '',
   editText: '',
   deleteText: '',
+  colSpan: 6,
 };
 
 export default FooterItem;

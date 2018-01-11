@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { Header } from 'semantic-ui-react';
+import axios from 'axios';
 import CommonTable from '../common/CommonTable';
 import DeleteApi from './DeleteApi';
 import ApiModal from './ApiModal';
 
-class LabManagment extends Component {
+class ApiManagment extends Component {
   constructor() {
     super();
     this.state = {
@@ -16,6 +17,7 @@ class LabManagment extends Component {
           description: 'Aplicacion de prueba',
           strip_uri: true,
           preserve_host: false,
+          global_credentials: true,
         },
         {
           name: 'Api-two',
@@ -24,6 +26,7 @@ class LabManagment extends Component {
           description: 'Aplicacion de prueba',
           strip_uri: true,
           preserve_host: false,
+          global_credentials: true,
         },
       ],
       itemSelected: {},
@@ -36,6 +39,19 @@ class LabManagment extends Component {
     this.deleteModal = this.deleteModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.handleSelected = this.handleSelected.bind(this);
+    this.handleApi = this.handleApi.bind(this);
+  }
+
+  componentWillMount() {
+    axios.get('/GSITAE/apis')
+    .then((response) => {
+      console.log(response);
+    })
+    .catch(err => console.log(err.response));
+  }
+
+  handleApi(data) {
+    console.log(data);
   }
 
   handleSelected(code) {
@@ -70,6 +86,7 @@ class LabManagment extends Component {
             'description',
             'strip_uri',
             'preserve_host',
+            'global_credentials',
           ]}
           headersText={[
             'Nombre',
@@ -78,6 +95,7 @@ class LabManagment extends Component {
             'description',
             'strip_uri',
             'preserve_host',
+            'Global_credentials',
           ]}
           addText="Añadir Api"
           editText="Editar Api"
@@ -87,6 +105,7 @@ class LabManagment extends Component {
           onDelete={this.deleteModal}
           onSelected={this.handleSelected}
           keySelected="name"
+          colSpan={7}
         />
         <DeleteApi
           openModal={basic}
@@ -96,10 +115,11 @@ class LabManagment extends Component {
           openModal={openModal}
           item={itemSelected}
           onCloseModal={this.closeModal}
+          onSubmit={this.handleApi}
         />
       </div>
     );
   }
 }
 
-export default LabManagment;
+export default ApiManagment;

@@ -38,6 +38,7 @@ class CommonTable extends Component {
       onEdit,
       onDelete,
       keySelected,
+      colSpan,
     } = this.props;
     const { selected, codeSelected } = this.state;
     if (items.length === 0) return <h3>No items</h3>;
@@ -76,6 +77,7 @@ class CommonTable extends Component {
           onAdd={onAdd}
           onEdit={onEdit}
           onDelete={onDelete}
+          colSpan={colSpan}
         />
       </Table>
     );
@@ -94,6 +96,7 @@ CommonTable.propTypes = {
   onEdit: PropTypes.func,
   onDelete: PropTypes.func,
   onSelected: PropTypes.func,
+  colSpan: PropTypes.number,
 };
 
 CommonTable.defaultProps = {
@@ -107,6 +110,7 @@ CommonTable.defaultProps = {
   onEdit: () => 0,
   onDelete: () => 0,
   onSelected: () => 0,
+  colSpan: 6,
 };
 
 export default CommonTable;

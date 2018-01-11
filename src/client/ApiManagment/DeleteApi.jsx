@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Header, Modal, Button, Icon } from 'semantic-ui-react';
 
-class DeleteLab extends Component {
+class DeleteApi extends Component {
   constructor() {
     super();
     this.state = {
@@ -42,14 +42,14 @@ class DeleteLab extends Component {
   }
 }
 
-DeleteLab.propTypes = {
+DeleteApi.propTypes = {
   openModal: PropTypes.bool,
   onCloseModal: PropTypes.func,
 };
 
-DeleteLab.defaultProps = {
+DeleteApi.defaultProps = {
   openModal: false,
   onCloseModal: () => 0,
 };
 
-export default DeleteLab;
+export default DeleteApi;

@@ -35,10 +35,10 @@ const SidebarMenu = props => (
         Users Managment
       </Menu.Item>
     </Link>
-    <Link to="/labmanagment">
-      <Menu.Item className="sidebar-item" name="user">
-        <Icon name="lab" />
-        Lab Managment
+    <Link to="/apimanagment">
+      <Menu.Item className="sidebar-item" name="apis">
+        <Icon name="cubes" />
+        Api Managment
       </Menu.Item>
     </Link>
     <div className="logout-button">
