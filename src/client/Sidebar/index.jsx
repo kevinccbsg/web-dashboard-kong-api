@@ -14,37 +14,45 @@ const SidebarMenu = props => (
     inverted
     className="sidebar-container"
   >
-    <Menu.Item name="GSITAE">
-      <Header as="h2">GSITAE</Header>
-    </Menu.Item>
-    <Link to="/">
-      <Menu.Item className="sidebar-item" name="grid layout">
-        <Icon name="grid layout" />
-        Home
+    <div className="menu-list-container">
+      <Menu.Item name="GSITAE">
+        <Header as="h2">GSITAE</Header>
       </Menu.Item>
-    </Link>
-    <Link to="/userprofile">
-      <Menu.Item className="sidebar-item" name="user">
-        <Icon name="user" />
-        User Profile
-      </Menu.Item>
-    </Link>
-    <Link to="/usermanagment">
-      <Menu.Item className="sidebar-item" name="user">
-        <Icon name="users" />
-        Users Managment
-      </Menu.Item>
-    </Link>
-    <Link to="/apimanagment">
-      <Menu.Item className="sidebar-item" name="apis">
-        <Icon name="cubes" />
-        Api Managment
-      </Menu.Item>
-    </Link>
-    <div className="logout-button">
-      <Link to="/logout">
-        <Icon size="big" name="log out" />
+      <Link to="/">
+        <Menu.Item className="sidebar-item" name="grid layout">
+          <Icon name="grid layout" />
+          Home
+        </Menu.Item>
       </Link>
+      <Link to="/userprofile">
+        <Menu.Item className="sidebar-item" name="user">
+          <Icon name="user" />
+          User Profile
+        </Menu.Item>
+      </Link>
+      <Link to="/usermanagment">
+        <Menu.Item className="sidebar-item" name="user">
+          <Icon name="users" />
+          Users Managment
+        </Menu.Item>
+      </Link>
+      <Link to="/apimanagment">
+        <Menu.Item className="sidebar-item" name="apis">
+          <Icon name="cubes" />
+          Api Managment
+        </Menu.Item>
+      </Link>
+      <Link to="/labmanagment">
+        <Menu.Item className="sidebar-item" name="labs">
+          <Icon name="lab" />
+          Lab Managment
+        </Menu.Item>
+      </Link>
+      <div className="logout-button">
+        <Link to="/logout">
+          <Icon size="big" name="log out" />
+        </Link>
+      </div>
     </div>
   </Sidebar>
 );

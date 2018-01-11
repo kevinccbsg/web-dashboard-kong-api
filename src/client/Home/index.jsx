@@ -6,6 +6,7 @@ import Labs from '../Labs';
 import UserProfile from './../UserProfile';
 import UserManagment from './../UserManagment';
 import ApiManagment from './../ApiManagment';
+import LabManagment from './../LabManagment';
 
 class Home extends Component {
   constructor() {
@@ -33,6 +34,7 @@ class Home extends Component {
               <Route path="/userprofile" component={UserProfile} />
               <Route path="/apimanagment" component={ApiManagment} />
               <Route path="/usermanagment" component={UserManagment} />
+              <Route path="/labmanagment" component={LabManagment} />
             </Switch>
             <Button
               size="big"
