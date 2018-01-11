@@ -41,7 +41,6 @@ class CommonTable extends Component {
       colSpan,
     } = this.props;
     const { selected, codeSelected } = this.state;
-    if (items.length === 0) return <h3>No items</h3>;
     const headers = headersText || _.keys(_.pick(items[0], keyNames));
     return (
       <Table celled compact definition>
@@ -66,6 +65,16 @@ class CommonTable extends Component {
                 codeSelected={codeSelected}
               />
             ))
+          )}
+          {(items.length === 0) && (
+            <Table.Row>
+              <Table.Cell />
+              <Table.Cell
+                colSpan={colSpan}
+              >
+                <h3>No items</h3>
+              </Table.Cell>
+            </Table.Row>
           )}
         </Table.Body>
 

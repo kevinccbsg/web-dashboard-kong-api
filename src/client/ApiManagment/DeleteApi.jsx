@@ -25,7 +25,11 @@ class DeleteApi extends Component {
           <p>Do you want to delete this Lab?</p>
         </Modal.Content>
         <Modal.Actions>
-          <Button color="green" inverted>
+          <Button
+            color="green"
+            inverted
+            onClick={this.props.onDelete}
+          >
             <Icon name="checkmark" /> Yes
           </Button>
           <Button
@@ -45,11 +49,13 @@ class DeleteApi extends Component {
 DeleteApi.propTypes = {
   openModal: PropTypes.bool,
   onCloseModal: PropTypes.func,
+  onDelete: PropTypes.func,
 };
 
 DeleteApi.defaultProps = {
   openModal: false,
   onCloseModal: () => 0,
+  onDelete: () => 0,
 };
 
 export default DeleteApi;

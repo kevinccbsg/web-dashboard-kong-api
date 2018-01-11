@@ -9,26 +9,7 @@ class ApiManagment extends Component {
   constructor() {
     super();
     this.state = {
-      items: [
-        {
-          name: 'Api-one',
-          uris: '/apione',
-          upstream_url: 'http://api-one:3001',
-          description: 'Aplicacion de prueba',
-          strip_uri: true,
-          preserve_host: false,
-          global_credentials: true,
-        },
-        {
-          name: 'Api-two',
-          uris: '/apitwo',
-          upstream_url: 'http://api-two:3001',
-          description: 'Aplicacion de prueba',
-          strip_uri: true,
-          preserve_host: false,
-          global_credentials: true,
-        },
-      ],
+      items: [],
       itemSelected: {},
       openModal: false,
       basic: false,
@@ -40,12 +21,25 @@ class ApiManagment extends Component {
     this.closeModal = this.closeModal.bind(this);
     this.handleSelected = this.handleSelected.bind(this);
     this.handleApi = this.handleApi.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
   componentWillMount() {
     axios.get('/GSITAE/apis')
     .then((response) => {
+      this.setState({ items: response.data.apis, openModal: false });
+    })
+    .catch(err => console.log(err.response));
+  }
+
+  handleDelete() {
+    const { itemSelected } = this.state;
+    axios.delete(`/GSITAE/api/${itemSelected.name}`)
+    .then((response) => {
       console.log(response);
+      const { items } = this.state;
+      const itemsAdded = items.filter(obj => obj.name !== itemSelected.name);
+      this.setState({ items: itemsAdded, basic: false, itemSelected: {}, codeSelected: '' });
     })
     .catch(err => console.log(err.response));
   }
@@ -54,6 +48,9 @@ class ApiManagment extends Component {
     axios.post('/GSITAE/api', data)
     .then((response) => {
       console.log(response);
+      const { items } = this.state;
+      const itemsAdded = items.concat(response.data);
+      this.setState({ items: itemsAdded, openModal: false });
     })
     .catch(err => console.log(err.response));
   }
@@ -114,6 +111,7 @@ class ApiManagment extends Component {
         <DeleteApi
           openModal={basic}
           onCloseModal={this.closeModal}
+          onDelete={this.handleDelete}
         />
         <ApiModal
           openModal={openModal}
