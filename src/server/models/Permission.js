@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 
-const permissionSchema = mongoose.Schema({
+const Schema = mongoose.Schema;
+
+const permissionSchema = new Schema({
   name: {
     type: String,
     required: true,

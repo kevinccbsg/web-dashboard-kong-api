@@ -113,7 +113,7 @@ class LabModal extends Component {
               />
               <Form.Field
                 id="form-input-api-redirect_uri"
-                control={TextArea}
+                control={Input}
                 name="redirect_uri"
                 value={redirect_uri}
                 onChange={this.handleChange}
@@ -141,7 +141,7 @@ class LabModal extends Component {
                 onChange={this.handleChange}
                 label="client_id"
                 placeholder="client_id"
-                error={listError.includes('client_id')}
+                disabled
               />
               <Form.Field
                 id="form-textarea-api-client_secret"
@@ -151,7 +151,7 @@ class LabModal extends Component {
                 onChange={this.handleChange}
                 label="Client Secret"
                 placeholder="Client Secret"
-                error={listError.includes('client_secret')}
+                disabled
               />
             </Form.Group>
             <Message

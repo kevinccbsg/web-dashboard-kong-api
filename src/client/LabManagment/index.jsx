@@ -25,9 +25,10 @@ class LabManagment extends Component {
   }
 
   componentWillMount() {
-    axios.get('/GSITAE/lab')
+    axios.get('/GSITAE/labs')
     .then((response) => {
-      this.setState({ items: response.data.apis, openModal: false });
+      const items = response.data.labs.filter(obj => obj);
+      this.setState({ items, openModal: false });
     })
     .catch(err => console.log(err.response));
   }

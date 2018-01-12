@@ -47,7 +47,7 @@ class RowItem extends Component {
               </Table.Cell>
             );
           }
-          return <Table.Cell key={item[obj]}>{item[obj]}</Table.Cell>;
+          return <Table.Cell key={uuid.v4()}>{item[obj]}</Table.Cell>;
         })}
       </Table.Row>
     );

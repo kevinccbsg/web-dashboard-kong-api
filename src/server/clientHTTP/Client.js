@@ -12,7 +12,7 @@ const response = (status, body) => {
   else if (status === 409) return { message: 'Already exists', body, status };
   else if (status === 451) return { message: 'Unavailable for legal reasons', body, status };
   else if (status === 502) return { message: 'Bad Gateway', body: null, status };
-  return { message: 'Client Error', body: body, status: 500 };
+  return { message: 'Client Error', body, status: 500 };
 };
 
 class Client {
@@ -72,9 +72,9 @@ class Client {
       .headers(this.headers)
       .timeout(this.timeout)
       .proxy(this.proxy)
+      .type('json')
       .send(payload)
       .strictSSL(this.strictSSL)
-      .type('json')
       .end((res) => {
         const returnResponse = response(res.status, res.body);
         if (res.status >= 200 && res.status < 300) {

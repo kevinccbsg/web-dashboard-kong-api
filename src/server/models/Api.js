@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 
-const apiSchema = mongoose.Schema({
+const Schema = mongoose.Schema;
+
+const apiSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -27,6 +29,6 @@ const apiSchema = mongoose.Schema({
   },
 }, { versionKey: false, collection: 'apis' });
 
-const Api = mongoose.model('Api', apiSchema);
+const Api = mongoose.model('Apis', apiSchema);
 
 export default Api;

@@ -15,14 +15,25 @@ const getLabs = async (req, res) => {
   try {
     const mongoResponse = await Permission.find({});
     const kongResponse = await client.getRequest('/consumers');
-    const consumerList = kongResponse.data;
+    const consumerList = kongResponse.body.data;
     const requestApplication = [];
     consumerList.forEach((obj) => {
-      requestApplication.push(client.postRequest(`/consumers/${obj.username}/oauth2`));
+      requestApplication.push(client.getRequest(`/consumers/${obj.username}/oauth2`));
     });
     const appRequests = await Promise.all(requestApplication);
-    const formatedData = appRequests.map(obj => obj.data);
-    const responsePayload = _.unionBy(mongoResponse, formatedData, 'name');
+    debug('***');
+    const formatedData = appRequests.map(obj => obj.body.data[0]);
+    debug(mongoResponse);
+    debug('---');
+    debug(formatedData);
+    const responsePayload = _.unionBy(formatedData, mongoResponse, 'name')
+      .map((obj) => {
+        const mongoSearch = mongoResponse.find(objF => objF.name === obj.name);
+        return {
+          ...obj,
+          description: (mongoSearch) ? mongoSearch.description : 'None',
+        };
+      });
     logger.info('[labController] lab list information');
     return response(res, true, { labs: responsePayload }, 200);
   } catch (err) {

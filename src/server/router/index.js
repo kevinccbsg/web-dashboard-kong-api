@@ -11,7 +11,7 @@ import {
 import {
   getLabs,
   createLab,
-  deleteLabs,
+  deleteLab,
 } from './../controllers/labController';
 
 const router = Express.Router();
@@ -26,7 +26,7 @@ router.delete('/api/:nameapi', deleteApi);
 
 router.get('/labs', getLabs);
 router.post('/lab', createLab);
-router.delete('/lab/:nameLab', deleteLabs);
+router.delete('/lab/:nameLab', deleteLab);
 
 // User endpoints
 
