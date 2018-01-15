@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
-const permissionSchema = new Schema({
+const roleSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -13,8 +13,8 @@ const permissionSchema = new Schema({
     required: true,
   },
   redirect_uri: String,
-}, { versionKey: false, collection: 'permissions' });
+}, { versionKey: false, collection: 'roles' });
 
-const Permission = mongoose.model('Permissions', permissionSchema);
+const Roles = mongoose.model('Roles', roleSchema);
 
-export default Permission;
+export default Roles;

@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Header, Modal, Button, Icon, Form, Input, Message, Dropdown } from 'semantic-ui-react';
 import _ from 'lodash';
+import axios from 'axios';
 
 const initialState = {
   error: false,
@@ -12,7 +13,7 @@ const initialState = {
   email: '',
   grade: '',
   faculty: '',
-  roles: '',
+  roles: [],
   permissions: [],
   listError: [],
   listErrorMessages: [],
@@ -37,10 +38,36 @@ const options = [
 class UserModal extends Component {
   constructor() {
     super();
-    this.state = initialState;
+    this.state = {
+      ...initialState,
+      rolesList: [],
+      permissionsList: [],
+    };
     this.handleChange = this.handleChange.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentWillMount() {
+    axios.get('/GSITAE/rolepermissions/list')
+    .then((response) => {
+      const rolesList = response.data.roles.map(obj => (
+        {
+          key: obj._id,
+          value: obj.name,
+          text: obj.description,
+        }
+      ));
+      const permissionsList = response.data.permissions.map(obj => (
+        {
+          key: obj._id,
+          value: obj.name,
+          text: obj.description,
+        }
+      ));
+      this.setState({ rolesList, permissionsList });
+    })
+    .catch(err => console.log(err));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -77,7 +104,23 @@ class UserModal extends Component {
         listError,
       });
     }
-    return console.log('Send form');
+    const { rolesList, permissionsList } = this.state;
+    const roles = formFields.roles.map((obj) => {
+      const findTmp = rolesList.find(objF => objF.name === obj);
+      if (!findTmp) return obj;
+      return findTmp;
+    });
+    const permissions = formFields.permissions.map((obj) => {
+      const findTmp = permissionsList.find(objF => objF.name === obj);
+      if (!findTmp) return obj;
+      return findTmp;
+    });
+    const formatSend = {
+      ...formFields,
+      roles,
+      permissions,
+    };
+    return this.props.onSubmit(formatSend);
   }
 
   render() {
@@ -94,6 +137,8 @@ class UserModal extends Component {
       listError,
       listErrorMessages,
       error,
+      rolesList,
+      permissionsList,
     } = this.state;
     const { openModal, item } = this.props;
     const selected = !!item.name;
@@ -180,8 +225,9 @@ class UserModal extends Component {
                 name="roles"
                 value={roles}
                 onChange={this.handleChange}
-                options={options}
+                options={rolesList}
                 fluid
+                multiple
                 selection
                 label="Roles"
                 placeholder="Roles"
@@ -193,7 +239,7 @@ class UserModal extends Component {
                 name="permissions"
                 value={permissions}
                 onChange={this.handleChange}
-                options={options}
+                options={permissionsList}
                 fluid
                 multiple
                 selection
@@ -236,12 +282,14 @@ UserModal.propTypes = {
   item: PropTypes.object,
   openModal: PropTypes.bool,
   onCloseModal: PropTypes.func,
+  onSubmit: PropTypes.func,
 };
 
 UserModal.defaultProps = {
   item: {},
   openModal: false,
   onCloseModal: () => 0,
+  onSubmit: () => 0,
 };
 
 export default UserModal;

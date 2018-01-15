@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Header } from 'semantic-ui-react';
+import axios from 'axios';
 import CommonTable from '../common/CommonTable';
 import DeleteUser from './DeleteUser';
 import UserModal from './UserModal';
@@ -35,7 +36,48 @@ class UserManagment extends Component {
     this.userModal = this.userModal.bind(this);
     this.deleteModal = this.deleteModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    this.handleUser = this.handleUser.bind(this);
     this.handleSelected = this.handleSelected.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
+  }
+
+  componentWillMount() {
+    axios.get('/GSITAE/users')
+    .then((response) => {
+      const items = response.data.users.map(obj => (
+        {
+          ...obj,
+          roles: obj.roles.map(objR => objR.description).join(' '),
+          permissions: obj.permissions.map(objP => objP.description).join(' '),
+        }
+      ));
+      this.setState({ items, openModal: false });
+    })
+    .catch(err => console.log(err.response));
+  }
+
+  handleDelete() {
+    const { itemSelected } = this.state;
+    axios.delete(`/GSITAE/user/${itemSelected.name}`)
+    .then((response) => {
+      console.log(response);
+      const { items } = this.state;
+      const itemsAdded = items.filter(obj => obj.name !== itemSelected.name);
+      this.setState({ items: itemsAdded, basic: false, itemSelected: {}, codeSelected: '' });
+    })
+    .catch(err => console.log(err.response));
+  }
+
+  handleUser(data) {
+    console.log(data);
+    axios.post('/GSITAE/user', data)
+    .then((response) => {
+      console.log(response);
+      const { items } = this.state;
+      const itemsAdded = items.concat(response.data);
+      this.setState({ items: itemsAdded, openModal: false });
+    })
+    .catch(err => console.log(err.response));
   }
 
   handleSelected(code) {
@@ -91,11 +133,13 @@ class UserManagment extends Component {
         <DeleteUser
           openModal={basic}
           onCloseModal={this.closeModal}
+          onDelete={this.handleDelete}
         />
         <UserModal
           openModal={openModal}
           item={itemSelected}
           onCloseModal={this.closeModal}
+          onSubmit={this.handleUser}
         />
       </div>
     );

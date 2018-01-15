@@ -7,6 +7,7 @@ import {
   removeRolePermission,
   addRolePermission,
   deleteUser,
+  getRolePermissions,
 } from './../controllers/userController';
 import {
   getLabs,
@@ -39,5 +40,8 @@ router.delete('/user/:code/permission', removeRolePermission);
 router.delete('/user/:code', deleteUser);
 router.get('/user/:code', getUser);
 
+// role permissions
+
+router.get('/rolepermissions/list', getRolePermissions);
 
 export default router;

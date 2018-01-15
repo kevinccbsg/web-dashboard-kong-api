@@ -2,6 +2,8 @@ import 'babel-polyfill';
 import config from 'app-config';
 import _ from 'lodash';
 import User from '../models/User';
+import Permission from '../models/Permission';
+import Roles from './../models/Roles';
 import logger from '../utils/logger';
 import response from '../utils/responseHelper';
 
@@ -176,6 +178,26 @@ const removeRolePermission = async (req, res) => {
   }
 };
 
+const getRolePermissions = async (req, res) => {
+  debug('[userController] getRolePermissions');
+  try {
+    const mongoResponse = await Promise.all([
+      Permission.find({}),
+      Roles.find({}),
+    ]);
+    logger.info('[userController] User list information');
+    return response(res, true, {
+      roles: mongoResponse[1],
+      permissions: mongoResponse[0],
+    }, 200);
+  } catch (err) {
+    debug('[userController] Error');
+    debug(err);
+    logger.error('[userController] Error User list information');
+    return response(res, false, err, 500);
+  }
+};
+
 export {
   removeRolePermission,
   addRolePermission,
@@ -183,4 +205,5 @@ export {
   deleteUser,
   createUser,
   userList,
+  getRolePermissions,
 };
