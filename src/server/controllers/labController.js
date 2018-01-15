@@ -29,21 +29,22 @@ const getLabs = async (req, res) => {
     });
     const appRequests = await Promise.all(requestApplication);
     debug('***');
-    const formatedData = appRequests.map(obj => obj.body.data[0]);
+    const formatedData = appRequests.map(obj => obj.body.data[0])
+      .filter(objF => objF.consumer_id !== config.config.application.consumer_id);
     debug(mongoResponse);
     debug('---');
     debug(formatedData);
     const responsePayload = _.unionBy(formatedData, mongoResponse, 'name')
       .map((obj) => {
         const mongoSearch = mongoResponse.find(objF => objF.name === obj.name);
-        return {
+        const lab = _.pick({
           ...obj,
           description: (mongoSearch) ? mongoSearch.description : 'None',
-        };
+        }, responseProjection);
+        return lab;
       });
     logger.info('[labController] lab list information');
-    const labs = _.pick(responsePayload, responseProjection);
-    return response(res, true, { labs }, 200);
+    return response(res, true, { labs: responsePayload }, 200);
   } catch (err) {
     debug('[labController] Error');
     debug(err);

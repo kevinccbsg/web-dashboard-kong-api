@@ -11,6 +11,9 @@ import connectEnsureLogin from 'connect-ensure-login';
 import api from './router';
 import logger from './utils/logger';
 import connect from './utils/ddbb';
+import {
+  getTokenWithCode,
+} from './controllers/oauthController';
 
 const Strategy = require('passport-local').Strategy;
 
@@ -39,12 +42,15 @@ app.use(passport.session());
 app.use(Express.static(path.join(__dirname, 'public')));
 
 passport.use(new Strategy(
-  (username, password, done) => {
+  async (username, password, done) => {
     debug(username);
     if (username === 'kevinccbsg' && password === '123456') {
+      const tokens = await getTokenWithCode(username);
+      debug(tokens);
       const user = {
         username,
         roles: 'ADMIN',
+        ...tokens,
       };
       return done(null, user);
     }
