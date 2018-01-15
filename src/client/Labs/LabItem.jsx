@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { Card, Button } from 'semantic-ui-react';
+import moment from 'moment';
 
 class LabItem extends Component {
   constructor() {
@@ -19,23 +22,23 @@ class LabItem extends Component {
 
   render() {
     const { expanded } = this.state;
+    const { item } = this.props;
     const contentText = (expanded) ? 'lab-item open' : 'lab-item';
     return (
       <Card className={contentText}>
         <Card.Content>
           <Card.Header>
-            Matthew
+            <Link to="/usermanagment">
+              {item.name}
+            </Link>
           </Card.Header>
           <Card.Meta>
             <span className="date">
-              Joined in 2015
+              {moment(item.created_at).format('L')}
             </span>
           </Card.Meta>
           <Card.Description className="lab-description">
-            Matthew is a musician living in Nashville. Matthew is a musician living in Nashville.
-            Matthew is a musician living in Nashville.
-            Matthew is a musician living in Nashville.
-            Matthew is a musician living in Nashville.
+            {item.description}
           </Card.Description>
         </Card.Content>
         <Card.Content className="icon-container" extra>
@@ -68,5 +71,13 @@ class LabItem extends Component {
     );
   }
 }
+
+LabItem.propTypes = {
+  item: PropTypes.object,
+};
+
+LabItem.defaultProps = {
+  item: {},
+};
 
 export default LabItem;

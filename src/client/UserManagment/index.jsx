@@ -9,24 +9,7 @@ class UserManagment extends Component {
   constructor() {
     super();
     this.state = {
-      items: [
-        {
-          code: 50083,
-          name: 'Kevin Julián Martinez Escobar',
-          email: 'kevinjulian.martinezescobar@alumnos.upm.es',
-          grade: 'Electronica industrial y automatica',
-          roles: 'Admin',
-          permissions: 'Admin, Peltier, FPGA, Compilador C',
-        },
-        {
-          code: 50084,
-          name: 'Kevin Julián Martinez Escobar',
-          email: 'kevinjulian.martinezescobar@alumnos.upm.es',
-          grade: 'Electronica industrial y automatica',
-          roles: 'Admin',
-          permissions: 'Admin, Peltier, FPGA, Compilador C',
-        },
-      ],
+      items: [],
       itemSelected: {},
       openModal: false,
       basic: false,
@@ -47,8 +30,8 @@ class UserManagment extends Component {
       const items = response.data.users.map(obj => (
         {
           ...obj,
-          roles: obj.roles.map(objR => objR.description).join(' '),
-          permissions: obj.permissions.map(objP => objP.description).join(' '),
+          rolesValue: obj.roles.map(objR => objR.description).join(' '),
+          permissionsValue: obj.permissions.map(objP => objP.description).join(' '),
         }
       ));
       this.setState({ items, openModal: false });
@@ -110,8 +93,8 @@ class UserManagment extends Component {
             'name',
             'email',
             'grade',
-            'roles',
-            'permissions',
+            'rolesValue',
+            'permissionsValue',
           ]}
           headersText={[
             'código',

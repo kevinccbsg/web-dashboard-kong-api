@@ -34,6 +34,7 @@ class Labs extends Component {
           {items.map(obj => (
             <LabItem
               key={obj.name}
+              item={obj}
             />
           ))}
         </div>

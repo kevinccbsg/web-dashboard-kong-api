@@ -6,6 +6,13 @@ import logger from './../utils/logger';
 import response from './../utils/responseHelper';
 import clientHTTP from './../clientHTTP';
 
+const responseProjection = [
+  'client_id',
+  'created_at',
+  'description',
+  'name',
+];
+
 const client = clientHTTP(config.config.kongOptions);
 
 const debug = require('debug')('GSITAE:labController');
@@ -35,7 +42,8 @@ const getLabs = async (req, res) => {
         };
       });
     logger.info('[labController] lab list information');
-    return response(res, true, { labs: responsePayload }, 200);
+    const labs = _.pick(responsePayload, responseProjection);
+    return response(res, true, { labs }, 200);
   } catch (err) {
     debug('[labController] Error');
     debug(err);

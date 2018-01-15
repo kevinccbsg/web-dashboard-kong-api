@@ -73,7 +73,11 @@ class UserModal extends Component {
   componentWillReceiveProps(nextProps) {
     const { item } = this.props;
     if (nextProps.item.name !== item.name) {
-      this.setState({ ...nextProps.item });
+      this.setState({
+        ...nextProps.item,
+        roles: nextProps.item.roles.map(obj => obj.name),
+        permissions: nextProps.item.permissions.map(obj => obj.name),
+      });
     }
   }
 
