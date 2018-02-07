@@ -6,16 +6,22 @@ import helmet from 'helmet';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import expressSession from 'express-session';
-import winston from 'winston';
+import passport from 'passport';
+import connectEnsureLogin from 'connect-ensure-login';
+import api from './router';
+import logger from './utils/logger';
+import connect from './utils/ddbb';
+import {
+  getTokenWithCode,
+} from './controllers/oauthController';
+
+const Strategy = require('passport-local').Strategy;
 
 const debug = require('debug')('GSITAE:server');
 
-const logger = new (winston.Logger)({
-  transports: [
-    new (winston.transports.Console)(),
-    new (winston.transports.File)({ filename: path.join(__dirname, './../logs', '/GSITAE.log') }),
-  ],
-});
+connect(config.mongodb.uri)
+.then(() => logger.info('Successfull connection'))
+.catch(err => logger.error(err));
 
 const app = new Express();
 
@@ -31,9 +37,42 @@ app.use(expressSession({
   resave: config.config.session.resave,
   saveUninitialized: config.config.session.saveUninitialized,
 }));
-
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(Express.static(path.join(__dirname, 'public')));
 
+passport.use(new Strategy(
+  async (username, password, done) => {
+    debug(username);
+    if (username === 'kevinccbsg' && password === '123456') {
+      const tokens = await getTokenWithCode(username);
+      debug(tokens);
+      const user = {
+        username,
+        roles: 'ADMIN',
+        ...tokens,
+      };
+      return done(null, user);
+    }
+    return done(null, false);
+  },
+));
+
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+
+passport.deserializeUser((user, done) => {
+  done(null, user);
+});
+
+
+app.post('/GSITAE/login', passport.authenticate('local', { failureRedirect: '/login?error' }), (req, res) => {
+  debug('Login GSITAE');
+  res.redirect('/');
+});
+
+app.use('/GSITAE', api);
 
 app.get('*.js', (req, res, next) => {
   req.url = `${req.url}.gz`;
@@ -41,8 +80,16 @@ app.get('*.js', (req, res, next) => {
   next();
 });
 
-app.get('*', (req, res) => {
+app.get('/login', (req, res) => {
   debug('Render home');
+  debug(req.session);
+  logger.info('[app] - renderizado de la home');
+  res.sendFile(path.join(__dirname, 'public', 'dist', 'index.html'));
+});
+
+app.get('*', connectEnsureLogin.ensureLoggedIn('/login'), (req, res) => {
+  debug('Render home');
+  debug(req.session);
   logger.info('[app] - renderizado de la home');
   res.sendFile(path.join(__dirname, 'public', 'dist', 'index.html'));
 });

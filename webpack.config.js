@@ -7,7 +7,8 @@ const CompressionPlugin = require('compression-webpack-plugin');
 const VENDOR_LIBS = [
   'react',
   'react-dom',
-  'semantic-ui-css',
+  'prop-types',
+  'react-router-dom',
   'semantic-ui-react',
 ];
 const configClient = {
@@ -23,6 +24,16 @@ const configClient = {
   },
   module: {
     loaders: [
+      {
+        test: /\.styl$/,
+        loader: ExtractTextPlugin.extract({
+          // fallback: 'style-loader',
+          use: [
+            'css-loader',
+            'stylus-loader',
+          ],
+        }),
+      },
       {
         test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
         use: {
@@ -70,7 +81,7 @@ const configClient = {
     new webpack.optimize.CommonsChunkPlugin({
       names: ['vendor', 'manifest'],
     }),
-    new ExtractTextPlugin('styles.css'),
+    new ExtractTextPlugin('[name].css'),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'src', 'client', 'assets', 'index.html'),
     }),
