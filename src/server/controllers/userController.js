@@ -1,9 +1,6 @@
 import 'babel-polyfill';
 import config from 'app-config';
 import _ from 'lodash';
-import User from '../models/User';
-import Permission from '../models/Permission';
-import Roles from './../models/Roles';
 import logger from '../utils/logger';
 import response from '../utils/responseHelper';
 
@@ -20,8 +17,9 @@ const debug = require('debug')('GSITAE:userController');
 
 const userList = async (req, res) => {
   debug('[userController] userList');
-  try {
-    const mongoResponse = await User.find({});
+  return response(res, false, 'Not Implemented', 500);
+  /* try {
+    // const mongoResponse = await User.find({});
     logger.info('[userController] User list information');
     return response(res, true, { users: mongoResponse }, 200);
   } catch (err) {
@@ -29,15 +27,16 @@ const userList = async (req, res) => {
     debug(err);
     logger.error('[userController] Error User list information');
     return response(res, false, err, 500);
-  }
+  }*/
 };
 
 const createUser = async (req, res) => {
   debug('[userController] createUser');
-  try {
+  return response(res, false, 'Not Implemented', 500);
+  /* try {
     const payload = _.pick(req.body, userFields);
     const userPayload = { ...payload, roles: config.config.basicInitRole };
-    const newUser = new User(userPayload);
+    // const newUser = new User(userPayload);
     await newUser.save();
     return response(res, true, payload, 201);
   } catch (err) {
@@ -45,7 +44,7 @@ const createUser = async (req, res) => {
     debug(err);
     logger.error('[userController] Error User list information');
     return response(res, false, err, 500);
-  }
+  }*/
 };
 
 const deleteUser = async (req, res) => {
@@ -56,8 +55,9 @@ const deleteUser = async (req, res) => {
     logger.error('[userController] Error deleting User. Bad request. identifier must be String');
     return response(res, false, 'Bad Request', 400);
   }
-  try {
-    const responseRemove = await User.remove({ code });
+  return response(res, false, 'Not Implemented', 500);
+  /* try {
+    // const responseRemove = await User.remove({ code });
     if (responseRemove.nRemoved === 0) {
       const error = {
         status: 404,
@@ -75,7 +75,7 @@ const deleteUser = async (req, res) => {
     debug(err);
     logger.error('[userController] Error deleting User');
     return response(res, false, err, 500);
-  }
+  }*/
 };
 
 const getUser = async (req, res) => {
@@ -86,7 +86,8 @@ const getUser = async (req, res) => {
     logger.error('[userController] Error getting User. Bad request. identifier must be Number');
     return response(res, false, 'Bad Request', 400);
   }
-  try {
+  return response(res, false, 'Not Implemented', 500);
+  /* try {
     const responseUser = await User.findOne({ code });
     if (!responseUser) {
       const error = {
@@ -105,7 +106,7 @@ const getUser = async (req, res) => {
     debug(err);
     logger.error('[userController] Error deleting User');
     return response(res, false, err, 500);
-  }
+  }*/
 };
 
 const addRolePermission = async (req, res) => {
@@ -117,7 +118,8 @@ const addRolePermission = async (req, res) => {
     logger.error('[userController] Error adding Role User. Bad request. identifier must be Number');
     return response(res, false, 'Bad Request', 400);
   }
-  try {
+  return response(res, false, 'Not Implemented', 500);
+  /* try {
     const responseUser = await User.update({ code }, {
       $push: {
         [property]: req.body,
@@ -140,7 +142,7 @@ const addRolePermission = async (req, res) => {
     debug(err);
     logger.error('[userController] Error updating User');
     return response(res, false, err, 500);
-  }
+  }*/
 };
 
 const removeRolePermission = async (req, res) => {
@@ -152,7 +154,8 @@ const removeRolePermission = async (req, res) => {
     logger.error(`[userController] Error adding ${property} User. Bad request. identifier must be Number`);
     return response(res, false, 'Bad Request', 400);
   }
-  try {
+  return response(res, false, 'Not Implemented', 500);
+  /* try {
     const responseUser = await User.update({ code }, {
       $pull: {
         [property]: req.body,
@@ -175,12 +178,13 @@ const removeRolePermission = async (req, res) => {
     debug(err);
     logger.error('[userController] Error updating User');
     return response(res, false, err, 500);
-  }
+  }*/
 };
 
 const getRolePermissions = async (req, res) => {
   debug('[userController] getRolePermissions');
-  try {
+  return response(res, false, 'Not Implemented', 500);
+  /* try {
     const mongoResponse = await Promise.all([
       Permission.find({}),
       Roles.find({}),
@@ -195,7 +199,7 @@ const getRolePermissions = async (req, res) => {
     debug(err);
     logger.error('[userController] Error User list information');
     return response(res, false, err, 500);
-  }
+  }*/
 };
 
 export {
