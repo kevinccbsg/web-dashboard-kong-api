@@ -25,6 +25,12 @@ module.exports = {
     port: 8001,
     strictSSL: false,
   },
+  userapiOptions: {
+    protocol: 'https',
+    ip: 'localhost',
+    port: 8443,
+    strictSSL: false,
+  },
   kongOauth2PluginOptions: {
     protocol: 'https',
     ip: 'localhost',
