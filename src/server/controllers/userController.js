@@ -1,10 +1,10 @@
 import 'babel-polyfill';
 import config from 'app-config';
 import _ from 'lodash';
-import logger from '../utils/logger';
-import response from '../utils/responseHelper';
-import clientHTTP from '../clientHTTP';
-import setToken from '../utils/setToken';
+import logger from './../utils/logger';
+import response from './../utils/responseHelper';
+import clientHTTP from './../clientHTTP';
+import setToken from './../utils/setToken';
 
 const userFields = [
   'name',

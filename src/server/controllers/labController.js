@@ -1,10 +1,10 @@
 import 'babel-polyfill';
 import config from 'app-config';
 import _ from 'lodash';
-import Permission from './../models/Permission';
 import logger from './../utils/logger';
 import response from './../utils/responseHelper';
 import clientHTTP from './../clientHTTP';
+import setToken from './../utils/setToken';
 
 const responseProjection = [
   'client_id',
@@ -14,13 +14,16 @@ const responseProjection = [
 ];
 
 const client = clientHTTP(config.config.kongOptions);
+const clientUserAPI = clientHTTP(config.config.userapiOptions);
 
 const debug = require('debug')('GSITAE:labController');
 
 const getLabs = async (req, res) => {
   debug('[labController] getLabs');
   try {
-    const mongoResponse = await Permission.find({});
+    const headers = setToken(req);
+    clientUserAPI.setHeaders(headers);
+    const { body } = await clientUserAPI.getRequest('/userapi/permissions');
     const kongResponse = await client.getRequest('/consumers');
     const consumerList = kongResponse.body.data;
     const requestApplication = [];
@@ -31,12 +34,12 @@ const getLabs = async (req, res) => {
     debug('***');
     const formatedData = appRequests.map(obj => obj.body.data[0])
       .filter(objF => objF.consumer_id !== config.config.application.consumer_id);
-    debug(mongoResponse);
+    debug(body.permissions);
     debug('---');
     debug(formatedData);
-    const responsePayload = _.unionBy(formatedData, mongoResponse, 'name')
+    const responsePayload = _.unionBy(formatedData, body.permissions, 'name')
       .map((obj) => {
-        const mongoSearch = mongoResponse.find(objF => objF.name === obj.name);
+        const mongoSearch = body.permissions.find(objF => objF.name === obj.name);
         const lab = _.pick({
           ...obj,
           description: (mongoSearch) ? mongoSearch.description : 'None',
@@ -74,8 +77,9 @@ const createLab = async (req, res) => {
   let kongLabPayload = {};
   try {
     const payload = _.pick(req.body, ['name', 'description', 'redirect_uri']);
-    const newLab = new Permission(payload);
-    await newLab.save();
+    const headers = setToken(req);
+    clientUserAPI.setHeaders(headers);
+    await clientUserAPI.postRequest('/userapi/permission', payload);
     kongLabPayload = _.omit(req.body, ['description']);
     logger.info('[labController] createlab');
     await createApplication(kongLabPayload);
@@ -88,7 +92,9 @@ const createLab = async (req, res) => {
     }
     if (kongLabPayload.name) {
       debug('[labController] Error in lab save');
-      await Permission.remove({ name: req.body.name })
+      const headers = setToken(req);
+      clientUserAPI.setHeaders(headers);
+      await clientUserAPI.deleteRequest(`/userapi/permission/${req.body.name}`)
       .then(() => {
         debug('Deleted mongo lab created');
         logger.info('[labController] Deleted mongo lab in save');
@@ -110,14 +116,9 @@ const deleteLab = async (req, res) => {
     return response(res, false, 'Bad Request', 400);
   }
   try {
-    const responseRemove = await Permission.remove({ name: nameLab });
-    if (responseRemove.nRemoved === 0) {
-      const error = {
-        status: 404,
-        message: 'Not found register to delete',
-      };
-      throw error;
-    }
+    const headers = setToken(req);
+    clientUserAPI.setHeaders(headers);
+    await clientUserAPI.deleteRequest(`/userapi/permission/${nameLab}`);
     await client.deleteRequest(`/consumers/${nameLab}`);
     return response(res, false, 'lab removed', 204);
   } catch (err) {
