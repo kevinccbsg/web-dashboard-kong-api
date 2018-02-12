@@ -1,7 +1,7 @@
 
 const setAccesToken = (req) => {
   const contentType = 'application/json';
-  const authorization = `Bearer  ${req.session.access_token}`;
+  const authorization = `Bearer  ${req.user.access_token}`;
   return {
     'Content-Type': contentType,
     Authorization: authorization,
