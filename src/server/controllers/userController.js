@@ -26,7 +26,7 @@ const userList = async (req, res) => {
     client.setHeaders(headers);
     const apiResponse = await client.getRequest('/userapi/users');
     logger.info('[userController] User list information');
-    return response(res, true, { users: apiResponse.body }, 200);
+    return response(res, true, { users: apiResponse.body.users }, 200);
   } catch (err) {
     debug('[userController] Error');
     debug(err);
