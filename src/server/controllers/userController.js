@@ -78,7 +78,7 @@ const patchUser = async (req, res) => {
 const deleteUser = async (req, res) => {
   debug('[userController] deleteUser');
   const { code } = req.params;
-  if (_.isString(code)) {
+  if (!_.isString(code)) {
     debug('[userController] Error');
     logger.error('[userController] Error deleting User. Bad request. identifier must be String');
     return response(res, false, 'Bad Request', 400);

@@ -41,11 +41,11 @@ class UserManagment extends Component {
 
   handleDelete() {
     const { itemSelected } = this.state;
-    axios.delete(`/GSITAE/user/${itemSelected.name}`)
+    axios.delete(`/GSITAE/user/${itemSelected.code}`)
     .then((response) => {
       console.log(response);
       const { items } = this.state;
-      const itemsAdded = items.filter(obj => obj.name !== itemSelected.name);
+      const itemsAdded = items.filter(obj => obj.code !== itemSelected.code);
       this.setState({ items: itemsAdded, basic: false, itemSelected: {}, codeSelected: '' });
     })
     .catch(err => console.log(err.response));
