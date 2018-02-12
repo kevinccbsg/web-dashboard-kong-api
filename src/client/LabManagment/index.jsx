@@ -46,7 +46,27 @@ class LabManagment extends Component {
   }
 
   handleLab(data) {
-    axios.post('/GSITAE/lab', data)
+    const { edit } = this.state;
+    if (edit) {
+      const { itemSelected } = this.state;
+      return axios.patch(`/GSITAE/lab/${itemSelected.name}`, data)
+      .then((response) => {
+        console.log(response);
+        const { items } = this.state;
+        const itemsAdded = items.map((obj) => {
+          if (obj.name === response.data.name) {
+            return {
+              ...obj,
+              ...response.data,
+            };
+          }
+          return { ...obj };
+        });
+        this.setState({ items: itemsAdded, openModal: false });
+      })
+      .catch(err => console.log(err.response));
+    }
+    return axios.post('/GSITAE/lab', data)
     .then((response) => {
       console.log(response);
       const { items } = this.state;
@@ -62,12 +82,12 @@ class LabManagment extends Component {
     this.setState({ codeSelected: code, itemSelected });
   }
 
-  labModal() {
-    this.setState({ openModal: true });
+  labModal(edit) {
+    this.setState({ openModal: true, edit });
   }
 
   deleteModal() {
-    this.setState({ openModal: false, basic: true });
+    this.setState({ openModal: false, basic: true, edit: false });
   }
 
   closeModal() {

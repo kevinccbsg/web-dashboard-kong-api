@@ -12,6 +12,7 @@ import {
   getLabs,
   createLab,
   deleteLab,
+  patchLab,
 } from './../controllers/labController';
 
 const router = Express.Router();
@@ -26,6 +27,7 @@ router.delete('/api/:nameapi', deleteApi);
 
 router.get('/labs', getLabs);
 router.post('/lab', createLab);
+router.patch('/lab/:nameLab', patchLab);
 router.delete('/lab/:nameLab', deleteLab);
 
 // User endpoints

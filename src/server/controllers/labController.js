@@ -8,6 +8,8 @@ import setToken from './../utils/setToken';
 
 const responseProjection = [
   'client_id',
+  'client_secret',
+  'redirect_uri',
   'created_at',
   'description',
   'name',
@@ -107,6 +109,42 @@ const createLab = async (req, res) => {
     return response(res, false, err, 500);
   }
 };
+
+const patchLab = async (req, res) => {
+  debug('[labController] deletelab');
+  const { nameLab } = req.params;
+  const payload = req.body;
+  if (!_.isString(nameLab)) {
+    debug('[apiController] Error');
+    logger.error('[apiController] Error deleting lab. Bad request. identifier must be String');
+    return response(res, false, 'Bad Request', 400);
+  }
+  try {
+    const headers = setToken(req);
+    clientUserAPI.setHeaders(headers);
+    await clientUserAPI.patchRequest(`/userapi/permission/${nameLab}`, payload);
+    const responseConsumer = await client.getRequest(`/consumers/${nameLab}/oauth2`);
+    const data = responseConsumer.body.data[0];
+    const redirectUri = data.redirect_uri;
+    if (redirectUri === payload.redirect_uri) {
+      return response(res, false, payload, 200);
+    }
+    await client.patchRequest(`/consumers/${nameLab}/oauth2/${data.id}`, {
+      redirect_uri: payload.redirect_uri,
+    });
+    return response(res, false, payload, 200);
+  } catch (err) {
+    debug('[labController] Error');
+    if (err.status === 404) {
+      logger.error('[labController] Error deleting lab. Not Found');
+      return response(res, false, err.message, 404);
+    }
+    debug(err);
+    logger.error('[labController] Error deleting lab');
+    return response(res, false, err, 500);
+  }
+};
+
 const deleteLab = async (req, res) => {
   debug('[labController] deletelab');
   const { nameLab } = req.params;
@@ -137,4 +175,5 @@ export {
   getLabs,
   createLab,
   deleteLab,
+  patchLab,
 };
