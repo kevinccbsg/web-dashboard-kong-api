@@ -55,11 +55,6 @@ const createUser = async (req, res) => {
 const patchUser = async (req, res) => {
   debug('[userController] patchUser');
   const { code } = req.params;
-  if (_.isString(code)) {
-    debug('[userController] Error');
-    logger.error('[userController] Error deleting User. Bad request. identifier must be String');
-    return response(res, false, 'Bad Request', 400);
-  }
   try {
     await client.patchRequest(`/userapi/user/${code}`, req.body);
     return response(res, false, req.body, 200);
