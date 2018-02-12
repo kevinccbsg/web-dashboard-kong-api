@@ -46,7 +46,13 @@ class UserManagment extends Component {
       console.log(response);
       const { items } = this.state;
       const itemsAdded = items.filter(obj => obj.code !== itemSelected.code);
-      this.setState({ items: itemsAdded, basic: false, itemSelected: {}, codeSelected: '' });
+      this.setState({
+        items: itemsAdded,
+        basic: false,
+        openModal: false,
+        itemSelected: {},
+        codeSelected: '',
+      });
     })
     .catch(err => console.log(err.response));
   }
