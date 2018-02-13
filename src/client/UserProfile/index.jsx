@@ -46,7 +46,7 @@ class UserProfile extends Component {
     const { loading, item, rolesList, permissionsList } = this.state;
     return (
       <div className="inside-container">
-        <Header as="h1">Application Content</Header>
+        <Header as="h1">User Profile</Header>
         <Card className="user-profile-container">
           <Card.Content>
             <Form loading={loading}>
