@@ -7,6 +7,7 @@ import {
   deleteUser,
   patchUser,
   getRolePermissions,
+  getMyUser,
 } from './../controllers/userController';
 import {
   getLabs,
@@ -31,7 +32,7 @@ router.patch('/lab/:nameLab', patchLab);
 router.delete('/lab/:nameLab', deleteLab);
 
 // User endpoints
-
+router.get('/user/me', getMyUser);
 router.get('/users', userList);
 router.post('/user', createUser);
 router.patch('/user/:code', patchUser);

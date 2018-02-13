@@ -56,6 +56,8 @@ const patchUser = async (req, res) => {
   debug('[userController] patchUser');
   const { code } = req.params;
   try {
+    const headers = setToken(req);
+    client.setHeaders(headers);
     await client.patchRequest(`/userapi/user/${code}`, req.body);
     return response(res, false, req.body, 200);
   } catch (err) {
@@ -79,6 +81,8 @@ const deleteUser = async (req, res) => {
     return response(res, false, 'Bad Request', 400);
   }
   try {
+    const headers = setToken(req);
+    client.setHeaders(headers);
     await client.deleteRequest(`/userapi/user/${code}`);
     return response(res, false, 'User removed', 204);
   } catch (err) {
@@ -93,21 +97,18 @@ const deleteUser = async (req, res) => {
   }
 };
 
-const getUser = async (req, res) => {
-  debug('[userController] getUser');
-  const { code } = req.params;
-  if (_.isString(code)) {
-    debug('[userController] Error');
-    logger.error('[userController] Error getting User. Bad request. identifier must be Number');
-    return response(res, false, 'Bad Request', 400);
-  }
+const getMyUser = async (req, res) => {
+  debug('[userController] getMyUser');
+  const code = req.user.code || '50006';
   try {
-    const apiResponse = await client.deleteRequest(`/userapi/user/${code}`);
+    const headers = setToken(req);
+    client.setHeaders(headers);
+    const apiResponse = await client.getRequest(`/userapi/user/${code}`);
     return response(res, false, apiResponse.body, 200);
   } catch (err) {
     debug('[userController] Error');
     if (err.status === 404) {
-      logger.error('[userController] Error deleting User. Not Found');
+      logger.error('[userController] Error getting my User. Not Found');
       return response(res, false, err.message, 404);
     }
     debug(err);
@@ -116,10 +117,32 @@ const getUser = async (req, res) => {
   }
 };
 
+const getUser = async (req, res) => {
+  debug('[userController] getUser');
+  const { code } = req.params;
+  try {
+    const headers = setToken(req);
+    client.setHeaders(headers);
+    const apiResponse = await client.getRequest(`/userapi/user/${code}`);
+    return response(res, false, apiResponse.body, 200);
+  } catch (err) {
+    debug('[userController] Error');
+    if (err.status === 404) {
+      logger.error('[userController] Error getting User. Not Found');
+      return response(res, false, err.message, 404);
+    }
+    debug(err);
+    logger.error('[userController] Error getting User');
+    return response(res, false, err, 500);
+  }
+};
+
 
 const getRolePermissions = async (req, res) => {
   debug('[userController] getRolePermissions');
   try {
+    const headers = setToken(req);
+    client.setHeaders(headers);
     const apiResponse = await client.getRequest('/userapi/rolepermission');
     logger.info('[userController] User list information');
     return response(res, true, apiResponse.body, 200);
@@ -138,4 +161,5 @@ export {
   userList,
   getRolePermissions,
   patchUser,
+  getMyUser,
 };

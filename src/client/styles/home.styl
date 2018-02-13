@@ -8,6 +8,16 @@
   border-radius: 0
   .user-profile-container
     width: 100%
+    .ui.form
+      .disabled.field, .disabled.fields .field, .field :disabled
+        opacity: 0.75
+      .ui.disabled.input, .ui.input:not(.disabled) input[disabled]
+        opacity: 1
+      .field.disabled>label, .fields.disabled>label
+        opacity: 1
+        color: #000
+        .input
+          opacity: 1
   .logout-button
     position: absolute
     bottom: 10px
