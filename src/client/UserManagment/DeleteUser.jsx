@@ -25,7 +25,7 @@ class DeleteUser extends Component {
           <p>Do you want to delete this User?</p>
         </Modal.Content>
         <Modal.Actions>
-          <Button color="green" inverted>
+          <Button onClick={this.props.onDelete} color="green" inverted>
             <Icon name="checkmark" /> Yes
           </Button>
           <Button
@@ -45,11 +45,13 @@ class DeleteUser extends Component {
 DeleteUser.propTypes = {
   openModal: PropTypes.bool,
   onCloseModal: PropTypes.func,
+  onDelete: PropTypes.func,
 };
 
 DeleteUser.defaultProps = {
   openModal: false,
   onCloseModal: () => 0,
+  onDelete: () => 0,
 };
 
 export default DeleteUser;

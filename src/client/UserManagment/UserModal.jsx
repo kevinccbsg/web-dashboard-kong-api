@@ -30,11 +30,6 @@ const fields = [
   'permissions',
 ];
 
-const options = [
-  { key: 'm', text: 'Male', value: 'male' },
-  { key: 'f', text: 'Female', value: 'female' },
-];
-
 class UserModal extends Component {
   constructor() {
     super();
@@ -75,8 +70,8 @@ class UserModal extends Component {
     if (nextProps.item.name !== item.name) {
       this.setState({
         ...nextProps.item,
-        roles: nextProps.item.roles.map(obj => obj.name),
-        permissions: nextProps.item.permissions.map(obj => obj.name),
+        roles: nextProps.item.roles,
+        permissions: nextProps.item.permissions,
       });
     }
   }

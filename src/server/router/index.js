@@ -4,15 +4,16 @@ import {
   userList,
   createUser,
   getUser,
-  removeRolePermission,
-  addRolePermission,
   deleteUser,
+  patchUser,
   getRolePermissions,
+  getMyUser,
 } from './../controllers/userController';
 import {
   getLabs,
   createLab,
   deleteLab,
+  patchLab,
 } from './../controllers/labController';
 
 const router = Express.Router();
@@ -27,16 +28,14 @@ router.delete('/api/:nameapi', deleteApi);
 
 router.get('/labs', getLabs);
 router.post('/lab', createLab);
+router.patch('/lab/:nameLab', patchLab);
 router.delete('/lab/:nameLab', deleteLab);
 
 // User endpoints
-
+router.get('/user/me', getMyUser);
 router.get('/users', userList);
 router.post('/user', createUser);
-router.post('/user/:code/role', addRolePermission);
-router.post('/user/:code/permission', addRolePermission);
-router.delete('/user/:code/role', removeRolePermission);
-router.delete('/user/:code/permission', removeRolePermission);
+router.patch('/user/:code', patchUser);
 router.delete('/user/:code', deleteUser);
 router.get('/user/:code', getUser);
 

@@ -29,6 +29,10 @@ class Client {
     this.strictSSL = (options.strictSSL === undefined) ? true : options.strictSSL;
   }
 
+  setHeaders(headers) {
+    this.headers = headers;
+  }
+
   getRequest(path, query) {
     return new Promise((resolve, reject) => {
       unirest.get(`${this.uri}${path}`)

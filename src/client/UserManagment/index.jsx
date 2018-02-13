@@ -41,19 +41,41 @@ class UserManagment extends Component {
 
   handleDelete() {
     const { itemSelected } = this.state;
-    axios.delete(`/GSITAE/user/${itemSelected.name}`)
+    axios.delete(`/GSITAE/user/${itemSelected.code}`)
     .then((response) => {
       console.log(response);
       const { items } = this.state;
-      const itemsAdded = items.filter(obj => obj.name !== itemSelected.name);
-      this.setState({ items: itemsAdded, basic: false, itemSelected: {}, codeSelected: '' });
+      const itemsAdded = items.filter(obj => obj.code !== itemSelected.code);
+      this.setState({
+        items: itemsAdded,
+        basic: false,
+        openModal: false,
+        itemSelected: {},
+        codeSelected: '',
+      });
     })
     .catch(err => console.log(err.response));
   }
 
   handleUser(data) {
-    console.log(data);
-    axios.post('/GSITAE/user', data)
+    const { edit } = this.state;
+    if (edit) {
+      const { itemSelected } = this.state;
+      return axios.patch(`/GSITAE/user/${itemSelected.code}`, data)
+      .then((response) => {
+        console.log(response);
+        const { items } = this.state;
+        const itemsAdded = items.map((obj) => {
+          if (obj.code === response.data.code) {
+            return response.data;
+          }
+          return { ...obj };
+        });
+        this.setState({ items: itemsAdded, openModal: false });
+      })
+      .catch(err => console.log(err.response));
+    }
+    return axios.post('/GSITAE/user', data)
     .then((response) => {
       console.log(response);
       const { items } = this.state;
@@ -69,12 +91,12 @@ class UserManagment extends Component {
     this.setState({ codeSelected: code, itemSelected });
   }
 
-  userModal() {
-    this.setState({ openModal: true });
+  userModal(edit) {
+    this.setState({ openModal: true, edit });
   }
 
   deleteModal() {
-    this.setState({ openModal: false, basic: true });
+    this.setState({ openModal: false, basic: true, edit: false });
   }
 
   closeModal() {
@@ -82,7 +104,7 @@ class UserManagment extends Component {
   }
 
   render() {
-    const { items, openModal, basic, itemSelected } = this.state;
+    const { items, openModal, basic, itemSelected, edit } = this.state;
     return (
       <div className="inside-container">
         <Header as="h1">User managment</Header>
@@ -93,8 +115,8 @@ class UserManagment extends Component {
             'name',
             'email',
             'grade',
-            'rolesValue',
-            'permissionsValue',
+            'roles',
+            'permissions',
           ]}
           headersText={[
             'código',
@@ -123,6 +145,7 @@ class UserManagment extends Component {
           item={itemSelected}
           onCloseModal={this.closeModal}
           onSubmit={this.handleUser}
+          edit={edit}
         />
       </div>
     );

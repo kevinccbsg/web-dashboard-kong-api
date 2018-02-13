@@ -11,17 +11,16 @@ class CommonTable extends Component {
     super();
     this.state = {
       codeSelected: '',
-      selected: false,
     };
     this.handleIsselected = this.handleIsselected.bind(this);
   }
 
   handleIsselected(code) {
-    const { codeSelected, selected } = this.state;
-    if ((code === codeSelected) && selected) {
-      this.setState({ codeSelected: '', selected: false });
-    } else if ((code !== codeSelected) && !selected) {
-      this.setState({ codeSelected: code, selected: true });
+    const { codeSelected } = this.state;
+    if (code === codeSelected) {
+      this.setState({ codeSelected: '' });
+    } else if (code !== codeSelected) {
+      this.setState({ codeSelected: code });
       this.props.onSelected(code);
     }
   }
@@ -40,8 +39,9 @@ class CommonTable extends Component {
       keySelected,
       colSpan,
     } = this.props;
-    const { selected, codeSelected } = this.state;
+    const { codeSelected } = this.state;
     const headers = headersText || _.keys(_.pick(items[0], keyNames));
+    const isSelected = !!items.find(obj => obj[keySelected] === codeSelected);
     return (
       <Table celled compact definition>
         <Table.Header fullWidth>
@@ -79,7 +79,7 @@ class CommonTable extends Component {
         </Table.Body>
 
         <FooterItem
-          selected={selected}
+          selected={isSelected}
           addText={addText}
           editText={editText}
           deleteText={deleteText}
