@@ -9,7 +9,7 @@ let middleware;
 if (process.env.NODE_ENV === 'production') {
   middleware = applyMiddleware(promise());
 } else {
-  middleware = applyMiddleware(promise(), logger());
+  middleware = applyMiddleware(promise(), logger);
 }
 
 const store = createStore(rootReducer, middleware);
