@@ -8,6 +8,7 @@ import cookieParser from 'cookie-parser';
 import expressSession from 'express-session';
 import passport from 'passport';
 import connectEnsureLogin from 'connect-ensure-login';
+import response from './utils/responseHelper';
 import api from './router';
 import logger from './utils/logger';
 import connect from './utils/ddbb';
@@ -49,7 +50,7 @@ passport.use(new Strategy(
       debug(tokens);
       const user = {
         username,
-        roles: 'ADMIN',
+        roles: ['ADMIN'],
         ...tokens,
       };
       return done(null, user);
@@ -73,6 +74,11 @@ app.post('/GSITAE/login', passport.authenticate('local', { failureRedirect: '/lo
 });
 
 app.use('/GSITAE', api);
+
+app.get('/hasAccess', (req, res) => {
+  const { roles } = req.user;
+  response(res, true, { roles, user: req.user }, 200);
+});
 
 app.get('*.js', (req, res, next) => {
   req.url = `${req.url}.gz`;

@@ -7,6 +7,14 @@ import UserProfile from './../UserProfile';
 import UserManagment from './../UserManagment';
 import ApiManagment from './../ApiManagment';
 import LabManagment from './../LabManagment';
+import Authorization from '../Router/utils/Authorization';
+import {
+  admin,
+  all,
+} from '../Router/utils/Roles';
+
+const ALL = Authorization(all);
+const ADMIN = Authorization(admin);
 
 class Home extends Component {
   constructor() {
@@ -30,11 +38,11 @@ class Home extends Component {
         <Sidebar.Pusher>
           <Segment basic>
             <Switch>
-              <Route exact path="/" component={Labs} />
-              <Route path="/userprofile" component={UserProfile} />
-              <Route path="/apimanagment" component={ApiManagment} />
-              <Route path="/usermanagment" component={UserManagment} />
-              <Route path="/labmanagment" component={LabManagment} />
+              <Route exact path="/" component={ALL(Labs)} />
+              <Route path="/userprofile" component={ALL(UserProfile)} />
+              <Route path="/apimanagment" component={ADMIN(ApiManagment)} />
+              <Route path="/usermanagment" component={ADMIN(UserManagment)} />
+              <Route path="/labmanagment" component={ADMIN(LabManagment)} />
             </Switch>
             <Button
               size="big"

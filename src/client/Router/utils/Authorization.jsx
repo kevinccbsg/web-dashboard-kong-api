@@ -6,10 +6,10 @@ import Loader from './../../common/Loader';
 import { saveRoles } from './actions';
 
 
-const Authorization = (allowedRoles, main) => WrappedComponent => (
+const Authorization = allowedRoles => WrappedComponent => (
   @connect(store => (
     {
-      roles: store.visibility.visibility,
+      roles: store.main.visibility,
     }
   ))
   class WithAuthorization extends Component {
@@ -23,7 +23,7 @@ const Authorization = (allowedRoles, main) => WrappedComponent => (
     componentWillMount() {
       axios.get('/hasAccess')
       .then((data) => {
-        this.props.dispatch(saveRoles(data.data.data, data.data.user));
+        this.props.dispatch(saveRoles(data.data.roles, data.data.user));
         this.setState({ loading: false });
       })
       .catch((err) => {
@@ -37,7 +37,6 @@ const Authorization = (allowedRoles, main) => WrappedComponent => (
     render() {
       const { roles } = this.props;
       const rolesMattched = _.intersection(allowedRoles, roles);
-      let isMain = main || false;
       if (this.state.loading) {
         return <Loader />;
       }
