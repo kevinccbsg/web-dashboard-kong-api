@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import _ from 'lodash';
 import { connect } from 'react-redux';
-import Loader from './../../common/Loader';
 import { saveRoles } from './actions';
 
 
@@ -28,8 +27,7 @@ const Authorization = allowedRoles => WrappedComponent => (
       })
       .catch((err) => {
         console.log(this.props);
-        // this.props.history.push("/new/url");
-        // browserHistory.push('/403');
+        location.href = '/login';
         return null;
       });
     }
@@ -37,9 +35,6 @@ const Authorization = allowedRoles => WrappedComponent => (
     render() {
       const { roles } = this.props;
       const rolesMattched = _.intersection(allowedRoles, roles);
-      if (this.state.loading) {
-        return <Loader />;
-      }
       if (rolesMattched.length === 0) {
         return (
           <h1>FORBIDEN</h1>

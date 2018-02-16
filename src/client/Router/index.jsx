@@ -7,12 +7,18 @@ import {
 import Login from './../Login';
 import Home from './../Home';
 import Error404 from '../common/Error404';
+import Authorization from './utils/Authorization';
+import {
+  all,
+} from './utils/Roles';
+
+const ALL = Authorization(all);
 
 const AppRouter = () => (
   <Router>
     <Switch>
       <Route path="/login" component={Login} />
-      <Route path="/" component={Home} />
+      <Route path="/" component={ALL(Home)} />
       <Route component={Error404} />
     </Switch>
   </Router>

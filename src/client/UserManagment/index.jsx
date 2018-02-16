@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { injectIntl(, intlShape } from 'react-intl');
+import { injectIntl, intlShape } from 'react-intl';
 import { Header } from 'semantic-ui-react';
 import axios from 'axios';
 import CommonTable from '../common/CommonTable';

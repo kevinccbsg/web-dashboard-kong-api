@@ -15,6 +15,7 @@ class Labs extends Component {
   }
 
   componentWillMount() {
+    console.log('componentWillMount');
     this.setState({ loading: true });
     axios.get('/GSITAE/labs')
     .then((response) => {
