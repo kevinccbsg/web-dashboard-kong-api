@@ -47,7 +47,7 @@ class UserProfile extends Component {
     const { intl } = this.props;
     return (
       <div className="inside-container">
-        <Header as="h1">User Profile</Header>
+        <Header as="h1">{intl.formatMessage({ id: 'menu.profile' })}</Header>
         <Card className="user-profile-container">
           <Card.Content>
             <Form loading={loading}>

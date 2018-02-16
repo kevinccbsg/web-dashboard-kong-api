@@ -1,4 +1,5 @@
 import React from 'react';
+import { injectIntl, intlShape } from 'react-intl';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Sidebar, Menu, Icon, Header } from 'semantic-ui-react';
@@ -27,7 +28,7 @@ const SidebarMenu = props => (
         <Link to="/">
           <Menu.Item className="sidebar-item" name="grid layout">
             <Icon name="grid layout" />
-            Home
+            {props.intl.formatMessage({ id: 'menu.home' })}
           </Menu.Item>
         </Link>
       ), all)}
@@ -35,7 +36,7 @@ const SidebarMenu = props => (
         <Link to="/userprofile">
           <Menu.Item className="sidebar-item" name="user">
             <Icon name="user" />
-            User Profile
+            {props.intl.formatMessage({ id: 'menu.profile' })}
           </Menu.Item>
         </Link>
       ), all)}
@@ -43,7 +44,7 @@ const SidebarMenu = props => (
         <Link to="/usermanagment">
           <Menu.Item className="sidebar-item" name="user">
             <Icon name="users" />
-            Users Managment
+            {props.intl.formatMessage({ id: 'usermanagment.title' })}
           </Menu.Item>
         </Link>
       ), admin)}
@@ -51,7 +52,7 @@ const SidebarMenu = props => (
         <Link to="/apimanagment">
           <Menu.Item className="sidebar-item" name="apis">
             <Icon name="cubes" />
-            Api Managment
+            {props.intl.formatMessage({ id: 'apimanagment.title' })}
           </Menu.Item>
         </Link>
       ), admin)}
@@ -59,7 +60,7 @@ const SidebarMenu = props => (
         <Link to="/labmanagment">
           <Menu.Item className="sidebar-item" name="labs">
             <Icon name="lab" />
-            Lab Managment
+            {props.intl.formatMessage({ id: 'labmanagment.title' })}
           </Menu.Item>
         </Link>
       ), admin)}
@@ -73,6 +74,7 @@ const SidebarMenu = props => (
 );
 
 SidebarMenu.propTypes = {
+  intl: intlShape.isRequired,
   visible: PropTypes.bool,
 };
 
@@ -80,4 +82,4 @@ SidebarMenu.defaultProps = {
   visible: false,
 };
 
-export default SidebarMenu;
+export default injectIntl(SidebarMenu);
