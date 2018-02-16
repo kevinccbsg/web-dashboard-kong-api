@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { injectIntl, intlShape } from 'react-intl';
 import { Header } from 'semantic-ui-react';
 import axios from 'axios';
 import CommonTable from '../common/CommonTable';
@@ -75,9 +76,10 @@ class ApiManagment extends Component {
 
   render() {
     const { items, openModal, basic, itemSelected } = this.state;
+    const { intl } = this.props;
     return (
       <div className="inside-container">
-        <Header as="h1">Api managment</Header>
+        <Header as="h1">{intl.formatMessage({ id: 'apimanagment.title' })}</Header>
         <CommonTable
           items={items}
           keyNames={[
@@ -98,9 +100,9 @@ class ApiManagment extends Component {
             'preserve_host',
             'Global_credentials',
           ]}
-          addText="Añadir Api"
-          editText="Editar Api"
-          deleteText="Eliminar Api"
+          addText={intl.formatMessage({ id: 'apimanagment.add' })}
+          editText={intl.formatMessage({ id: 'apimanagment.edit' })}
+          deleteText={intl.formatMessage({ id: 'apimanagment.delete' })}
           onAdd={this.apiModal}
           onEdit={() => this.apiModal(true)}
           onDelete={this.deleteModal}
@@ -109,6 +111,10 @@ class ApiManagment extends Component {
           colSpan={7}
         />
         <DeleteApi
+          contentHeader={intl.formatMessage({ id: 'apimanagment.delete' })}
+          leftLabel={intl.formatMessage({ id: 'common.yes' })}
+          rightLabel={intl.formatMessage({ id: 'common.no' })}
+          title={intl.formatMessage({ id: 'apimanagment.delete.title' })}
           openModal={basic}
           onCloseModal={this.closeModal}
           onDelete={this.handleDelete}
@@ -124,4 +130,8 @@ class ApiManagment extends Component {
   }
 }
 
-export default ApiManagment;
+ApiManagment.propTypes = {
+  intl: intlShape.isRequired,
+};
+
+export default injectIntl(ApiManagment);

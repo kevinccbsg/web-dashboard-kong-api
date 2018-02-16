@@ -12,7 +12,7 @@ class DeleteApi extends Component {
   }
 
   render() {
-    const { openModal } = this.props;
+    const { openModal, title, leftLabel, rightLabel } = this.props;
     return (
       <Modal
         open={openModal}
@@ -20,9 +20,9 @@ class DeleteApi extends Component {
         size="small"
         onClose={this.props.onCloseModal}
       >
-        <Header icon="trash outline" content="Delete Api" />
+        <Header icon="trash outline" content={this.props.contentHeader} />
         <Modal.Content>
-          <p>Do you want to delete this Api?</p>
+          <p>{title}</p>
         </Modal.Content>
         <Modal.Actions>
           <Button
@@ -30,7 +30,7 @@ class DeleteApi extends Component {
             inverted
             onClick={this.props.onDelete}
           >
-            <Icon name="checkmark" /> Yes
+            <Icon name="checkmark" /> {leftLabel}
           </Button>
           <Button
             basic
@@ -38,7 +38,7 @@ class DeleteApi extends Component {
             inverted
             onClick={this.props.onCloseModal}
           >
-            <Icon name="remove" /> No
+            <Icon name="remove" /> {rightLabel}
           </Button>
         </Modal.Actions>
       </Modal>
@@ -50,12 +50,20 @@ DeleteApi.propTypes = {
   openModal: PropTypes.bool,
   onCloseModal: PropTypes.func,
   onDelete: PropTypes.func,
+  title: PropTypes.string,
+  leftLabel: PropTypes.string,
+  rightLabel: PropTypes.string,
+  contentHeader: PropTypes.string,
 };
 
 DeleteApi.defaultProps = {
   openModal: false,
   onCloseModal: () => 0,
   onDelete: () => 0,
+  title: 'Do you want to delete this?',
+  leftLabel: 'yes',
+  rightLabel: 'no',
+  contentHeader: '',
 };
 
 export default DeleteApi;

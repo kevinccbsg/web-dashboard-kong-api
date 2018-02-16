@@ -1,5 +1,8 @@
 {
   "en": {
+    "common.yes": "Ok",
+    "common.no": "No",
+    "common.save": "Save",
     "login.button": "Login",
     "main.title": "GSITAE Labs",
     "form.code": "Student code",
@@ -10,9 +13,26 @@
     "form.faculty": "Faculty",
     "form.roles": "Roles",
     "form.permissions": "Permissions",
-    "form.uncomplete": "Not filled"
+    "form.uncomplete": "Not filled",
+    "apimanagment.title": "API managment",
+    "apimanagment.add": "Add API",
+    "apimanagment.edit": "Edit API",
+    "apimanagment.delete": "Delete API",
+    "apimanagment.delete.title": "Do you want to delete this Api?",
+    "apimanagment.form.name": "API Name",
+    "apimanagment.form.description": "Description",
+    "apimanagment.form.uris": "Uris",
+    "apimanagment.form.manual": "Manual Reference",
+    "apimanagment.form.stripuri": "strip uri",
+    "apimanagment.form.preserve": "Preserve host",
+    "apimanagment.form.global": "Global access",
+    "apimanagment.form.upstreamurl": "Upstream url",
+    "apimanagment.form.error": "Error create api"
   },
   "es": {
+    "common.yes": "Ok",
+    "common.no": "No",
+    "common.save": "Guardar",
     "login.button": "Acceder",
     "main.title": "GSITAE Laboratorios",
     "form.code": "Matrícula del alumno",
@@ -23,6 +43,20 @@
     "form.faculty": "Facultad",
     "form.roles": "Roles",
     "form.permissions": "Permisos",
-    "form.uncomplete": "No completado"
+    "form.uncomplete": "No completado",
+    "apimanagment.title": "Gestión de APIs",
+    "apimanagment.add": "Añadir API",
+    "apimanagment.edit": "Editar API",
+    "apimanagment.delete": "Eliminar API",
+    "apimanagment.delete.title": "¿Quieres eliminar el API seleccionada?",
+    "apimanagment.form.name": "Nombre del API",
+    "apimanagment.form.description": "Descripción",
+    "apimanagment.form.uris": "Uris",
+    "apimanagment.form.manual": "Manual de referencia",
+    "apimanagment.form.stripuri": "Uri estricta",
+    "apimanagment.form.preserve": "Mantener el Host",
+    "apimanagment.form.global": "Acceso global",
+    "apimanagment.form.upstreamurl": "Url del API",
+    "apimanagment.form.error": "Error create api"
   }
 }

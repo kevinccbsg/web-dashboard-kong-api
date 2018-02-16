@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { injectIntl, intlShape } from 'react-intl';
 import { Header, Modal, Button, Icon, Form, Input, TextArea, Checkbox, Message } from 'semantic-ui-react';
 import _ from 'lodash';
 
@@ -106,7 +107,7 @@ class ApiModal extends Component {
       global_credentials,
       error,
     } = this.state;
-    const { openModal, item } = this.props;
+    const { openModal, item, intl } = this.props;
     const selected = !!item.name;
     return (
       <Modal
@@ -124,8 +125,8 @@ class ApiModal extends Component {
               value={name}
               disabled={selected}
               onChange={this.handleChange}
-              label="Api name"
-              placeholder="Api name"
+              label={intl.formatMessage({ id: 'apimanagment.form.name' })}
+              placeholder={intl.formatMessage({ id: 'apimanagment.form.name' })}
               error={listError.includes('name')}
             />
             <Form.Field
@@ -134,8 +135,8 @@ class ApiModal extends Component {
               name="description"
               value={description}
               onChange={this.handleChange}
-              label="Description"
-              placeholder="Description"
+              label={intl.formatMessage({ id: 'apimanagment.form.description' })}
+              placeholder={intl.formatMessage({ id: 'apimanagment.form.description' })}
               error={listError.includes('description')}
             />
             <Form.Group widths="equal">
@@ -145,8 +146,8 @@ class ApiModal extends Component {
                 name="uris"
                 value={uris}
                 onChange={this.handleChange}
-                label="uris"
-                placeholder="uris"
+                label={intl.formatMessage({ id: 'apimanagment.form.uris' })}
+                placeholder={intl.formatMessage({ id: 'apimanagment.form.uris' })}
                 error={listError.includes('uris')}
               />
               <Form.Field
@@ -155,8 +156,8 @@ class ApiModal extends Component {
                 name="manualReference"
                 value={manualReference}
                 onChange={this.handleChange}
-                label="Manual Reference"
-                placeholder="Manual Reference"
+                label={intl.formatMessage({ id: 'apimanagment.form.manual' })}
+                placeholder={intl.formatMessage({ id: 'apimanagment.form.manual' })}
                 error={listError.includes('manualReference')}
               />
             </Form.Group>
@@ -167,7 +168,7 @@ class ApiModal extends Component {
                 name="strip_uri"
                 checked={strip_uri}
                 onChange={this.handleChange}
-                label="strip uri"
+                label={intl.formatMessage({ id: 'apimanagment.form.stripuri' })}
               />
               <Form.Field
                 id="form-textarea-api-preserve_host"
@@ -175,7 +176,7 @@ class ApiModal extends Component {
                 name="preserve_host"
                 checked={preserve_host}
                 onChange={this.handleChange}
-                label="Preserve host"
+                label={intl.formatMessage({ id: 'apimanagment.form.preserve' })}
               />
               <Form.Field
                 id="form-textarea-api-global_credentials"
@@ -183,7 +184,7 @@ class ApiModal extends Component {
                 name="global_credentials"
                 checked={global_credentials}
                 onChange={this.handleChange}
-                label="global_credentials"
+                label={intl.formatMessage({ id: 'apimanagment.form.global' })}
               />
             </Form.Group>
             <Form.Field
@@ -192,13 +193,13 @@ class ApiModal extends Component {
               name="upstream_url"
               value={upstream_url}
               onChange={this.handleChange}
-              label="upstream url"
-              placeholder="upstream url"
+              label={intl.formatMessage({ id: 'apimanagment.form.upstreamurl' })}
+              placeholder={intl.formatMessage({ id: 'apimanagment.form.upstreamurl' })}
               error={listError.includes('upstream_url')}
             />
             <Message
               error
-              header="Error create api"
+              header={intl.formatMessage({ id: 'apimanagment.form.error' })}
               list={listErrorMessages}
             />
           </Form>
@@ -210,7 +211,7 @@ class ApiModal extends Component {
             disabled={loading}
             onClick={this.handleSubmit}
           >
-            <Icon name="checkmark" /> Yes
+            <Icon name="checkmark" /> {intl.formatMessage({ id: 'common.save' })}
           </Button>
           <Button
             basic
@@ -218,7 +219,7 @@ class ApiModal extends Component {
             disabled={loading}
             onClick={this.handleClose}
           >
-            <Icon name="remove" /> No
+            <Icon name="remove" /> {intl.formatMessage({ id: 'common.no' })}
           </Button>
         </Modal.Actions>
       </Modal>
@@ -227,6 +228,7 @@ class ApiModal extends Component {
 }
 
 ApiModal.propTypes = {
+  intl: intlShape.isRequired,
   item: PropTypes.object,
   openModal: PropTypes.bool,
   onCloseModal: PropTypes.func,
