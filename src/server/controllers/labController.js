@@ -35,7 +35,11 @@ const getLabs = async (req, res) => {
     const appRequests = await Promise.all(requestApplication);
     debug('***');
     const formatedData = appRequests.map(obj => obj.body.data[0])
-      .filter(objF => objF.consumer_id !== config.config.application.consumer_id);
+    .filter((objF) => {
+      if (!objF) return false;
+      if (objF.consumer_id === config.config.application.consumer_id) return false;
+      return true;
+    });
     debug(body.permissions);
     debug('---');
     debug(formatedData);
