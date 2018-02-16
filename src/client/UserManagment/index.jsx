@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { injectIntl, intlShape } from 'react-intl';
 import { Header } from 'semantic-ui-react';
 import axios from 'axios';
 import CommonTable from '../common/CommonTable';
@@ -105,9 +106,10 @@ class UserManagment extends Component {
 
   render() {
     const { items, openModal, basic, itemSelected, edit } = this.state;
+    const { intl } = this.props;
     return (
       <div className="inside-container">
-        <Header as="h1">User managment</Header>
+        <Header as="h1">{intl.formatMessage({ id: 'usermanagment.title' })}</Header>
         <CommonTable
           items={items}
           keyNames={[
@@ -126,9 +128,9 @@ class UserManagment extends Component {
             'roles',
             'permissions',
           ]}
-          addText="Añadir Usuario"
-          editText="Editar Usuario"
-          deleteText="Eliminar Usuario"
+          addText={intl.formatMessage({ id: 'usermanagment.add' })}
+          editText={intl.formatMessage({ id: 'usermanagment.edit' })}
+          deleteText={intl.formatMessage({ id: 'usermanagment.delete' })}
           onAdd={this.userModal}
           onEdit={() => this.userModal(true)}
           onDelete={this.deleteModal}
@@ -136,6 +138,10 @@ class UserManagment extends Component {
           keySelected="code"
         />
         <DeleteUser
+          contentHeader={intl.formatMessage({ id: 'usermanagment.delete' })}
+          leftLabel={intl.formatMessage({ id: 'common.yes' })}
+          rightLabel={intl.formatMessage({ id: 'common.no' })}
+          title={intl.formatMessage({ id: 'usermanagment.delete.title' })}
           openModal={basic}
           onCloseModal={this.closeModal}
           onDelete={this.handleDelete}
@@ -152,4 +158,8 @@ class UserManagment extends Component {
   }
 }
 
-export default UserManagment;
+UserManagment.propTypes = {
+  intl: intlShape.isRequired,
+};
+
+export default injectIntl(UserManagment);

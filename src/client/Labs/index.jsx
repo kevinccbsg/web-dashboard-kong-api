@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { injectIntl, intlShape } from 'react-intl';
 import { Header } from 'semantic-ui-react';
 import axios from 'axios';
 import LabItem from './LabItem';
+import Loader from '../common/Loader';
 
 class Labs extends Component {
   constructor() {
@@ -13,6 +15,7 @@ class Labs extends Component {
   }
 
   componentWillMount() {
+    console.log('componentWillMount');
     this.setState({ loading: true });
     axios.get('/GSITAE/labs')
     .then((response) => {
@@ -24,12 +27,13 @@ class Labs extends Component {
 
   render() {
     const { loading, items } = this.state;
+    const { intl } = this.props;
     if (loading) {
-      return <p>Loading....</p>;
+      return <Loader />;
     }
     return (
       <div className="inside-container">
-        <Header as="h1">GSITAE Labs</Header>
+        <Header as="h1">{intl.formatMessage({ id: 'main.title' })}</Header>
         <div className="labs-container">
           {items.map(obj => (
             <LabItem
@@ -43,4 +47,8 @@ class Labs extends Component {
   }
 }
 
-export default Labs;
+Labs.propTypes = {
+  intl: intlShape.isRequired,
+};
+
+export default injectIntl(Labs);

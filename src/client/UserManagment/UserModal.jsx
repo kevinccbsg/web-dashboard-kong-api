@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { injectIntl, intlShape } from 'react-intl';
 import { Header, Modal, Button, Icon, Form, Input, Message, Dropdown } from 'semantic-ui-react';
 import _ from 'lodash';
 import axios from 'axios';
@@ -139,7 +140,7 @@ class UserModal extends Component {
       rolesList,
       permissionsList,
     } = this.state;
-    const { openModal, item } = this.props;
+    const { openModal, item, intl } = this.props;
     const selected = !!item.name;
     return (
       <Modal
@@ -147,7 +148,7 @@ class UserModal extends Component {
         size="small"
         onClose={this.props.onCloseModal}
       >
-        <Header icon="trash outline" content="Delete Lab" />
+        <Header icon="trash outline" content={intl.formatMessage({ id: 'usermanagment.title' })} />
         <Modal.Content>
           <Form error={error} loading={loading}>
             <Form.Group widths="equal">
@@ -158,8 +159,8 @@ class UserModal extends Component {
                 value={code}
                 disabled={selected}
                 onChange={this.handleChange}
-                label="User code"
-                placeholder="User code"
+                label={intl.formatMessage({ id: 'form.code' })}
+                placeholder={intl.formatMessage({ id: 'form.code' })}
                 error={listError.includes('code')}
               />
               <Form.Field
@@ -168,8 +169,8 @@ class UserModal extends Component {
                 name="name"
                 value={name}
                 onChange={this.handleChange}
-                label="Nombre"
-                placeholder="Nombre"
+                label={intl.formatMessage({ id: 'form.name' })}
+                placeholder={intl.formatMessage({ id: 'form.name' })}
                 error={listError.includes('name')}
               />
             </Form.Group>
@@ -180,8 +181,8 @@ class UserModal extends Component {
                 name="surname"
                 value={surname}
                 onChange={this.handleChange}
-                label="Surname"
-                placeholder="Surname"
+                label={intl.formatMessage({ id: 'form.surname' })}
+                placeholder={intl.formatMessage({ id: 'form.surname' })}
                 error={listError.includes('surname')}
               />
               <Form.Field
@@ -190,8 +191,8 @@ class UserModal extends Component {
                 name="email"
                 value={email}
                 onChange={this.handleChange}
-                label="Email"
-                placeholder="Email"
+                label={intl.formatMessage({ id: 'form.email' })}
+                placeholder={intl.formatMessage({ id: 'form.email' })}
                 error={listError.includes('email')}
               />
             </Form.Group>
@@ -202,8 +203,8 @@ class UserModal extends Component {
                 name="grade"
                 value={grade}
                 onChange={this.handleChange}
-                label="Grade"
-                placeholder="Grade"
+                label={intl.formatMessage({ id: 'form.grade' })}
+                placeholder={intl.formatMessage({ id: 'form.grade' })}
                 error={listError.includes('grade')}
               />
               <Form.Field
@@ -212,8 +213,8 @@ class UserModal extends Component {
                 name="faculty"
                 value={faculty}
                 onChange={this.handleChange}
-                label="Faculty"
-                placeholder="Faculty"
+                label={intl.formatMessage({ id: 'form.faculty' })}
+                placeholder={intl.formatMessage({ id: 'form.faculty' })}
                 error={listError.includes('faculty')}
               />
             </Form.Group>
@@ -228,8 +229,8 @@ class UserModal extends Component {
                 fluid
                 multiple
                 selection
-                label="Roles"
-                placeholder="Roles"
+                label={intl.formatMessage({ id: 'form.roles' })}
+                placeholder={intl.formatMessage({ id: 'form.roles' })}
                 error={listError.includes('roles')}
               />
               <Form.Dropdown
@@ -242,14 +243,14 @@ class UserModal extends Component {
                 fluid
                 multiple
                 selection
-                label="Permissions"
-                placeholder="Permissions"
+                label={intl.formatMessage({ id: 'form.permissions' })}
+                placeholder={intl.formatMessage({ id: 'form.permissions' })}
                 error={listError.includes('permissions')}
               />
             </Form.Group>
             <Message
               error
-              header="Error create Lab"
+              header={intl.formatMessage({ id: 'usermanagment.form.error' })}
               list={listErrorMessages}
             />
           </Form>
@@ -261,7 +262,7 @@ class UserModal extends Component {
             disabled={loading}
             onClick={this.handleSubmit}
           >
-            <Icon name="checkmark" /> Yes
+            <Icon name="checkmark" /> {intl.formatMessage({ id: 'common.save' })}
           </Button>
           <Button
             basic
@@ -269,7 +270,7 @@ class UserModal extends Component {
             disabled={loading}
             onClick={this.handleClose}
           >
-            <Icon name="remove" /> No
+            <Icon name="remove" /> {intl.formatMessage({ id: 'common.no' })}
           </Button>
         </Modal.Actions>
       </Modal>
@@ -278,6 +279,7 @@ class UserModal extends Component {
 }
 
 UserModal.propTypes = {
+  intl: intlShape.isRequired,
   item: PropTypes.object,
   openModal: PropTypes.bool,
   onCloseModal: PropTypes.func,
@@ -291,4 +293,4 @@ UserModal.defaultProps = {
   onSubmit: () => 0,
 };
 
-export default UserModal;
+export default injectIntl(UserModal);

@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { injectIntl, intlShape } from 'react-intl';
 import { Header, Modal, Button, Icon, Form, Input, TextArea, Message } from 'semantic-ui-react';
 import _ from 'lodash';
 
@@ -88,7 +89,7 @@ class LabModal extends Component {
       listErrorMessages,
       error,
     } = this.state;
-    const { openModal, item } = this.props;
+    const { openModal, item, intl } = this.props;
     const selected = !!item.name;
     return (
       <Modal
@@ -96,7 +97,7 @@ class LabModal extends Component {
         size="small"
         onClose={this.props.onCloseModal}
       >
-        <Header icon="trash outline" content="Delete Api" />
+        <Header icon="trash outline" content={intl.formatMessage({ id: 'labmanagment.title' })} />
         <Modal.Content>
           <Form error={error} loading={loading}>
             <Form.Group widths="equal">
@@ -107,8 +108,8 @@ class LabModal extends Component {
                 value={name}
                 disabled={selected}
                 onChange={this.handleChange}
-                label="Lab name"
-                placeholder="Lab name"
+                label={intl.formatMessage({ id: 'labmanagment.form.name' })}
+                placeholder={intl.formatMessage({ id: 'labmanagment.form.name' })}
                 error={listError.includes('name')}
               />
               <Form.Field
@@ -117,8 +118,8 @@ class LabModal extends Component {
                 name="redirect_uri"
                 value={redirect_uri}
                 onChange={this.handleChange}
-                label="URL de redirección"
-                placeholder="URL de redirección"
+                label={intl.formatMessage({ id: 'labmanagment.form.urlredirect' })}
+                placeholder={intl.formatMessage({ id: 'labmanagment.form.urlredirect' })}
                 error={listError.includes('redirect_uri')}
               />
             </Form.Group>
@@ -128,8 +129,8 @@ class LabModal extends Component {
               name="description"
               value={description}
               onChange={this.handleChange}
-              label="Description"
-              placeholder="Description"
+              label={intl.formatMessage({ id: 'labmanagment.form.description' })}
+              placeholder={intl.formatMessage({ id: 'labmanagment.form.description' })}
               error={listError.includes('description')}
             />
             <Form.Group widths="equal">
@@ -139,8 +140,8 @@ class LabModal extends Component {
                 name="client_id"
                 value={client_id}
                 onChange={this.handleChange}
-                label="client_id"
-                placeholder="client_id"
+                label={intl.formatMessage({ id: 'labmanagment.form.clientid' })}
+                placeholder={intl.formatMessage({ id: 'labmanagment.form.clientid' })}
                 disabled
               />
               <Form.Field
@@ -149,8 +150,8 @@ class LabModal extends Component {
                 name="client_secret"
                 value={client_secret}
                 onChange={this.handleChange}
-                label="Client Secret"
-                placeholder="Client Secret"
+                label={intl.formatMessage({ id: 'labmanagment.form.clientsecret' })}
+                placeholder={intl.formatMessage({ id: 'labmanagment.form.clientsecret' })}
                 disabled
               />
             </Form.Group>
@@ -168,7 +169,7 @@ class LabModal extends Component {
             disabled={loading}
             onClick={this.handleSubmit}
           >
-            <Icon name="checkmark" /> Yes
+            <Icon name="checkmark" /> {intl.formatMessage({ id: 'common.save' })}
           </Button>
           <Button
             basic
@@ -176,7 +177,7 @@ class LabModal extends Component {
             disabled={loading}
             onClick={this.handleClose}
           >
-            <Icon name="remove" /> No
+            <Icon name="remove" /> {intl.formatMessage({ id: 'common.no' })}
           </Button>
         </Modal.Actions>
       </Modal>
@@ -185,6 +186,7 @@ class LabModal extends Component {
 }
 
 LabModal.propTypes = {
+  intl: intlShape.isRequired,
   item: PropTypes.object,
   openModal: PropTypes.bool,
   onCloseModal: PropTypes.func,
@@ -198,4 +200,4 @@ LabModal.defaultProps = {
   onSubmit: () => 0,
 };
 
-export default LabModal;
+export default injectIntl(LabModal);

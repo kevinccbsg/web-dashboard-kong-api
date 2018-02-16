@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { Sidebar, Segment, Button } from 'semantic-ui-react';
 import SidebarMenu from './../Sidebar';
 import Labs from '../Labs';
@@ -7,6 +7,22 @@ import UserProfile from './../UserProfile';
 import UserManagment from './../UserManagment';
 import ApiManagment from './../ApiManagment';
 import LabManagment from './../LabManagment';
+import {
+  admin,
+  all,
+} from '../Router/utils/Roles';
+import RoleAware from '../Router/utils/RoleAware';
+
+
+const Routes = () => (
+  <div>
+    <Route exact path="/" component={RoleAware(Labs, all)} />
+    <Route path="/userprofile" component={RoleAware(UserProfile, all)} />
+    <Route path="/apimanagment" component={RoleAware(ApiManagment, admin)} />
+    <Route path="/usermanagment" component={RoleAware(UserManagment, admin)} />
+    <Route path="/labmanagment" component={RoleAware(LabManagment, admin)} />
+  </div>
+);
 
 class Home extends Component {
   constructor() {
@@ -29,13 +45,7 @@ class Home extends Component {
         <SidebarMenu visible={visible} />
         <Sidebar.Pusher>
           <Segment basic>
-            <Switch>
-              <Route exact path="/" component={Labs} />
-              <Route path="/userprofile" component={UserProfile} />
-              <Route path="/apimanagment" component={ApiManagment} />
-              <Route path="/usermanagment" component={UserManagment} />
-              <Route path="/labmanagment" component={LabManagment} />
-            </Switch>
+            <Routes />
             <Button
               size="big"
               color="black"
