@@ -1,8 +1,10 @@
 {
   "en": {
-    "login.button": "Login"
+    "login.button": "Login",
+    "main.title": "GSITAE Labs"
   },
   "es": {
-    "login.button": "Acceder"
+    "login.button": "Acceder",
+    "main.title": "GSITAE Laboratorios"
   }
 }
