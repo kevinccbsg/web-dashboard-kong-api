@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { injectIntl, intlShape } from 'react-intl';
 import { Header, Card, Form, Input, Dropdown } from 'semantic-ui-react';
 import axios from 'axios';
@@ -150,10 +149,6 @@ class UserProfile extends Component {
 
 UserProfile.propTypes = {
   intl: intlShape.isRequired,
-};
-
-UserProfile.defaultProps = {
-  item: {},
 };
 
 export default injectIntl(UserProfile);

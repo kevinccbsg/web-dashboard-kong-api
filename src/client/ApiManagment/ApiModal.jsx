@@ -115,7 +115,7 @@ class ApiModal extends Component {
         size="small"
         onClose={this.props.onCloseModal}
       >
-        <Header icon="trash outline" content="Delete Api" />
+        <Header icon="trash outline" content={intl.formatMessage({ id: 'apimanagment.title' })} />
         <Modal.Content>
           <Form error={error} loading={loading}>
             <Form.Field
@@ -242,4 +242,4 @@ ApiModal.defaultProps = {
   onSubmit: () => 0,
 };
 
-export default ApiModal;
+export default injectIntl(ApiModal);

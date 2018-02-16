@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { injectIntl, intlShape } from 'react-intl';
 import { Header } from 'semantic-ui-react';
 import axios from 'axios';
 import CommonTable from '../common/CommonTable';
@@ -96,6 +97,7 @@ class LabManagment extends Component {
 
   render() {
     const { items, openModal, basic, itemSelected } = this.state;
+    const { intl } = this.props;
     return (
       <div className="inside-container">
         <Header as="h1">Lab managment</Header>
@@ -115,9 +117,9 @@ class LabManagment extends Component {
             'client_secret',
             'redirect_uri',
           ]}
-          addText="Añadir Lab"
-          editText="Editar Lab"
-          deleteText="Eliminar Lab"
+          addText={intl.formatMessage({ id: 'labmanagment.add' })}
+          editText={intl.formatMessage({ id: 'labmanagment.edit' })}
+          deleteText={intl.formatMessage({ id: 'labmanagment.delete' })}
           onAdd={this.labModal}
           onEdit={() => this.labModal(true)}
           onDelete={this.deleteModal}
@@ -126,6 +128,10 @@ class LabManagment extends Component {
           colSpan={7}
         />
         <DeleteLab
+          contentHeader={intl.formatMessage({ id: 'labmanagment.delete' })}
+          leftLabel={intl.formatMessage({ id: 'common.yes' })}
+          rightLabel={intl.formatMessage({ id: 'common.no' })}
+          title={intl.formatMessage({ id: 'labmanagment.delete.title' })}
           openModal={basic}
           onCloseModal={this.closeModal}
           onDelete={this.handleDelete}
@@ -141,4 +147,8 @@ class LabManagment extends Component {
   }
 }
 
-export default LabManagment;
+LabManagment.propTypes = {
+  intl: intlShape.isRequired,
+};
+
+export default injectIntl(LabManagment);
