@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { injectIntl, intlShape } from 'react-intl';
 import { Header, Card, Form, Input, Dropdown } from 'semantic-ui-react';
 import axios from 'axios';
 
@@ -44,6 +45,7 @@ class UserProfile extends Component {
 
   render() {
     const { loading, item, rolesList, permissionsList } = this.state;
+    const { intl } = this.props;
     return (
       <div className="inside-container">
         <Header as="h1">User Profile</Header>
@@ -57,8 +59,8 @@ class UserProfile extends Component {
                   name="code"
                   value={item.code}
                   disabled
-                  label="User code"
-                  placeholder="User code"
+                  label={intl.formatMessage({ id: 'form.code' })}
+                  placeholder={intl.formatMessage({ id: 'form.uncomplete' })}
                 />
                 <Form.Field
                   id="form-input-lab-name"
@@ -66,8 +68,8 @@ class UserProfile extends Component {
                   name="name"
                   value={item.name}
                   disabled
-                  label="Nombre"
-                  placeholder="Nombre"
+                  label={intl.formatMessage({ id: 'form.name' })}
+                  placeholder={intl.formatMessage({ id: 'form.uncomplete' })}
                 />
               </Form.Group>
               <Form.Group widths="equal">
@@ -76,8 +78,8 @@ class UserProfile extends Component {
                   control={Input}
                   name="surname"
                   value={item.surname}
-                  label="Surname"
-                  placeholder="Surname"
+                  label={intl.formatMessage({ id: 'form.surname' })}
+                  placeholder={intl.formatMessage({ id: 'form.uncomplete' })}
                   disabled
                 />
                 <Form.Field
@@ -85,8 +87,8 @@ class UserProfile extends Component {
                   control={Input}
                   name="email"
                   value={item.email}
-                  label="Email"
-                  placeholder="Email"
+                  label={intl.formatMessage({ id: 'form.email' })}
+                  placeholder={intl.formatMessage({ id: 'form.uncomplete' })}
                   disabled
                 />
               </Form.Group>
@@ -96,8 +98,8 @@ class UserProfile extends Component {
                   control={Input}
                   name="grade"
                   value={item.grade}
-                  label="Grade"
-                  placeholder="Grade"
+                  label={intl.formatMessage({ id: 'form.grade' })}
+                  placeholder={intl.formatMessage({ id: 'form.uncomplete' })}
                   disabled
                 />
                 <Form.Field
@@ -105,8 +107,8 @@ class UserProfile extends Component {
                   control={Input}
                   name="faculty"
                   value={item.faculty}
-                  label="Faculty"
-                  placeholder="Faculty"
+                  label={intl.formatMessage({ id: 'form.faculty' })}
+                  placeholder={intl.formatMessage({ id: 'form.uncomplete' })}
                   disabled
                 />
               </Form.Group>
@@ -120,8 +122,8 @@ class UserProfile extends Component {
                   fluid
                   multiple
                   selection
-                  label="Roles"
-                  placeholder="Roles"
+                  label={intl.formatMessage({ id: 'form.roles' })}
+                  placeholder={intl.formatMessage({ id: 'form.uncomplete' })}
                   disabled
                 />
                 <Form.Dropdown
@@ -134,8 +136,8 @@ class UserProfile extends Component {
                   multiple
                   selection
                   disabled
-                  label="Permissions"
-                  placeholder="Permissions"
+                  label={intl.formatMessage({ id: 'form.permissions' })}
+                  placeholder={intl.formatMessage({ id: 'form.uncomplete' })}
                 />
               </Form.Group>
             </Form>
@@ -147,11 +149,11 @@ class UserProfile extends Component {
 }
 
 UserProfile.propTypes = {
-  item: PropTypes.object,
+  intl: intlShape.isRequired,
 };
 
 UserProfile.defaultProps = {
   item: {},
 };
 
-export default UserProfile;
+export default injectIntl(UserProfile);

@@ -1,10 +1,28 @@
 {
   "en": {
     "login.button": "Login",
-    "main.title": "GSITAE Labs"
+    "main.title": "GSITAE Labs",
+    "form.code": "Student code",
+    "form.name": "Name",
+    "form.surname": "Surname",
+    "form.email": "Email",
+    "form.grade": "Grade",
+    "form.faculty": "Faculty",
+    "form.roles": "Roles",
+    "form.permissions": "Permissions",
+    "form.uncomplete": "Not filled"
   },
   "es": {
     "login.button": "Acceder",
-    "main.title": "GSITAE Laboratorios"
+    "main.title": "GSITAE Laboratorios",
+    "form.code": "Matrícula del alumno",
+    "form.name": "Nombre",
+    "form.surname": "Apellidos",
+    "form.email": "Correo",
+    "form.grade": "Carrera",
+    "form.faculty": "Facultad",
+    "form.roles": "Roles",
+    "form.permissions": "Permisos",
+    "form.uncomplete": "No completado"
   }
 }
