@@ -12,6 +12,7 @@ const respProjection = [
   'created_at',
   'description',
   'name',
+  'url',
 ];
 
 const client = clientHTTP(config.config.kongOptions);
@@ -51,6 +52,7 @@ const getLabs = async (req, res) => {
         const lab = _.pick({
           ...obj,
           description: (mongoSearch) ? mongoSearch.description : 'None',
+          url: `/GSITAE/authorice?client_id=${obj.client_id}`,
         }, formatProjection);
         return lab;
       });
