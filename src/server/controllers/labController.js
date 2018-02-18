@@ -8,7 +8,6 @@ import setToken from './../utils/setToken';
 
 const responseProjection = [
   'client_id',
-  'client_secret',
   'redirect_uri',
   'created_at',
   'description',

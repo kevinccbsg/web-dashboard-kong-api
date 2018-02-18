@@ -15,6 +15,9 @@ import connect from './utils/ddbb';
 import {
   getTokenWithCode,
 } from './controllers/oauthController';
+import {
+  getUserInfo,
+} from './controllers/userController';
 
 const Strategy = require('passport-local').Strategy;
 
@@ -45,12 +48,15 @@ app.use(Express.static(path.join(__dirname, 'public')));
 passport.use(new Strategy(
   async (username, password, done) => {
     debug(username);
-    if (username === 'kevinccbsg' && password === '123456') {
+    if (username === '50006' && password === '123456') {
+      const userDDBB = await getUserInfo(username);
       const tokens = await getTokenWithCode(username);
-      debug(tokens);
+      debug(userDDBB);
       const user = {
         username,
+        code: '50002',
         roles: ['ADMIN'],
+        permissions: userDDBB.permissions,
         ...tokens,
       };
       return done(null, user);

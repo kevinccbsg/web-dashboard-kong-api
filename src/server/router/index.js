@@ -15,8 +15,15 @@ import {
   deleteLab,
   patchLab,
 } from './../controllers/labController';
+import {
+  authorice,
+} from './../controllers/oauthController';
 
 const router = Express.Router();
+
+// Authorice endpoint
+
+router.get('/authorice', authorice);
 
 // Api endpoints
 
