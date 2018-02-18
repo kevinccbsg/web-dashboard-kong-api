@@ -131,7 +131,7 @@ class UserManagment extends Component {
           addText={intl.formatMessage({ id: 'usermanagment.add' })}
           editText={intl.formatMessage({ id: 'usermanagment.edit' })}
           deleteText={intl.formatMessage({ id: 'usermanagment.delete' })}
-          onAdd={this.userModal}
+          onAdd={() => this.labModal(false)}
           onEdit={() => this.userModal(true)}
           onDelete={this.deleteModal}
           onSelected={this.handleSelected}
