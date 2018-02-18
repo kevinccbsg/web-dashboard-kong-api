@@ -135,6 +135,7 @@ class UserManagment extends Component {
           onEdit={() => this.userModal(true)}
           onDelete={this.deleteModal}
           onSelected={this.handleSelected}
+          noItems={intl.formatMessage({ id: 'common.noitems' })}
           keySelected="code"
         />
         <DeleteUser

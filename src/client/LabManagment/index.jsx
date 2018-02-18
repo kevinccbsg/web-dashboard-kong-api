@@ -124,6 +124,7 @@ class LabManagment extends Component {
           onEdit={() => this.labModal(true)}
           onDelete={this.deleteModal}
           onSelected={this.handleSelected}
+          noItems={intl.formatMessage({ id: 'common.noitems' })}
           keySelected="name"
           colSpan={7}
         />

@@ -107,6 +107,7 @@ class ApiManagment extends Component {
           onEdit={() => this.apiModal(true)}
           onDelete={this.deleteModal}
           onSelected={this.handleSelected}
+          noItems={intl.formatMessage({ id: 'common.noitems' })}
           keySelected="name"
           colSpan={7}
         />
