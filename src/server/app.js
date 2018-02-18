@@ -54,7 +54,7 @@ passport.use(new Strategy(
       debug(userDDBB);
       const user = {
         username,
-        code: '50002',
+        code: username,
         roles: ['ADMIN'],
         permissions: userDDBB.permissions,
         ...tokens,
