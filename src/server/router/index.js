@@ -32,7 +32,7 @@ router.post('/api', createApi);
 router.delete('/api/:nameapi', deleteApi);
 
 // Lab endpoints
-
+router.get('/labs/admin', getLabs);
 router.get('/labs', getLabs);
 router.post('/lab', createLab);
 router.patch('/lab/:nameLab', patchLab);

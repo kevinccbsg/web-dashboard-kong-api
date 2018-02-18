@@ -6,7 +6,7 @@ import response from './../utils/responseHelper';
 import clientHTTP from './../clientHTTP';
 import setToken from './../utils/setToken';
 
-const responseProjection = [
+const respProjection = [
   'client_id',
   'redirect_uri',
   'created_at',
@@ -21,6 +21,8 @@ const debug = require('debug')('GSITAE:labController');
 
 const getLabs = async (req, res) => {
   debug('[labController] getLabs');
+  const adminRoute = req.originalUrl.includes('admin');
+  debug(adminRoute);
   try {
     const headers = setToken(req);
     clientUserAPI.setHeaders(headers);
@@ -42,13 +44,14 @@ const getLabs = async (req, res) => {
     debug(body.permissions);
     debug('---');
     debug(formatedData);
+    const formatProjection = (adminRoute) ? respProjection.concat('client_secret') : respProjection;
     const responsePayload = _.unionBy(formatedData, body.permissions, 'name')
       .map((obj) => {
         const mongoSearch = body.permissions.find(objF => objF.name === obj.name);
         const lab = _.pick({
           ...obj,
           description: (mongoSearch) ? mongoSearch.description : 'None',
-        }, responseProjection);
+        }, formatProjection);
         return lab;
       });
     logger.info('[labController] lab list information');
