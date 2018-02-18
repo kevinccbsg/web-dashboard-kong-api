@@ -100,7 +100,7 @@ class LabManagment extends Component {
     const { intl } = this.props;
     return (
       <div className="inside-container">
-        <Header as="h1">Lab managment</Header>
+        <Header as="h1">{intl.formatMessage({ id: 'labmanagment.title' })}</Header>
         <CommonTable
           items={items}
           keyNames={[
