@@ -1,6 +1,7 @@
 {
   "en": {
     "common.yes": "Ok",
+    "common.noitems": "No Items",
     "common.no": "No",
     "common.save": "Save",
     "menu.home": "Labs",
@@ -50,6 +51,7 @@
   },
   "es": {
     "common.yes": "Ok",
+    "common.noitems": "No hay datos",
     "common.no": "No",
     "common.save": "Guardar",
     "menu.home": "Laboratorios",

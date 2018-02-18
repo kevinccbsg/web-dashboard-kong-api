@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { Card, Button } from 'semantic-ui-react';
 import moment from 'moment';
 
@@ -28,9 +27,9 @@ class LabItem extends Component {
       <Card className={contentText}>
         <Card.Content>
           <Card.Header>
-            <Link to="/usermanagment">
+            <a href={item.url} rel="noopener noreferrer" target="_blank">
               {item.name}
-            </Link>
+            </a>
           </Card.Header>
           <Card.Meta>
             <span className="date">

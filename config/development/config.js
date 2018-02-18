@@ -55,4 +55,5 @@ module.exports = {
     resave: false,
     saveUninitialized: false,
   },
+  adminRole: 'Admin',
 };

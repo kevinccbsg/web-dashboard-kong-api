@@ -5,6 +5,9 @@ import logger from './../utils/logger';
 import response from './../utils/responseHelper';
 import clientHTTP from './../clientHTTP';
 import setToken from './../utils/setToken';
+import {
+  getClientToken,
+} from './oauthController';
 
 const userFields = [
   'name',
@@ -154,6 +157,25 @@ const getRolePermissions = async (req, res) => {
   }
 };
 
+const getUserInfo = async (code) => {
+  debug('[userController] getUser');
+  try {
+    const clientToken = await getClientToken(config.config.application.client_id,
+      config.config.application.client_secret);
+    debug('Get Client Token');
+    const headers = {
+      Authorization: `Bearer ${clientToken.access_token}`,
+    };
+    client.setHeaders(headers);
+    const apiResponse = await client.getRequest(`/userapi/user/${code}`);
+    return apiResponse.body;
+  } catch (err) {
+    debug('Error getUserInfo');
+    debug(err);
+    throw err;
+  }
+};
+
 export {
   getUser,
   deleteUser,
@@ -162,4 +184,5 @@ export {
   getRolePermissions,
   patchUser,
   getMyUser,
+  getUserInfo,
 };

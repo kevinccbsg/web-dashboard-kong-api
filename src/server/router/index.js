@@ -15,8 +15,15 @@ import {
   deleteLab,
   patchLab,
 } from './../controllers/labController';
+import {
+  authorice,
+} from './../controllers/oauthController';
 
 const router = Express.Router();
+
+// Authorice endpoint
+
+router.get('/authorice', authorice);
 
 // Api endpoints
 
@@ -25,7 +32,7 @@ router.post('/api', createApi);
 router.delete('/api/:nameapi', deleteApi);
 
 // Lab endpoints
-
+router.get('/labs/admin', getLabs);
 router.get('/labs', getLabs);
 router.post('/lab', createLab);
 router.patch('/lab/:nameLab', patchLab);

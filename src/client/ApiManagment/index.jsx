@@ -75,7 +75,7 @@ class ApiManagment extends Component {
   }
 
   render() {
-    const { items, openModal, basic, itemSelected } = this.state;
+    const { items, openModal, basic, itemSelected, edit } = this.state;
     const { intl } = this.props;
     return (
       <div className="inside-container">
@@ -103,10 +103,11 @@ class ApiManagment extends Component {
           addText={intl.formatMessage({ id: 'apimanagment.add' })}
           editText={intl.formatMessage({ id: 'apimanagment.edit' })}
           deleteText={intl.formatMessage({ id: 'apimanagment.delete' })}
-          onAdd={this.apiModal}
+          onAdd={() => this.labModal(false)}
           onEdit={() => this.apiModal(true)}
           onDelete={this.deleteModal}
           onSelected={this.handleSelected}
+          noItems={intl.formatMessage({ id: 'common.noitems' })}
           keySelected="name"
           colSpan={7}
         />
@@ -124,6 +125,7 @@ class ApiManagment extends Component {
           item={itemSelected}
           onCloseModal={this.closeModal}
           onSubmit={this.handleApi}
+          edit={edit}
         />
       </div>
     );

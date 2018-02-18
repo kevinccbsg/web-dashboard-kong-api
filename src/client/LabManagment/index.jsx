@@ -26,7 +26,7 @@ class LabManagment extends Component {
   }
 
   componentWillMount() {
-    axios.get('/GSITAE/labs')
+    axios.get('/GSITAE/labs/admin')
     .then((response) => {
       const items = response.data.labs.filter(obj => obj);
       this.setState({ items, openModal: false });
@@ -96,11 +96,11 @@ class LabManagment extends Component {
   }
 
   render() {
-    const { items, openModal, basic, itemSelected } = this.state;
+    const { items, openModal, basic, itemSelected, edit } = this.state;
     const { intl } = this.props;
     return (
       <div className="inside-container">
-        <Header as="h1">Lab managment</Header>
+        <Header as="h1">{intl.formatMessage({ id: 'labmanagment.title' })}</Header>
         <CommonTable
           items={items}
           keyNames={[
@@ -120,10 +120,11 @@ class LabManagment extends Component {
           addText={intl.formatMessage({ id: 'labmanagment.add' })}
           editText={intl.formatMessage({ id: 'labmanagment.edit' })}
           deleteText={intl.formatMessage({ id: 'labmanagment.delete' })}
-          onAdd={this.labModal}
+          onAdd={() => this.labModal(false)}
           onEdit={() => this.labModal(true)}
           onDelete={this.deleteModal}
           onSelected={this.handleSelected}
+          noItems={intl.formatMessage({ id: 'common.noitems' })}
           keySelected="name"
           colSpan={7}
         />
@@ -141,6 +142,7 @@ class LabManagment extends Component {
           item={itemSelected}
           onCloseModal={this.closeModal}
           onSubmit={this.handleLab}
+          edit={edit}
         />
       </div>
     );

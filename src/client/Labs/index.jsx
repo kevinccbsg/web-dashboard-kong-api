@@ -35,6 +35,9 @@ class Labs extends Component {
       <div className="inside-container">
         <Header as="h1">{intl.formatMessage({ id: 'main.title' })}</Header>
         <div className="labs-container">
+          {(items.length === 0) && (
+            <h4>{intl.formatMessage({ id: 'common.noitems' })}</h4>
+          )}
           {items.map(obj => (
             <LabItem
               key={obj.name}
