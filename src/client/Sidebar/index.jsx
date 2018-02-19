@@ -20,13 +20,18 @@ import {
   }
 ))
 class SidebarMenu extends Component {
-  constructor() {
+  constructor(props) {
     super();
-    this.state = {};
+    this.state = {
+      locale: props.locale,
+    };
     this.handlelanguage = this.handlelanguage.bind(this);
   }
 
   handlelanguage(evt, data) {
+    this.setState({
+      locale: data.value,
+    });
     this.props.dispatch(setLocale(data.value));
   }
 
@@ -106,6 +111,7 @@ class SidebarMenu extends Component {
             icon="world"
             options={dropDownList}
             onChange={this.handlelanguage}
+            value={this.state.locale}
           />
           <div className="logout-button">
             <div className="user-data">
@@ -125,11 +131,13 @@ SidebarMenu.propTypes = {
   intl: intlShape.isRequired,
   visible: PropTypes.bool,
   user: PropTypes.object,
+  locale: PropTypes.string,
 };
 
 SidebarMenu.defaultProps = {
   visible: false,
   user: {},
+  locale: '',
 };
 
 export default injectIntl(SidebarMenu);
