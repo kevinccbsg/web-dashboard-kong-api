@@ -48,8 +48,8 @@
     "usermanagment.edit": "Edit user",
     "usermanagment.delete": "Delete user",
     "usermanagment.delete.title": "Do you want to delete this User?",
-    "languague.es": "Spanish",
-    "languague.en": "English"
+    "language.es": "Spanish",
+    "language.en": "English"
   },
   "es": {
     "common.yes": "Ok",
@@ -100,7 +100,7 @@
     "usermanagment.edit": "Editar usuario",
     "usermanagment.delete": "Eliminar usuario",
     "usermanagment.delete.title": "¿Quieres eliminar el Usuario seleccionado?",
-    "languague.es": "Español",
-    "languague.en": "Ingles"
+    "language.es": "Español",
+    "language.en": "Ingles"
   }
 }
