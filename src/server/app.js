@@ -47,16 +47,16 @@ app.use(passport.session());
 app.use(Express.static(path.join(__dirname, 'public')));
 
 passport.use(new LdapStrategy(config.config.ldap_OPTS,
-  async (username, password, done) => {
-    debug(username);
-    debug(password);
+  async (user, done) => {
+    debug(user);
+    const { cn } = user;
     try {
-      const userDDBB = await getUserInfo(username);
-      const tokens = await getTokenWithCode(username);
+      const userDDBB = await getUserInfo(cn);
+      const tokens = await getTokenWithCode(cn);
       debug(userDDBB);
       const user = {
-        username,
-        code: username,
+        username: cn,
+        code: cn,
         roles: ['ADMIN'],
         permissions: userDDBB.permissions,
         ...tokens,
