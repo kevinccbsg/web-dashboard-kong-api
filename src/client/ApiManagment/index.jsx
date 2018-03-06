@@ -103,7 +103,7 @@ class ApiManagment extends Component {
           addText={intl.formatMessage({ id: 'apimanagment.add' })}
           editText={intl.formatMessage({ id: 'apimanagment.edit' })}
           deleteText={intl.formatMessage({ id: 'apimanagment.delete' })}
-          onAdd={() => this.labModal(false)}
+          onAdd={() => this.apiModal(false)}
           onEdit={() => this.apiModal(true)}
           onDelete={this.deleteModal}
           onSelected={this.handleSelected}
