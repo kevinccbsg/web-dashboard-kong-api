@@ -20,6 +20,8 @@ const apiSchema = new Schema({
     type: String,
     required: true,
   },
+  createdUser: String,
+  createdDate: { type: Date, default: Date.now },
   strip_uri: Boolean,
   preserve_host: Boolean,
   global_credentials: Boolean,

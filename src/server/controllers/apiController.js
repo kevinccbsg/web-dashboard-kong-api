@@ -34,8 +34,6 @@ const createAPIOauth2 = async (payload, globalCredentials) => {
   };
   debug('payload api');
   debug(payload);
-  debug('payload api');
-  debug(payloadKong);
   try {
     await client.postRequest('/apis', payload);
     debug('create api');
@@ -49,8 +47,13 @@ const createAPIOauth2 = async (payload, globalCredentials) => {
 const createApi = async (req, res) => {
   debug('[apiController] createapi');
   let kongApiPayload = {};
+  const { username } = req.user;
   try {
-    const newapi = new Api(req.body);
+    const payload = {
+      ...req.body,
+      createdUser: username,
+    };
+    const newapi = new Api(payload);
     await newapi.save();
     kongApiPayload = _.omit(req.body, ['description', 'manualReference', 'global_credentials']);
     logger.info('[apiController] createapi');
