@@ -22,6 +22,8 @@ const debug = require('debug')('GSITAE:labController');
 
 const getLabs = async (req, res) => {
   debug('[labController] getLabs');
+  const { username } = req.user;
+  const { permissions, roles } = username;
   const adminRoute = req.originalUrl.includes('admin');
   debug(adminRoute);
   try {
@@ -56,8 +58,12 @@ const getLabs = async (req, res) => {
         }, formatProjection);
         return lab;
       });
+    let roleResponse = responsePayload;
+    if (!roles.includes('ADMIN')) {
+      roleResponse = responsePayload.filter(objF => permissions.includes(objF.name));
+    }
     logger.info('[labController] lab list information');
-    return response(res, true, { labs: responsePayload }, 200);
+    return response(res, true, { labs: roleResponse }, 200);
   } catch (err) {
     debug('[labController] Error');
     debug(err);

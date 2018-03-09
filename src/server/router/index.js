@@ -1,5 +1,5 @@
 import Express from 'express';
-import { apiList, createApi, deleteApi } from './../controllers/apiController';
+import { apiList, createApi, deleteApi, updateAPI } from './../controllers/apiController';
 import {
   userList,
   createUser,
@@ -18,6 +18,7 @@ import {
 import {
   authorice,
 } from './../controllers/oauthController';
+import onlyAdmin from './onlyAdmin';
 
 const router = Express.Router();
 
@@ -27,27 +28,27 @@ router.get('/authorice', authorice);
 
 // Api endpoints
 
-router.get('/apis', apiList);
-router.post('/api', createApi);
-router.delete('/api/:nameapi', deleteApi);
+router.get('/apis', onlyAdmin, apiList);
+router.post('/api', onlyAdmin, createApi);
+router.patch('/api/:nameapi', onlyAdmin, updateAPI);
+router.delete('/api/:nameapi', onlyAdmin, deleteApi);
 
 // Lab endpoints
-router.get('/labs/admin', getLabs);
+router.get('/labs/admin', onlyAdmin, getLabs);
 router.get('/labs', getLabs);
-router.post('/lab', createLab);
-router.patch('/lab/:nameLab', patchLab);
-router.delete('/lab/:nameLab', deleteLab);
+router.post('/lab', onlyAdmin, createLab);
+router.patch('/lab/:nameLab', onlyAdmin, patchLab);
+router.delete('/lab/:nameLab', onlyAdmin, deleteLab);
 
 // User endpoints
 router.get('/user/me', getMyUser);
-router.get('/users', userList);
-router.post('/user', createUser);
-router.patch('/user/:code', patchUser);
-router.delete('/user/:code', deleteUser);
+router.get('/users', onlyAdmin, userList);
+router.post('/user', onlyAdmin, createUser);
+router.patch('/user/:code', onlyAdmin, patchUser);
+router.delete('/user/:code', onlyAdmin, deleteUser);
 router.get('/user/:code', getUser);
 
 // role permissions
-
 router.get('/rolepermissions/list', getRolePermissions);
 
 export default router;
