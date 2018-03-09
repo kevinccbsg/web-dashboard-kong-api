@@ -54,14 +54,14 @@ passport.use(new LdapStrategy(config.config.ldap_OPTS,
       const userDDBB = await getUserInfo(cn);
       const tokens = await getTokenWithCode(cn);
       debug(userDDBB);
-      const user = {
+      const userFormat = {
         username: cn,
         code: cn,
         roles: ['ADMIN'],
         permissions: userDDBB.permissions,
         ...tokens,
       };
-      return done(null, user);
+      return done(null, userFormat);
     } catch (err) {
       debug(err);
       return done(null, false);
