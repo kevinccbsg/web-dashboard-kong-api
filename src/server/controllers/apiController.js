@@ -5,6 +5,12 @@ import Api from '../models/Api';
 import logger from '../utils/logger';
 import response from '../utils/responseHelper';
 import clientHTTP from '../clientHTTP';
+import {
+  createAPIKONG,
+  updateAPIMongo,
+  updateAPIKONG,
+  getIDPlugin,
+} from '../utils/filterArray';
 
 const client = clientHTTP(config.config.kongOptions);
 
@@ -55,7 +61,7 @@ const createApi = async (req, res) => {
     };
     const newapi = new Api(payload);
     await newapi.save();
-    kongApiPayload = _.omit(req.body, ['description', 'manualReference', 'global_credentials']);
+    kongApiPayload = _.omit(req.body, createAPIKONG);
     logger.info('[apiController] createapi');
     await createAPIOauth2(kongApiPayload, req.body.global_credentials);
     return response(res, true, req.body, 201);
@@ -65,6 +71,64 @@ const createApi = async (req, res) => {
     if (err.name === 'MongoError' && err.code === 11000) {
       return response(res, false, 'Resource Conflict', 409);
     }
+    if (kongApiPayload.name) {
+      debug('[apiController] Error in api save');
+      await Api.remove({ name: req.body.name })
+      .then(() => {
+        debug('Deleted mongo api created');
+        logger.info('[apiController] Deleted mongo api in save');
+      })
+      .catch(() => {
+        debug('Error deleting mongo api created');
+        logger.error('[apiController] Error delete mongo api created');
+      });
+    }
+    return response(res, false, err, 500);
+  }
+};
+
+const updateAPIOauth2 = async (name, payload, globalCredentials) => {
+  debug('[apiController] createAPIOauth2');
+  const payloadKong = {
+    ...config.config.kongOauth2Plugin,
+    'config.global_credentials': globalCredentials,
+  };
+  debug('payload api');
+  debug(payload);
+  try {
+    await client.patchRequest('/apis', payload);
+    debug('create api');
+    const { body } = await client.getRequest(`/apis/${name}/plugins`);
+    const idPlugin = getIDPlugin(body.data);
+    if (idPlugin) {
+      await client.postRequest(`/apis/${name}/plugins/${idPlugin}`, payloadKong);
+    }
+    return true;
+  } catch (err) {
+    throw err;
+  }
+};
+
+const updateAPI = async (req, res) => {
+  debug('[apiController] updateAPI');
+  let kongApiPayload = {};
+  const { username } = req.user;
+  const { nameapi } = req.params;
+  const { payload } = req.body;
+  let formatMongoPayload = _.omit(payload, updateAPIMongo);
+  try {
+    formatMongoPayload = {
+      ...formatMongoPayload,
+      modifiedUser: username,
+    };
+    await Api.save({ name: nameapi }, formatMongoPayload);
+    kongApiPayload = _.pick(formatMongoPayload, updateAPIKONG);
+    logger.info('[apiController] updateAPI');
+    await updateAPIOauth2(nameapi, kongApiPayload, req.body.global_credentials);
+    return response(res, true, req.body, 202);
+  } catch (err) {
+    debug('[apiController] Error');
+    debug(err);
     if (kongApiPayload.name) {
       debug('[apiController] Error in api save');
       await Api.remove({ name: req.body.name })
@@ -113,6 +177,7 @@ const deleteApi = async (req, res) => {
 };
 
 export {
+  updateAPI,
   apiList,
   createApi,
   deleteApi,
