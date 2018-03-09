@@ -83,7 +83,7 @@ app.post('/GSITAE/login', passport.authenticate('ldapauth', { failureRedirect: '
   res.redirect('/');
 });
 
-app.use('/GSITAE', api);
+app.use('/GSITAE', connectEnsureLogin.ensureLoggedIn('/login'), api);
 
 app.get('/hasAccess', (req, res) => {
   const { roles } = req.user;
