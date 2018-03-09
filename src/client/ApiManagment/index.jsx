@@ -46,7 +46,23 @@ class ApiManagment extends Component {
   }
 
   handleApi(data) {
-    axios.post('/GSITAE/api', data)
+    const { edit, itemSelected } = this.state;
+    if (edit) {
+      return axios.patch(`/GSITAE/api/${itemSelected.name}`, data)
+      .then((response) => {
+        console.log(response);
+        const { items } = this.state;
+        const itemsAdded = items.map((objM) => {
+          if (objM.name === itemSelected.name) {
+            return { ...response.data };
+          }
+          return { ...objM };
+        });
+        this.setState({ items: itemsAdded, openModal: false, edit: false, itemSelected: {} });
+      })
+      .catch(err => console.log(err.response));
+    }
+    return axios.post('/GSITAE/api', data)
     .then((response) => {
       console.log(response);
       const { items } = this.state;
