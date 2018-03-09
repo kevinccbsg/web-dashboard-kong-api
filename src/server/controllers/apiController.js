@@ -96,12 +96,12 @@ const updateAPIOauth2 = async (name, payload, globalCredentials) => {
   debug('payload api');
   debug(payload);
   try {
-    await client.patchRequest('/apis', payload);
+    await client.patchRequest(`/apis/${name}`, payload);
     debug('create api');
     const { body } = await client.getRequest(`/apis/${name}/plugins`);
     const idPlugin = getIDPlugin(body.data);
     if (idPlugin) {
-      await client.postRequest(`/apis/${name}/plugins/${idPlugin}`, payloadKong);
+      await client.patchRequest(`/apis/${name}/plugins/${idPlugin}`, payloadKong);
     }
     return true;
   } catch (err) {
@@ -114,14 +114,14 @@ const updateAPI = async (req, res) => {
   let kongApiPayload = {};
   const { username } = req.user;
   const { nameapi } = req.params;
-  const { payload } = req.body;
-  let formatMongoPayload = _.omit(payload, updateAPIMongo);
+  let formatMongoPayload = _.omit(req.body, updateAPIMongo);
   try {
     formatMongoPayload = {
       ...formatMongoPayload,
       modifiedUser: username,
     };
-    await Api.save({ name: nameapi }, formatMongoPayload);
+    debug(formatMongoPayload);
+    await Api.update({ name: nameapi }, formatMongoPayload);
     kongApiPayload = _.pick(formatMongoPayload, updateAPIKONG);
     logger.info('[apiController] updateAPI');
     await updateAPIOauth2(nameapi, kongApiPayload, req.body.global_credentials);
