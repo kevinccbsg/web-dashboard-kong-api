@@ -21,6 +21,8 @@ const apiSchema = new Schema({
     required: true,
   },
   createdUser: String,
+  modifiedUser: String,
+  modifiedDate: { type: Date, default: Date.now },
   createdDate: { type: Date, default: Date.now },
   strip_uri: Boolean,
   preserve_host: Boolean,
