@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { injectIntl, intlShape } from 'react-intl';
 import { Header } from 'semantic-ui-react';
 import axios from 'axios';
+import CalendarModal from './CalendarModal';
 import LabItem from './LabItem';
 import Loader from '../common/Loader';
 
@@ -11,7 +12,11 @@ class Labs extends Component {
     this.state = {
       loading: true,
       items: [],
+      selected: {},
+      openModal: false,
     };
+    this.handleClick = this.handleClick.bind(this);
+    this.closeModal = this.closeModal.bind(this);
   }
 
   componentWillMount() {
@@ -23,6 +28,14 @@ class Labs extends Component {
       this.setState({ items, loading: false });
     })
     .catch(err => console.log(err.response));
+  }
+
+  handleClick(data) {
+    this.setState({ openModal: true, selected: data });
+  }
+
+  closeModal() {
+    this.setState({ openModal: false, selected: {} });
   }
 
   render() {
@@ -42,9 +55,14 @@ class Labs extends Component {
             <LabItem
               key={obj.name}
               item={obj}
+              onClickCalendar={this.handleClick}
             />
           ))}
         </div>
+        <CalendarModal
+          openModal={this.state.openModal}
+          onCloseModal={this.closeModal}
+        />
       </div>
     );
   }
