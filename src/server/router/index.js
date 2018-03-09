@@ -1,5 +1,5 @@
 import Express from 'express';
-import { apiList, createApi, deleteApi } from './../controllers/apiController';
+import { apiList, createApi, deleteApi, updateAPI } from './../controllers/apiController';
 import {
   userList,
   createUser,
@@ -29,6 +29,7 @@ router.get('/authorice', authorice);
 
 router.get('/apis', apiList);
 router.post('/api', createApi);
+router.patch('/api/:nameapi', updateAPI);
 router.delete('/api/:nameapi', deleteApi);
 
 // Lab endpoints
