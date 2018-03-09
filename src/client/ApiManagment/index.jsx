@@ -78,8 +78,8 @@ class ApiManagment extends Component {
     this.setState({ codeSelected: code, itemSelected });
   }
 
-  apiModal() {
-    this.setState({ openModal: true });
+  apiModal(edit) {
+    this.setState({ openModal: true, edit });
   }
 
   deleteModal() {
