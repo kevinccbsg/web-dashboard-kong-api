@@ -30,7 +30,7 @@ const createAPIOauth2 = async (payload, globalCredentials) => {
   debug('[apiController] createAPIOauth2');
   const payloadKong = {
     ...config.config.kongOauth2Plugin,
-    'config.enable_client_credentials': globalCredentials,
+    'config.global_credentials': globalCredentials,
   };
   debug('payload api');
   debug(payload);
