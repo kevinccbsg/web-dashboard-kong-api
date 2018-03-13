@@ -16,11 +16,11 @@ const saveDate = async (req, res) => {
   };
   try {
     const calendarDate = new CalendarDate(payload);
-    await CalendarDate.save();
-    logger('[saveDate] Save date');
+    await calendarDate.save();
+    logger.info('[saveDate] Save date');
     return response(res, true, 'Saved date', 201);
   } catch (err) {
-    logger('[saveDate] Error saving date');
+    logger.error('[saveDate] Error saving date');
     debug(err);
     return response(res, false, err, 500);
   }

@@ -8,7 +8,6 @@ import cookieParser from 'cookie-parser';
 import expressSession from 'express-session';
 import passport from 'passport';
 import connectEnsureLogin from 'connect-ensure-login';
-import LdapStrategy from 'passport-ldapauth';
 import response from './utils/responseHelper';
 import api from './router';
 import logger from './utils/logger';
@@ -19,8 +18,8 @@ import {
 import {
   getUserInfo,
 } from './controllers/userController';
-// const Strategy = require('passport-local').Strategy;
 
+const Strategy = require('passport-local').Strategy;
 
 const debug = require('debug')('GSITAE:server');
 
@@ -46,26 +45,23 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(Express.static(path.join(__dirname, 'public')));
 
-passport.use(new LdapStrategy(config.config.ldap_OPTS,
-  async (user, done) => {
-    debug(user);
-    const { cn } = user;
-    try {
-      const userDDBB = await getUserInfo(cn);
-      const tokens = await getTokenWithCode(cn);
+passport.use(new Strategy(
+  async (username, password, done) => {
+    debug(username);
+    if (username === '50006' && password === '123456') {
+      const userDDBB = await getUserInfo(username);
+      const tokens = await getTokenWithCode(username);
       debug(userDDBB);
-      const userFormat = {
-        username: cn,
-        code: cn,
-        roles: ['ADMIN'],
+      const user = {
+        username,
+        code: username,
+        roles: userDDBB.roles,
         permissions: userDDBB.permissions,
         ...tokens,
       };
-      return done(null, userFormat);
-    } catch (err) {
-      debug(err);
-      return done(null, false);
+      return done(null, user);
     }
+    return done(null, false);
   },
 ));
 
@@ -78,12 +74,12 @@ passport.deserializeUser((user, done) => {
 });
 
 
-app.post('/GSITAE/login', passport.authenticate('ldapauth', { failureRedirect: '/login?error' }), (req, res) => {
+app.post('/GSITAE/login', passport.authenticate('local', { failureRedirect: '/login?error' }), (req, res) => {
   debug('Login GSITAE');
   res.redirect('/');
 });
 
-app.use('/GSITAE', connectEnsureLogin.ensureLoggedIn('/login'), api);
+app.use('/GSITAE', api);
 
 app.get('/hasAccess', (req, res) => {
   const { roles } = req.user;

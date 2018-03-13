@@ -40,7 +40,7 @@ class Labs extends Component {
     .then(() => {
       this.setState({ openModal: false });
     })
-    .cathc((err) => {
+    .catch((err) => {
       console.log(err);
       this.setState({ openModal: false });
     })

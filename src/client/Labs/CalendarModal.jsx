@@ -41,12 +41,8 @@ class CalendarModal extends Component {
             selected={startDate}
             onChange={this.handleChange}
             showTimeSelect
-            excludeDates={[moment(), moment().subtract(1, "days")]}
             excludeTimes={[
-              moment().hours(17).minutes(0),
-              moment().hours(18).minutes(30),
-              moment().hours(19).minutes(30),
-              moment().hours(17).minutes(30),
+              moment('2018-03-13T18:00:23.920Z'),
             ]}
             dateFormat="LLL"
           />
