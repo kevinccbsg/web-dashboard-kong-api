@@ -24,18 +24,21 @@ class CalendarModal extends Component {
   }
 
   render() {
-    const { openModal, leftLabel, rightLabel } = this.props;
+    const {
+      startDate,
+    } = this.state;
+    const { openModal, leftLabel, rightLabel, title } = this.props;
     return (
       <Modal
         open={openModal}
         size="small"
         onClose={this.props.onCloseModal}
       >
-        <Header icon="trash outline" content="asdasd" />
+        <Header icon="calendar" content={title} />
         <Modal.Content>
           <DatePicker
             className="calendar-gsitae-datepicker"
-            selected={this.state.startDate}
+            selected={startDate}
             onChange={this.handleChange}
             showTimeSelect
             excludeDates={[moment(), moment().subtract(1, "days")]}
@@ -52,17 +55,9 @@ class CalendarModal extends Component {
           <Button
             color="green"
             inverted
-            onClick={this.props.onDelete}
+            onClick={() => this.props.saveDate(startDate)}
           >
             <Icon name="checkmark" /> {leftLabel}
-          </Button>
-          <Button
-            basic
-            color="red"
-            inverted
-            onClick={this.props.onCloseModal}
-          >
-            <Icon name="remove" /> {rightLabel}
           </Button>
         </Modal.Actions>
       </Modal>
@@ -78,6 +73,7 @@ CalendarModal.propTypes = {
   leftLabel: PropTypes.string,
   rightLabel: PropTypes.string,
   contentHeader: PropTypes.string,
+  title: PropTypes.string,
 };
 
 CalendarModal.defaultProps = {
@@ -88,6 +84,7 @@ CalendarModal.defaultProps = {
   leftLabel: 'yes',
   rightLabel: 'no',
   contentHeader: '',
+  title: 'Calensar selection',
 };
 
 export default CalendarModal;

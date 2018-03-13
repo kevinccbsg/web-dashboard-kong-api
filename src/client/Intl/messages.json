@@ -49,7 +49,8 @@
     "usermanagment.delete": "Delete user",
     "usermanagment.delete.title": "Do you want to delete this User?",
     "language.es": "Spanish",
-    "language.en": "English"
+    "language.en": "English",
+    "calendar.title": "Choose one date an hour"
   },
   "es": {
     "common.yes": "Ok",
@@ -101,6 +102,7 @@
     "usermanagment.delete": "Eliminar usuario",
     "usermanagment.delete.title": "¿Quieres eliminar el Usuario seleccionado?",
     "language.es": "Español",
-    "language.en": "Ingles"
+    "language.en": "Ingles",
+    "calendar.title": "Eliga una fecha y hora"
   }
 }

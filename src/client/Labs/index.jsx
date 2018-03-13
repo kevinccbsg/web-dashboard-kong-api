@@ -62,6 +62,7 @@ class Labs extends Component {
         <CalendarModal
           openModal={this.state.openModal}
           onCloseModal={this.closeModal}
+          title={intl.formatMessage({ id: 'calendar.title' })}
         />
       </div>
     );
