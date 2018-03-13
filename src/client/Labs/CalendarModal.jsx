@@ -12,7 +12,7 @@ class CalendarModal extends Component {
     this.state = {
       errorText: '',
       loading: false,
-      startDate: moment(),
+      startDate: moment().minutes(0),
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -71,18 +71,17 @@ CalendarModal.propTypes = {
   onDelete: PropTypes.func,
   title: PropTypes.string,
   buttonLabel: PropTypes.string,
-  contentHeader: PropTypes.string,
   title: PropTypes.string,
+  saveDate: PropTypes.func,
 };
 
 CalendarModal.defaultProps = {
   openModal: false,
   onCloseModal: () => 0,
-  onDelete: () => 0,
+  saveDate: () => 0,
   title: 'Do you want to delete this?',
   buttonLabel: 'save',
-  contentHeader: '',
-  title: 'Calensar selection',
+  title: 'Calendar selection',
 };
 
 export default CalendarModal;

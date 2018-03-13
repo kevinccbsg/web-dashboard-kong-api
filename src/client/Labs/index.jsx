@@ -17,6 +17,7 @@ class Labs extends Component {
     };
     this.handleClick = this.handleClick.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    this.saveDate = this.saveDate.bind(this);
   }
 
   componentWillMount() {
@@ -28,6 +29,11 @@ class Labs extends Component {
       this.setState({ items, loading: false });
     })
     .catch(err => console.log(err.response));
+  }
+
+  saveDate(date) {
+    console.log(date);
+    this.setState({ openModal: false });
   }
 
   handleClick(data) {
@@ -64,6 +70,7 @@ class Labs extends Component {
           onCloseModal={this.closeModal}
           buttonLabel={intl.formatMessage({ id: 'common.save' })}
           title={intl.formatMessage({ id: 'calendar.title' })}
+          saveDate={this.saveDate}
         />
       </div>
     );
