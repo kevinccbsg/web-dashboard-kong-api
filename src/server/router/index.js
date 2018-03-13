@@ -18,6 +18,9 @@ import {
 import {
   authorice,
 } from './../controllers/oauthController';
+import {
+  saveDate,
+} from '../controllers/calendarController';
 import onlyAdmin from './onlyAdmin';
 
 const router = Express.Router();
@@ -50,5 +53,8 @@ router.get('/user/:code', getUser);
 
 // role permissions
 router.get('/rolepermissions/list', getRolePermissions);
+
+// Calendar endpoints
+router.post('/calendar', saveDate);
 
 export default router;
