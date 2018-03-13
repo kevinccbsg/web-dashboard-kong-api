@@ -62,6 +62,7 @@ class Labs extends Component {
         <CalendarModal
           openModal={this.state.openModal}
           onCloseModal={this.closeModal}
+          buttonLabel={intl.formatMessage({ id: 'common.save' })}
           title={intl.formatMessage({ id: 'calendar.title' })}
         />
       </div>

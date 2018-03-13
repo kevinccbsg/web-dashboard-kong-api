@@ -27,7 +27,7 @@ class CalendarModal extends Component {
     const {
       startDate,
     } = this.state;
-    const { openModal, leftLabel, rightLabel, title } = this.props;
+    const { openModal, buttonLabel, title } = this.props;
     return (
       <Modal
         open={openModal}
@@ -57,7 +57,7 @@ class CalendarModal extends Component {
             inverted
             onClick={() => this.props.saveDate(startDate)}
           >
-            <Icon name="checkmark" /> {leftLabel}
+            <Icon name="checkmark" /> {buttonLabel}
           </Button>
         </Modal.Actions>
       </Modal>
@@ -70,8 +70,7 @@ CalendarModal.propTypes = {
   onCloseModal: PropTypes.func,
   onDelete: PropTypes.func,
   title: PropTypes.string,
-  leftLabel: PropTypes.string,
-  rightLabel: PropTypes.string,
+  buttonLabel: PropTypes.string,
   contentHeader: PropTypes.string,
   title: PropTypes.string,
 };
@@ -81,8 +80,7 @@ CalendarModal.defaultProps = {
   onCloseModal: () => 0,
   onDelete: () => 0,
   title: 'Do you want to delete this?',
-  leftLabel: 'yes',
-  rightLabel: 'no',
+  buttonLabel: 'save',
   contentHeader: '',
   title: 'Calensar selection',
 };
