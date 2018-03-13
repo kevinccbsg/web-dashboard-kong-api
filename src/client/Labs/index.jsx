@@ -31,9 +31,19 @@ class Labs extends Component {
     .catch(err => console.log(err.response));
   }
 
-  saveDate(date) {
-    console.log(date);
-    this.setState({ openModal: false });
+  saveDate(selectedDate) {
+    const { selected } = this.state;
+    axios.post('/GSITAE/calendar', {
+      application: selected.name,
+      selectedDate,
+    })
+    .then(() => {
+      this.setState({ openModal: false });
+    })
+    .cathc((err) => {
+      console.log(err);
+      this.setState({ openModal: false });
+    })
   }
 
   handleClick(data) {
