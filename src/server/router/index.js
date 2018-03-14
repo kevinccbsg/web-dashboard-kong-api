@@ -21,6 +21,7 @@ import {
 import {
   saveDate,
   getDates,
+  deleteDate,
 } from '../controllers/calendarController';
 import onlyAdmin from './onlyAdmin';
 
@@ -57,6 +58,7 @@ router.get('/rolepermissions/list', getRolePermissions);
 
 // Calendar endpoints
 router.post('/calendar', saveDate);
+router.delete('/calendar', deleteDate);
 router.get('/calendar/:app/user/', getDates);
 router.get('/calendar/:app', getDates);
 

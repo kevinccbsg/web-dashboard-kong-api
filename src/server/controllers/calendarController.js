@@ -52,7 +52,29 @@ const getDates = async (req, res) => {
   }
 };
 
+const deleteDate = async (req, res) => {
+  debug('deleteDate');
+  const { application, selectedDate } = req.body;
+  const { username } = req.user;
+  const query = {
+    user: username,
+    application,
+    selectedDate,
+  };
+  debug('payload');
+  debug(query);
+  try {
+    const responseMongo = await CalendarDate.remove(query);
+    return response(res, true, 'Removed date', 202);
+  } catch (err) {
+    logger.error('[saveDate] Error saving date');
+    debug(err);
+    return response(res, false, err, 500);
+  }
+};
+
 export {
   saveDate,
   getDates,
+  deleteDate,
 };
