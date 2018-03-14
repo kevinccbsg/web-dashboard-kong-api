@@ -14,6 +14,7 @@ class Labs extends Component {
       items: [],
       selected: {},
       openModal: false,
+      selectedDates: [],
     };
     this.handleClick = this.handleClick.bind(this);
     this.closeModal = this.closeModal.bind(this);
@@ -47,7 +48,17 @@ class Labs extends Component {
   }
 
   handleClick(data) {
-    this.setState({ openModal: true, selected: data });
+    axios.get(`/GSITAE/calendar/${data.name}`)
+    .then((response) => {
+      console.log(response);
+      const { dates } = response.data;
+      const selectedDates = dates.map(obj => obj.selectedDate);
+      this.setState({ openModal: true, selected: data, selectedDates });
+    })
+    .catch((err) => {
+      console.log(err);
+      this.setState({ openModal: false });
+    });
   }
 
   closeModal() {
@@ -81,6 +92,7 @@ class Labs extends Component {
           buttonLabel={intl.formatMessage({ id: 'common.save' })}
           title={intl.formatMessage({ id: 'calendar.title' })}
           saveDate={this.saveDate}
+          selectedDates={this.state.selectedDates}
         />
       </div>
     );

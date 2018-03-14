@@ -20,6 +20,7 @@ import {
 } from './../controllers/oauthController';
 import {
   saveDate,
+  getDatesByApplication,
 } from '../controllers/calendarController';
 import onlyAdmin from './onlyAdmin';
 
@@ -47,6 +48,7 @@ router.delete('/lab/:nameLab', onlyAdmin, deleteLab);
 router.get('/user/me', getMyUser);
 router.get('/users', onlyAdmin, userList);
 router.post('/user', onlyAdmin, createUser);
+router.get('/user/:code/calendar/', getDatesByApplication);
 router.patch('/user/:code', onlyAdmin, patchUser);
 router.delete('/user/:code', onlyAdmin, deleteUser);
 router.get('/user/:code', getUser);
@@ -56,5 +58,6 @@ router.get('/rolepermissions/list', getRolePermissions);
 
 // Calendar endpoints
 router.post('/calendar', saveDate);
+router.get('/calendar/:app', getDatesByApplication);
 
 export default router;

@@ -26,6 +26,32 @@ const saveDate = async (req, res) => {
   }
 };
 
+const getDatesByApplication = async (req, res) => {
+  debug('getDatesByApplication');
+  const { app } = req.params;
+  const { username } = req.user;
+  const userRoute = req.originalUrl.includes('user');
+  let query = {
+    application: app,
+  };
+  if (userRoute) {
+    query = {
+      user: username,
+    };
+  }
+  try {
+    const responseMongo = await CalendarDate.find(query, { _id: 0 });
+    return response(res, true, {
+      dates: responseMongo,
+    }, 200);
+  } catch (err) {
+    logger.error('[saveDate] Error saving date');
+    debug(err);
+    return response(res, false, err, 500);
+  }
+};
+
 export {
   saveDate,
+  getDatesByApplication,
 };

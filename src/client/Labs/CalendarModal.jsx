@@ -27,7 +27,11 @@ class CalendarModal extends Component {
     const {
       startDate,
     } = this.state;
-    const { openModal, buttonLabel, title } = this.props;
+    const { openModal, buttonLabel, title, selectedDates } = this.props;
+    const selectedDatesMoment = selectedDates.filter(objF => (
+      moment(startDate).dayOfYear() === moment(objF).dayOfYear()
+    ))
+    .map(obj => moment(obj));
     return (
       <Modal
         open={openModal}
@@ -41,9 +45,7 @@ class CalendarModal extends Component {
             selected={startDate}
             onChange={this.handleChange}
             showTimeSelect
-            excludeTimes={[
-              moment('2018-03-13T18:00:23.920Z'),
-            ]}
+            excludeTimes={selectedDatesMoment}
             dateFormat="LLL"
           />
         </Modal.Content>
@@ -69,6 +71,7 @@ CalendarModal.propTypes = {
   buttonLabel: PropTypes.string,
   title: PropTypes.string,
   saveDate: PropTypes.func,
+  selectedDates: PropTypes.array,
 };
 
 CalendarModal.defaultProps = {
@@ -78,6 +81,7 @@ CalendarModal.defaultProps = {
   title: 'Do you want to delete this?',
   buttonLabel: 'save',
   title: 'Calendar selection',
+  selectedDates: [],
 };
 
 export default CalendarModal;
