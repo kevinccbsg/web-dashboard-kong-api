@@ -35,9 +35,12 @@ class Labs extends Component {
   }
 
   deleteDate(selectedDate) {
+    const { selected } = this.state;
     axios.delete('/GSITAE/calendar', {
-      application: selected.name,
-      selectedDate,
+      data:{
+        application: selected.name,
+        selectedDate,
+      },
     })
     .then(() => {
       this.setState({ openModal: false });

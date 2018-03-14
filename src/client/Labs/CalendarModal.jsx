@@ -95,7 +95,7 @@ CalendarModal.propTypes = {
   selectedDates: PropTypes.array,
   userDates: PropTypes.array,
   userTitle: PropTypes.string,
-  onButtonClick: PropTypes.array,
+  onButtonClick: PropTypes.func,
 };
 
 CalendarModal.defaultProps = {
@@ -107,7 +107,7 @@ CalendarModal.defaultProps = {
   selectedDates: [],
   userDates: [],
   userTitle: '',
-  onButtonClick: [],
+  onButtonClick: () => 0,
 };
 
 export default CalendarModal;
