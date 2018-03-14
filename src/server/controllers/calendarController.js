@@ -15,6 +15,11 @@ const saveDate = async (req, res) => {
     user: username,
   };
   try {
+    const responseMongo = await CalendarDate.find(query, { _id: 0 });
+    if (responseMongo.length === 2) {
+      logger.error('[saveDate] Cannot save the user already selected two dates');
+      return response(res, false, 'Cannot save the user already selected two dates', 409);
+    }
     const calendarDate = new CalendarDate(payload);
     await calendarDate.save();
     logger.info('[saveDate] Save date');
