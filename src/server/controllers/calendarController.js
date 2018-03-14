@@ -26,8 +26,8 @@ const saveDate = async (req, res) => {
   }
 };
 
-const getDatesByApplication = async (req, res) => {
-  debug('getDatesByApplication');
+const getDates = async (req, res) => {
+  debug('getDates');
   const { app } = req.params;
   const { username } = req.user;
   const userRoute = req.originalUrl.includes('user');
@@ -37,6 +37,7 @@ const getDatesByApplication = async (req, res) => {
   if (userRoute) {
     query = {
       user: username,
+      application: app,
     };
   }
   try {
@@ -53,5 +54,5 @@ const getDatesByApplication = async (req, res) => {
 
 export {
   saveDate,
-  getDatesByApplication,
+  getDates,
 };
