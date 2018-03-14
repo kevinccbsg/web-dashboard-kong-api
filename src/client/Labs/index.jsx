@@ -15,10 +15,12 @@ class Labs extends Component {
       selected: {},
       openModal: false,
       selectedDates: [],
+      userDates: [],
     };
     this.handleClick = this.handleClick.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.saveDate = this.saveDate.bind(this);
+    this.deleteDate = this.deleteDate.bind(this);
   }
 
   componentWillMount() {
@@ -30,6 +32,20 @@ class Labs extends Component {
       this.setState({ items, loading: false });
     })
     .catch(err => console.log(err.response));
+  }
+
+  deleteDate(selectedDate) {
+    axios.delete('/GSITAE/calendar', {
+      application: selected.name,
+      selectedDate,
+    })
+    .then(() => {
+      this.setState({ openModal: false });
+    })
+    .catch((err) => {
+      console.log(err);
+      this.setState({ openModal: false });
+    });
   }
 
   saveDate(selectedDate) {
@@ -44,10 +60,21 @@ class Labs extends Component {
     .catch((err) => {
       console.log(err);
       this.setState({ openModal: false });
-    })
+    });
   }
 
   handleClick(data) {
+    axios.get(`/GSITAE/calendar/${data.name}/user`)
+    .then((response) => {
+      console.log(response);
+      const { dates } = response.data;
+      const userDates = dates.map(obj => obj.selectedDate);
+      this.setState({ openModal: true, selected: data, userDates });
+    })
+    .catch((err) => {
+      console.log(err);
+      this.setState({ openModal: false });
+    });
     axios.get(`/GSITAE/calendar/${data.name}`)
     .then((response) => {
       console.log(response);
@@ -66,7 +93,7 @@ class Labs extends Component {
   }
 
   render() {
-    const { loading, items } = this.state;
+    const { loading, items, userDates } = this.state;
     const { intl } = this.props;
     if (loading) {
       return <Loader />;
@@ -91,8 +118,11 @@ class Labs extends Component {
           onCloseModal={this.closeModal}
           buttonLabel={intl.formatMessage({ id: 'common.save' })}
           title={intl.formatMessage({ id: 'calendar.title' })}
+          userTitle={intl.formatMessage({ id: 'calendar.titleuser' })}
           saveDate={this.saveDate}
           selectedDates={this.state.selectedDates}
+          userDates={userDates}
+          onButtonClick={this.deleteDate}
         />
       </div>
     );

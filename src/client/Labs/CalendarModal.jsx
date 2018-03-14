@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Header, Modal, Button, Icon } from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
+import DateList from './DateList';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -27,7 +28,15 @@ class CalendarModal extends Component {
     const {
       startDate,
     } = this.state;
-    const { openModal, buttonLabel, title, selectedDates } = this.props;
+    const {
+      openModal,
+      buttonLabel,
+      title,
+      selectedDates,
+      userTitle,
+      userDates,
+      onButtonClick,
+    } = this.props;
     const selectedDatesMoment = selectedDates.filter(objF => (
       moment(startDate).dayOfYear() === moment(objF).dayOfYear()
     ))
@@ -40,14 +49,27 @@ class CalendarModal extends Component {
       >
         <Header icon="calendar" content={title} />
         <Modal.Content>
-          <DatePicker
-            className="calendar-gsitae-datepicker"
-            selected={startDate}
-            onChange={this.handleChange}
-            showTimeSelect
-            excludeTimes={selectedDatesMoment}
-            dateFormat="LLL"
-          />
+          <div className="calendar-gsitae-container">
+            <div>
+              <Header as="h3">{title}</Header>
+              <DatePicker
+                className="calendar-gsitae-datepicker"
+                selected={startDate}
+                onChange={this.handleChange}
+                showTimeSelect
+                excludeTimes={selectedDatesMoment}
+                dateFormat="LLL"
+              />
+            </div>
+            <div className="user-dates-container">
+              <Header as="h3">{userTitle}</Header>
+              <DateList
+                itemClassName="user-dates-item"
+                items={userDates}
+                onButtonClick={onButtonClick}
+              />
+            </div>
+          </div>
         </Modal.Content>
         <Modal.Actions>
           <Button
@@ -67,21 +89,25 @@ CalendarModal.propTypes = {
   openModal: PropTypes.bool,
   onCloseModal: PropTypes.func,
   onDelete: PropTypes.func,
-  title: PropTypes.string,
   buttonLabel: PropTypes.string,
   title: PropTypes.string,
   saveDate: PropTypes.func,
   selectedDates: PropTypes.array,
+  userDates: PropTypes.array,
+  userTitle: PropTypes.string,
+  onButtonClick: PropTypes.array,
 };
 
 CalendarModal.defaultProps = {
   openModal: false,
   onCloseModal: () => 0,
   saveDate: () => 0,
-  title: 'Do you want to delete this?',
   buttonLabel: 'save',
   title: 'Calendar selection',
   selectedDates: [],
+  userDates: [],
+  userTitle: '',
+  onButtonClick: [],
 };
 
 export default CalendarModal;
