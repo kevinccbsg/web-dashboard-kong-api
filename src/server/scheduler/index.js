@@ -20,7 +20,9 @@ const deleteTokens = async () => {
       obj.credential_id !== config.config.application.id
     ));
     let query = {
-      $lt: new Date(),
+      selectedDate: {
+        $lt: new Date(),
+      },
     };
     let deleteRequests = [
       CalendarDate.remove(query),
@@ -30,7 +32,7 @@ const deleteTokens = async () => {
     });
     await Promise.all(deleteRequests);
     debug('[deleteTokens] Borrando tokens de acceso');
-    logger.error('[deleteTokens] Borrando tokens de acceso');
+    logger.info('[deleteTokens] Borrando tokens de acceso');
     return '[deleteTokens] Borrando tokens de acceso';
   } catch (err) {
     debug(err);
