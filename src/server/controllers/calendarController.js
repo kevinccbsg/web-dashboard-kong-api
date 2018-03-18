@@ -14,6 +14,10 @@ const saveDate = async (req, res) => {
     ...req.body,
     user: username,
   };
+  const query = {
+    user: username,
+    application: req.body.application,
+  };
   try {
     const responseMongo = await CalendarDate.find(query, { _id: 0 });
     if (responseMongo.length === 2) {
