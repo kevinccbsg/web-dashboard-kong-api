@@ -38,9 +38,9 @@ class CalendarModal extends Component {
       onButtonClick,
     } = this.props;
     const selectedDatesMoment = selectedDates.filter(objF => (
-      moment(startDate).dayOfYear() === moment(objF).dayOfYear()
+      moment(startDate).dayOfYear() === moment(objF.selectedDate).dayOfYear()
     ))
-    .map(obj => moment(obj));
+    .map(obj => moment(obj.selectedDate).seconds(0).milliseconds(0));
     return (
       <Modal
         open={openModal}
