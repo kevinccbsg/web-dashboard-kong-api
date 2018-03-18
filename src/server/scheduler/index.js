@@ -1,6 +1,8 @@
 import 'babel-polyfill';
 import config from 'app-config';
 import _ from 'lodash';
+import schedule from 'node-schedule';
+import CalendarDate from '../models/CalendarDate';
 import logger from '../utils/logger';
 import clientHTTP from '../clientHTTP';
 import response from '../utils/responseHelper';
@@ -17,7 +19,12 @@ const deleteTokens = async () => {
     const tokenFiltered = tokenList.filter(obj => (
       obj.credential_id !== config.config.application.id
     ));
-    let deleteRequests = [];
+    let query = {
+      $lt: new Date(),
+    };
+    let deleteRequests = [
+      CalendarDate.remove(query),
+    ];
     tokenFiltered.forEach((obj) => {
       deleteRequests.push(client.deleteRequest(`/oauth2_tokens/${obj.access_token}`));
     });
@@ -31,3 +38,10 @@ const deleteTokens = async () => {
     throw err;
   }
 };
+
+const init = (rule) => {
+  debug('Init schedule deleteTokens');
+  const task = schedule.scheduleJob(rule, deleteTokens);
+};
+
+export default init;

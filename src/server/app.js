@@ -18,6 +18,7 @@ import {
 import {
   getUserInfo,
 } from './controllers/userController';
+import initScheduler from './scheduler';
 
 const Strategy = require('passport-local').Strategy;
 
@@ -26,6 +27,8 @@ const debug = require('debug')('GSITAE:server');
 connect(config.mongodb.uri)
 .then(() => logger.info('Successfull connection'))
 .catch(err => logger.error(err));
+
+initScheduler(config.config.ruleTokens);
 
 const app = new Express();
 
