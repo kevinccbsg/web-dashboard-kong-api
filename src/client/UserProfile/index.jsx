@@ -53,7 +53,7 @@ class UserProfile extends Component {
       },
     })
     .then(() => axios.get('/GSITAE/user/me'))
-    .then(() => {
+    .then((response) => {
       const user = response.data;
       this.setState({ loading: false, item: user });
     })
@@ -164,10 +164,7 @@ class UserProfile extends Component {
               <Header as="h4">Fechas seleccionadas</Header>
               <DateList
                 itemClassName="user-profile-calendar"
-                items={[{
-                  application: 'asd',
-                  selectedDate: new Date(),
-                }]}
+                items={item.selectedDates}
                 showApp
                 onButtonClick={this.deleteDate}
               />
