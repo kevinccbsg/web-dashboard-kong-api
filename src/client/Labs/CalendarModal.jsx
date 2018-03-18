@@ -61,14 +61,16 @@ class CalendarModal extends Component {
                 dateFormat="LLL"
               />
             </div>
-            <div className="user-dates-container">
-              <Header as="h3">{userTitle}</Header>
-              <DateList
-                itemClassName="user-dates-item"
-                items={userDates}
-                onButtonClick={onButtonClick}
-              />
-            </div>
+            {(userDates.length !== 0) && (
+              <div className="user-dates-container">
+                <Header as="h3">{userTitle}</Header>
+                <DateList
+                  itemClassName="user-dates-item"
+                  items={userDates}
+                  onButtonClick={onButtonClick}
+                />
+              </div>
+            )}
           </div>
         </Modal.Content>
         <Modal.Actions>

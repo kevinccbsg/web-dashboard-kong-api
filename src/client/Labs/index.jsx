@@ -71,8 +71,7 @@ class Labs extends Component {
     .then((response) => {
       console.log(response);
       const { dates } = response.data;
-      const userDates = dates.map(obj => obj.selectedDate);
-      this.setState({ openModal: true, selected: data, userDates });
+      this.setState({ openModal: true, selected: data, userDates: dates });
     })
     .catch((err) => {
       console.log(err);
@@ -82,8 +81,7 @@ class Labs extends Component {
     .then((response) => {
       console.log(response);
       const { dates } = response.data;
-      const selectedDates = dates.map(obj => obj.selectedDate);
-      this.setState({ openModal: true, selected: data, selectedDates });
+      this.setState({ openModal: true, selected: data, selectedDates: dates });
     })
     .catch((err) => {
       console.log(err);

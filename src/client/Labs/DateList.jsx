@@ -9,10 +9,17 @@ const DateList = (props) => {
       {props.items.map((obj, index) => (
         <List.Item key={index} className={props.itemClassName}>
           <List.Content>
-            {moment(obj).format('LLL')}
+            {props.showApp && (
+              <div className="application-title">
+                {obj.application}
+              </div>
+            )}
+            <div>
+            {moment(obj.selectedDate).format('LLL')}
+            </div>
           </List.Content>
           <List.Content>
-            <Button onClick={() => props.onButtonClick(obj)} icon>
+            <Button onClick={() => props.onButtonClick(obj.selectedDate, obj.application)} icon>
               <Icon name="remove" />
             </Button>
           </List.Content>
@@ -24,12 +31,14 @@ const DateList = (props) => {
 
 DateList.propTypes = {
   contentClassName: PropTypes.string,
+  showApp: PropTypes.bool,
   itemClassName: PropTypes.string,
   items: PropTypes.array,
   onButtonClick: PropTypes.func,
 };
 
 DateList.defaultProps = {
+  showApp: false,
   contentClassName: '',
   itemClassName: '',
   items: [],
