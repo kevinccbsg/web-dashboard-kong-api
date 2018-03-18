@@ -16,6 +16,7 @@ module.exports = {
       reconnect: true,
     },
   },
+  ruleTokens: '*/30 * * * *',
   userapi: {
     provision_key: provision_key_userapi,
   },
