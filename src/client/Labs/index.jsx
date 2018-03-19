@@ -14,6 +14,7 @@ class Labs extends Component {
       items: [],
       selected: {},
       openModal: false,
+      error: false,
       selectedDates: [],
       userDates: [],
     };
@@ -52,6 +53,7 @@ class Labs extends Component {
   }
 
   saveDate(selectedDate) {
+    const { intl } = this.props;
     const { selected } = this.state;
     axios.post('/GSITAE/calendar', {
       application: selected.name,
@@ -62,7 +64,12 @@ class Labs extends Component {
     })
     .catch((err) => {
       console.log(err);
-      this.setState({ openModal: false });
+      const isConflict = (err.response.status === 409);
+      let errorMessage = intl.formatMessage({ id: 'calendar.add.error' });
+      if (isConflict) {
+        errorMessage = intl.formatMessage({ id: 'calendar.conflict.error' });
+      }
+      this.setState({ error: true, errorMessage });
     });
   }
 
@@ -90,7 +97,7 @@ class Labs extends Component {
   }
 
   closeModal() {
-    this.setState({ openModal: false, selected: {} });
+    this.setState({ openModal: false, selected: {}, error: false });
   }
 
   render() {
@@ -124,6 +131,9 @@ class Labs extends Component {
           selectedDates={this.state.selectedDates}
           userDates={userDates}
           onButtonClick={this.deleteDate}
+          error={this.state.error}
+          errorText={this.state.errorMessage}
+          errorTitle={intl.formatMessage({ id: 'calendar.title.error' })}
         />
       </div>
     );

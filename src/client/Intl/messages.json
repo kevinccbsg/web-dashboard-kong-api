@@ -51,7 +51,10 @@
     "language.es": "Spanish",
     "language.en": "English",
     "calendar.title": "Choose one date an hour",
-    "calendar.titleuser": "Your dates selected"
+    "calendar.titleuser": "Your dates selected",
+    "calendar.title.error": "Error adding dates",
+    "calendar.add.error": "Unexpected error Adding dates",
+    "calendar.conflict.error": "You already choose two dates. Please unselect one of them to choose another one"
   },
   "es": {
     "common.yes": "Ok",
@@ -105,6 +108,9 @@
     "language.es": "Español",
     "language.en": "Ingles",
     "calendar.title": "Eliga una fecha y hora",
-    "calendar.titleuser": "Tus fechas seleccionadas"
+    "calendar.titleuser": "Tus fechas seleccionadas",
+    "calendar.title.error": "Error añadiendo fechas",
+    "calendar.add.error": "Error inexperado al añadir fechas",
+    "calendar.conflict.error": "Ya seleccionaste más de dos fechas no puedes seleccionar más hasta que borres alguna de las que ya tienes"
   }
 }
