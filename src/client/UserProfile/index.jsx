@@ -161,7 +161,7 @@ class UserProfile extends Component {
               </Form.Group>
             </Form>
             <div>
-              <Header as="h4">Fechas seleccionadas</Header>
+              <Header as="h4">{intl.formatMessage({ id: 'user.profile.selecteddates' })}</Header>
               <DateList
                 itemClassName="user-profile-calendar"
                 items={item.selectedDates}
