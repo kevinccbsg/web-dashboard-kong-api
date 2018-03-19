@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { Header, Modal, Button, Icon } from 'semantic-ui-react';
+import { Header, Modal, Button, Icon, Message } from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import DateList from './DateList';
@@ -36,6 +36,9 @@ class CalendarModal extends Component {
       userTitle,
       userDates,
       onButtonClick,
+      error,
+      errorText,
+      errorTitle,
     } = this.props;
     const selectedDatesMoment = selectedDates.filter(objF => (
       moment(startDate).dayOfYear() === moment(objF.selectedDate).dayOfYear()
@@ -57,6 +60,7 @@ class CalendarModal extends Component {
                 selected={startDate}
                 onChange={this.handleChange}
                 showTimeSelect
+                minDate={moment()}
                 excludeTimes={selectedDatesMoment}
                 dateFormat="LLL"
               />
@@ -72,6 +76,12 @@ class CalendarModal extends Component {
               </div>
             )}
           </div>
+          {error && (
+            <Message negative>
+              <Message.Header>{errorTitle}</Message.Header>
+              <p>{errorText}</p>
+            </Message>
+          )}
         </Modal.Content>
         <Modal.Actions>
           <Button
@@ -98,6 +108,9 @@ CalendarModal.propTypes = {
   userDates: PropTypes.array,
   userTitle: PropTypes.string,
   onButtonClick: PropTypes.func,
+  error: PropTypes.bool,
+  errorText: PropTypes.string,
+  errorTitle: PropTypes.string,
 };
 
 CalendarModal.defaultProps = {
@@ -110,6 +123,9 @@ CalendarModal.defaultProps = {
   userDates: [],
   userTitle: '',
   onButtonClick: () => 0,
+  error: false,
+  errorText: '',
+  errorTitle: '',
 };
 
 export default CalendarModal;
