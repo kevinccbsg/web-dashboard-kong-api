@@ -60,7 +60,7 @@ class CalendarModal extends Component {
                 selected={startDate}
                 onChange={this.handleChange}
                 showTimeSelect
-                minDate={moment()}
+                minDate={moment().add(1, 'days')}
                 excludeTimes={selectedDatesMoment}
                 dateFormat="LLL"
               />
