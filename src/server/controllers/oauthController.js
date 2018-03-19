@@ -1,5 +1,7 @@
 import 'babel-polyfill';
 import config from 'app-config';
+import moment from 'moment';
+import CalendarDate from './../models/CalendarDate';
 import clientHTTP from '../clientHTTP';
 import logger from '../utils/logger';
 
@@ -45,8 +47,33 @@ const authorice = async (req, res) => {
   const { client_id } = req.query;
   const { code } = req.user;
   try {
+    const minutes = moment().minutes();
+    let dataClean;
+    let prevFilter;
+    let postFilter;
+    if (minutes < 30) {
+      dataClean = moment().minutes(0).milliseconds(0).seconds(0);
+      prevFilter = dataClean.subtract(1, 'minutes');
+      postFilter = dataClean.add(1, 'minutes');
+    } else {
+      dataClean = moment().minutes(0).milliseconds(30).seconds(0);
+      prevFilter = dataClean.subtract(1, 'minutes');
+      postFilter = dataClean.add(1, 'minutes');
+    }
     const appResponse = await clientApplication.getRequest(`/oauth2?client_id=${client_id}`);
     const applicationData = appResponse.body.data[0];
+    const queryDates = {
+      application: applicationData.name,
+      selectedDate: { $gte: prevFilter, $lt: postFilter },
+    };
+    const canIAccess = await CalendarDate.findOne(queryDates);
+    if (!canIAccess) {
+      debug('You don\'t have enought dates to authorice application');
+      const error = {
+        status: 404,
+      };
+      throw error;
+    }
     if (applicationData.length === 0) {
       const error = {
         status: 404,
