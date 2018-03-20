@@ -52,17 +52,21 @@ passport.use(new Strategy(
   async (username, password, done) => {
     debug(username);
     if (username === '50006' && password === '123456') {
-      const userDDBB = await getUserInfo(username);
-      const tokens = await getTokenWithCode(username);
-      debug(userDDBB);
-      const user = {
-        username,
-        code: username,
-        roles: userDDBB.roles,
-        permissions: userDDBB.permissions,
-        ...tokens,
-      };
-      return done(null, user);
+      try {
+        const userDDBB = await getUserInfo(username);
+        const tokens = await getTokenWithCode(username);
+        debug(userDDBB);
+        const user = {
+          username,
+          code: username,
+          roles: userDDBB.roles,
+          permissions: userDDBB.permissions,
+          ...tokens,
+        };
+        return done(null, user);
+      } catch (err) {
+        return done(null, false);    
+      }
     }
     return done(null, false);
   },
@@ -85,8 +89,11 @@ app.post('/GSITAE/login', passport.authenticate('local', { failureRedirect: '/lo
 app.use('/GSITAE', api);
 
 app.get('/hasAccess', (req, res) => {
+  if (!req.user) {
+    return response(res, true, { roles: [], user: {} }, 403);
+  }
   const { roles } = req.user;
-  response(res, true, { roles, user: req.user }, 200);
+  return response(res, true, { roles, user: req.user }, 200);
 });
 
 app.get('*.js', (req, res, next) => {
