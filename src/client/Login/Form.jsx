@@ -1,9 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { injectIntl, intlShape } from 'react-intl';
 import { Input, Button, Message, Icon } from 'semantic-ui-react';
 
+
 const Form = (props) => {
-  const { error } = props;
+  const { error, intl } = props;
   const isError = !!error;
   return (
     <form action="/GSITAE/login" method="POST" className="form-container" noValidate>
@@ -27,7 +29,7 @@ const Form = (props) => {
       <div className="form-item">
         <Button primary>Login</Button>
       </div>
-      <p>No a member, please contact with
+      <p>{intl.formatMessage({ id: 'login.disclaimer' })}
         <a
           href="mailto:gsitae@upm.es"
           target="_top"
@@ -36,7 +38,7 @@ const Form = (props) => {
       {isError && (
         <Message attached="bottom" error>
           <Icon name="warning sign" />
-          Error Loging
+          {intl.formatMessage({ id: 'login.error' })}
         </Message>
       )}
     </form>
@@ -45,10 +47,11 @@ const Form = (props) => {
 
 Form.propTypes = {
   error: PropTypes.string,
+  intl: intlShape.isRequired,
 };
 
 Form.defaultProps = {
   error: null,
 };
 
-export default Form;
+export default injectIntl(Form);
