@@ -108,12 +108,12 @@ const getMyUser = async (req, res) => {
     const headers = setToken(req);
     client.setHeaders(headers);
     let responseObject = {};
-    const apiResponse = await client.getRequest(`/userapi/user/${code}`);
-    const selectedDates = await CalendarDate.find({
-      application: {
-        $in: apiResponse.body.permissions,
-      },
-    });
+    const [apiResponse, selectedDates] = await Promise.all([
+      client.getRequest(`/userapi/user/${code}`),
+      CalendarDate.find({
+        user: code,
+      }),
+    ]);
     responseObject = {
       ...apiResponse.body,
       selectedDates,
