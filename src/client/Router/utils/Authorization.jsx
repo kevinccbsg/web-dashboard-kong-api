@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { saveRoles } from './actions';
 
 
-const Authorization = allowedRoles => WrappedComponent => (
+const Authorization = allowedRoles => (WrappedComponent, freeAccess) => (
   @connect(store => (
     {
       roles: store.main.visibility,
@@ -27,6 +27,9 @@ const Authorization = allowedRoles => WrappedComponent => (
       })
       .catch((err) => {
         console.log(this.props);
+        if (freeAccess) {
+          return this.props.dispatch(saveRoles([], {}));
+        }
         location.href = '/login';
         return null;
       });
@@ -35,7 +38,7 @@ const Authorization = allowedRoles => WrappedComponent => (
     render() {
       const { roles } = this.props;
       const rolesMattched = _.intersection(allowedRoles, roles);
-      if (rolesMattched.length === 0) {
+      if (rolesMattched.length === 0 && !freeAccess) {
         return (
           <h1>FORBIDEN</h1>
         );

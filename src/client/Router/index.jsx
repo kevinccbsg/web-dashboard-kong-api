@@ -17,7 +17,7 @@ const ALL = Authorization(all);
 const AppRouter = () => (
   <Router>
     <Switch>
-      <Route path="/login" component={Login} />
+      <Route path="/login" component={ALL(Login, true)} />
       <Route path="/" component={ALL(Home)} />
       <Route component={Error404} />
     </Switch>
