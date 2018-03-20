@@ -52,20 +52,24 @@ const authorice = async (req, res) => {
     let prevFilter;
     let postFilter;
     if (minutes < 30) {
+      debug('less than 30 minutes');
       dataClean = moment().minutes(0).milliseconds(0).seconds(0);
-      prevFilter = dataClean.subtract(1, 'minutes');
-      postFilter = dataClean.add(1, 'minutes');
+      prevFilter = dataClean.subtract(1, 'minutes').format();
+      postFilter = dataClean.add(2, 'minutes').format();
     } else {
-      dataClean = moment().minutes(0).milliseconds(30).seconds(0);
-      prevFilter = dataClean.subtract(1, 'minutes');
-      postFilter = dataClean.add(1, 'minutes');
+      debug('more than 30 minutes');
+      dataClean = moment().minutes(30).milliseconds(0).seconds(0);
+      prevFilter = dataClean.subtract(1, 'minutes').format();
+      postFilter = dataClean.add(2, 'minutes').format();
     }
     const appResponse = await clientApplication.getRequest(`/oauth2?client_id=${client_id}`);
     const applicationData = appResponse.body.data[0];
     const queryDates = {
       application: applicationData.name,
-      selectedDate: { $gte: prevFilter, $lt: postFilter },
+      selectedDate: { $gte: new Date(prevFilter), $lt: new Date(postFilter) },
     };
+    debug('date query');
+    debug(queryDates);
     const canIAccess = await CalendarDate.findOne(queryDates);
     if (!canIAccess) {
       debug('You don\'t have enought dates to authorice application');
