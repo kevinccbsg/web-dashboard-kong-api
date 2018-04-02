@@ -13,6 +13,8 @@ const Form = (props) => {
         <Input
           icon="user"
           iconPosition="left"
+          label={{ content: '@alumnos.upm.es' }}
+          labelPosition="right"
           placeholder="Username"
           name="username"
         />
