@@ -16,6 +16,11 @@ module.exports = {
       reconnect: true,
     },
   },
+  redis: {
+    host: 'localhost',
+    port: 6379,
+    ttl: 1 * 12 * 60 * 60,
+  },
   ruleTokens: '*/30 * * * *',
   userapi: {
     provision_key: provision_key_userapi,

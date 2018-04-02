@@ -22,6 +22,8 @@ import initScheduler from './scheduler';
 
 const Strategy = require('passport-local').Strategy;
 
+const RedisStore = require('connect-redis')(expressSession);
+
 const debug = require('debug')('GSITAE:server');
 
 connect(config.mongodb.uri)
@@ -39,11 +41,21 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(expressSession({
-  secret: config.config.session.secret,
-  cookie: config.config.session.cookie,
-  resave: config.config.session.resave,
-  saveUninitialized: config.config.session.saveUninitialized,
+    store: new RedisStore({
+      host: config.config.redis.host,
+      port: config.config.redis.port,
+      ttl: config.config.redis.ttl,
+    }),
+    secret: config.config.session.secret,
+    resave: config.config.session.resave,
+    saveUninitialized: config.config.session.saveUninitialized,
 }));
+// app.use(expressSession({
+//   secret: config.config.session.secret,
+//   cookie: config.config.session.cookie,
+//   resave: config.config.session.resave,
+//   saveUninitialized: config.config.session.saveUninitialized,
+// }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(Express.static(path.join(__dirname, 'public')));
