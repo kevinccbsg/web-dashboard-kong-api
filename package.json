@@ -6,12 +6,14 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "./node_modules/.bin/rimraf build/public/dist",
-    "webpack:prod": "./node_modules/.bin/webpack",
+    "webpack:prod": "NODE_ENV=production ./node_modules/.bin/webpack",
     "webpack": "npm run clean && npm run webpack:prod",
     "webpack:watch": "./node_modules/.bin/webpack --watch",
     "webpack:dev": "npm run clean && npm run webpack:watch",
     "build-server": "./node_modules/.bin/babel src/server -d build --copy-files",
     "build-server:dev": "./node_modules/.bin/babel src/server -w -d build --copy-files",
+    "prepare": "npm run clean && npm run webpack:prod && npm run build-server",
+    "production": "NODE_ENV=production DEBUG=GSITAE:* node ./build/bin/www",
     "start": "NODE_ENV=development DEBUG=GSITAE:* node ./build/bin/www"
   },
   "repository": {
