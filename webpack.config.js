@@ -112,6 +112,7 @@ if (process.env.NODE_ENV === 'production') {
     new webpack.optimize.CommonsChunkPlugin({
       names: ['vendor', 'manifest'],
     }),
+    new ExtractTextPlugin('[name].css'),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'src', 'client', 'assets', 'index.html'),
     }),

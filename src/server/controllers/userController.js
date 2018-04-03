@@ -1,6 +1,7 @@
 import 'babel-polyfill';
 import config from 'app-config';
 import _ from 'lodash';
+import CalendarDate from '../models/CalendarDate';
 import logger from './../utils/logger';
 import response from './../utils/responseHelper';
 import clientHTTP from './../clientHTTP';
@@ -106,8 +107,18 @@ const getMyUser = async (req, res) => {
   try {
     const headers = setToken(req);
     client.setHeaders(headers);
-    const apiResponse = await client.getRequest(`/userapi/user/${code}`);
-    return response(res, false, apiResponse.body, 200);
+    let responseObject = {};
+    const [apiResponse, selectedDates] = await Promise.all([
+      client.getRequest(`/userapi/user/${code}`),
+      CalendarDate.find({
+        user: code,
+      }),
+    ]);
+    responseObject = {
+      ...apiResponse.body,
+      selectedDates,
+    };
+    return response(res, false, responseObject, 200);
   } catch (err) {
     debug('[userController] Error');
     if (err.status === 404) {

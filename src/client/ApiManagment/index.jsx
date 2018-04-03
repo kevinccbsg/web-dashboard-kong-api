@@ -46,7 +46,23 @@ class ApiManagment extends Component {
   }
 
   handleApi(data) {
-    axios.post('/GSITAE/api', data)
+    const { edit, itemSelected } = this.state;
+    if (edit) {
+      return axios.patch(`/GSITAE/api/${itemSelected.name}`, data)
+      .then((response) => {
+        console.log(response);
+        const { items } = this.state;
+        const itemsAdded = items.map((objM) => {
+          if (objM.name === itemSelected.name) {
+            return { ...response.data };
+          }
+          return { ...objM };
+        });
+        this.setState({ items: itemsAdded, openModal: false, edit: false, itemSelected: {} });
+      })
+      .catch(err => console.log(err.response));
+    }
+    return axios.post('/GSITAE/api', data)
     .then((response) => {
       console.log(response);
       const { items } = this.state;
@@ -62,8 +78,8 @@ class ApiManagment extends Component {
     this.setState({ codeSelected: code, itemSelected });
   }
 
-  apiModal() {
-    this.setState({ openModal: true });
+  apiModal(edit) {
+    this.setState({ openModal: true, edit });
   }
 
   deleteModal() {
@@ -103,7 +119,7 @@ class ApiManagment extends Component {
           addText={intl.formatMessage({ id: 'apimanagment.add' })}
           editText={intl.formatMessage({ id: 'apimanagment.edit' })}
           deleteText={intl.formatMessage({ id: 'apimanagment.delete' })}
-          onAdd={() => this.labModal(false)}
+          onAdd={() => this.apiModal(false)}
           onEdit={() => this.apiModal(true)}
           onDelete={this.deleteModal}
           onSelected={this.handleSelected}

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { injectIntl, intlShape } from 'react-intl';
 import { Header, Card, Form, Input, Dropdown } from 'semantic-ui-react';
 import axios from 'axios';
+import DateList from '../Labs/DateList';
 
 
 class UserProfile extends Component {
@@ -13,6 +14,7 @@ class UserProfile extends Component {
       permissionsList: [],
       item: {},
     };
+    this.deleteDate = this.deleteDate.bind(this);
   }
 
   componentWillMount() {
@@ -40,6 +42,24 @@ class UserProfile extends Component {
       this.setState({ loading: false, item: user });
     })
     .catch(err => console.log(err));
+  }
+
+  deleteDate(selectedDate, application) {
+    const { selected } = this.state;
+    axios.delete('/GSITAE/calendar', {
+      data:{
+        application,
+        selectedDate,
+      },
+    })
+    .then(() => axios.get('/GSITAE/user/me'))
+    .then((response) => {
+      const user = response.data;
+      this.setState({ loading: false, item: user });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   }
 
   render() {
@@ -140,6 +160,15 @@ class UserProfile extends Component {
                 />
               </Form.Group>
             </Form>
+            <div>
+              <Header as="h4">{intl.formatMessage({ id: 'user.profile.selecteddates' })}</Header>
+              <DateList
+                itemClassName="user-profile-calendar"
+                items={item.selectedDates}
+                showApp
+                onButtonClick={this.deleteDate}
+              />
+            </div>
           </Card.Content>
         </Card>
       </div>

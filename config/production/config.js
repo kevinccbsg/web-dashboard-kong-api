@@ -17,7 +17,7 @@ module.exports = {
     },
   },
   redis: {
-    host: 'localhost',
+    host: 'redis-dashboard',
     port: 6379,
     ttl: 1 * 12 * 60 * 60,
   },
@@ -35,19 +35,19 @@ module.exports = {
   },
   kongOptions: {
     protocol: 'http',
-    ip: 'localhost',
+    ip: 'kong',
     port: 8001,
     strictSSL: false,
   },
   userapiOptions: {
     protocol: 'https',
-    ip: 'localhost',
+    ip: 'kong',
     port: 8443,
     strictSSL: false,
   },
   kongOauth2PluginOptions: {
     protocol: 'https',
-    ip: 'localhost',
+    ip: 'kong',
     port: 8443,
     strictSSL: false,
   },

@@ -11,6 +11,7 @@ const Login = props => (
     />
     <LoginContainer
       error={props.location.search}
+      callback={props.location.callback}
     />
   </div>
 );

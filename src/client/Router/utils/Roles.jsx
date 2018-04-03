@@ -1,6 +1,6 @@
 
-const USER = 'USER';
-const ADMIN = 'ADMIN';
+const USER = 'User';
+const ADMIN = 'Admin';
 
 const admin = [
   ADMIN,

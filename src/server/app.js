@@ -18,14 +18,22 @@ import {
 import {
   getUserInfo,
 } from './controllers/userController';
+import initScheduler from './scheduler';
+import AuthLDAP from './utils/authLDAP';
 
 const Strategy = require('passport-local').Strategy;
+
+const RedisStore = require('connect-redis')(expressSession);
+
+const authLDAP = new AuthLDAP({});
 
 const debug = require('debug')('GSITAE:server');
 
 connect(config.mongodb.uri)
 .then(() => logger.info('Successfull connection'))
 .catch(err => logger.error(err));
+
+initScheduler(config.config.ruleTokens);
 
 const app = new Express();
 
@@ -36,11 +44,21 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(expressSession({
-  secret: config.config.session.secret,
-  cookie: config.config.session.cookie,
-  resave: config.config.session.resave,
-  saveUninitialized: config.config.session.saveUninitialized,
+    store: new RedisStore({
+      host: config.config.redis.host,
+      port: config.config.redis.port,
+      ttl: config.config.redis.ttl,
+    }),
+    secret: config.config.session.secret,
+    resave: config.config.session.resave,
+    saveUninitialized: config.config.session.saveUninitialized,
 }));
+// app.use(expressSession({
+//   secret: config.config.session.secret,
+//   cookie: config.config.session.cookie,
+//   resave: config.config.session.resave,
+//   saveUninitialized: config.config.session.saveUninitialized,
+// }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(Express.static(path.join(__dirname, 'public')));
@@ -48,20 +66,24 @@ app.use(Express.static(path.join(__dirname, 'public')));
 passport.use(new Strategy(
   async (username, password, done) => {
     debug(username);
-    if (username === '50006' && password === '123456') {
+    try {
+      await authLDAP.authorice(username, password);
       const userDDBB = await getUserInfo(username);
       const tokens = await getTokenWithCode(username);
       debug(userDDBB);
       const user = {
         username,
         code: username,
-        roles: ['ADMIN'],
+        roles: userDDBB.roles,
         permissions: userDDBB.permissions,
         ...tokens,
       };
       return done(null, user);
+    } catch (err) {
+      logger.error('[app] - Error en el login');
+      debug(err);
+      return done(null, false);    
     }
-    return done(null, false);
   },
 ));
 
@@ -82,8 +104,11 @@ app.post('/GSITAE/login', passport.authenticate('local', { failureRedirect: '/lo
 app.use('/GSITAE', api);
 
 app.get('/hasAccess', (req, res) => {
+  if (!req.user) {
+    return response(res, true, { roles: [], user: {} }, 403);
+  }
   const { roles } = req.user;
-  response(res, true, { roles, user: req.user }, 200);
+  return response(res, true, { roles, user: req.user }, 200);
 });
 
 app.get('*.js', (req, res, next) => {

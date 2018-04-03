@@ -42,6 +42,13 @@ class LabItem extends Component {
         </Card.Content>
         <Card.Content className="icon-container" extra>
           <Button
+            onClick={() => this.props.onClickCalendar(item)}
+            className="button-item"
+            size="large"
+            basic
+            icon="calendar"
+          />
+          <Button
             className="button-item"
             size="large"
             basic
@@ -72,10 +79,12 @@ class LabItem extends Component {
 }
 
 LabItem.propTypes = {
+  onClickCalendar: PropTypes.func,
   item: PropTypes.object,
 };
 
 LabItem.defaultProps = {
+  onClickCalendar: () => 0,
   item: {},
 };
 
