@@ -19,10 +19,13 @@ import {
   getUserInfo,
 } from './controllers/userController';
 import initScheduler from './scheduler';
+import AuthLDAP from './utils/authLDAP';
 
 const Strategy = require('passport-local').Strategy;
 
 const RedisStore = require('connect-redis')(expressSession);
+
+const authLDAP = new AuthLDAP({});
 
 const debug = require('debug')('GSITAE:server');
 
@@ -63,24 +66,24 @@ app.use(Express.static(path.join(__dirname, 'public')));
 passport.use(new Strategy(
   async (username, password, done) => {
     debug(username);
-    if (username === '50006' && password === '123456') {
-      try {
-        const userDDBB = await getUserInfo(username);
-        const tokens = await getTokenWithCode(username);
-        debug(userDDBB);
-        const user = {
-          username,
-          code: username,
-          roles: userDDBB.roles,
-          permissions: userDDBB.permissions,
-          ...tokens,
-        };
-        return done(null, user);
-      } catch (err) {
-        return done(null, false);    
-      }
+    try {
+      await authLDAP.authorice(username, password);
+      const userDDBB = await getUserInfo(username);
+      const tokens = await getTokenWithCode(username);
+      debug(userDDBB);
+      const user = {
+        username,
+        code: username,
+        roles: userDDBB.roles,
+        permissions: userDDBB.permissions,
+        ...tokens,
+      };
+      return done(null, user);
+    } catch (err) {
+      logger.error('[app] - Error en el login');
+      debug(err);
+      return done(null, false);    
     }
-    return done(null, false);
   },
 ));
 
