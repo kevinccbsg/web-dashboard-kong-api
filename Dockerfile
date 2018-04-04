@@ -7,7 +7,7 @@ RUN mkdir -p /user/src/app
 # Create app directory
 WORKDIR /user/src/app
 
-copy package.json package-lock.json ./
+copy package.json ./
 
 RUN npm install
 
