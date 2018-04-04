@@ -1,5 +1,6 @@
 FROM node:carbon
 # RUN apt-get update && apt-get install -y iputils-ping
+RUN apt-get install ldap-utils
 
 RUN mkdir -p /user/src/app
 
