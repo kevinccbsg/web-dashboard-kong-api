@@ -12,7 +12,7 @@
     "webpack:dev": "npm run clean && npm run webpack:watch",
     "build-server": "./node_modules/.bin/babel src/server -d build --copy-files",
     "build-server:dev": "./node_modules/.bin/babel src/server -w -d build --copy-files",
-    "prepare": "npm run clean && npm run webpack:prod && npm run build-server",
+    "prepare-server": "npm run clean && npm run webpack:prod && npm run build-server",
     "production": "NODE_ENV=production DEBUG=GSITAE:* node ./build/bin/www",
     "start": "NODE_ENV=development DEBUG=GSITAE:* node ./build/bin/www"
   },
@@ -92,7 +92,7 @@
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
     "redux-promise-middleware": "^5.0.0",
-    "semantic-ui-css": "^2.2.12",
+    "semantic-ui-css": "2.2.12",
     "semantic-ui-react": "^0.77.1",
     "unirest": "^0.5.1",
     "uuid": "^3.1.0",

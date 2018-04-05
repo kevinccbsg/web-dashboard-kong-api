@@ -15,7 +15,7 @@ RUN npm install
 COPY . .
 
 # create assets
-RUN npm run prepare
+RUN npm run prepare-server
 
 EXPOSE 3000
 
