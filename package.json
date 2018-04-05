@@ -1,6 +1,6 @@
 {
   "name": "web-gsitae",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Portal de acceso unificado a laboratorios remotos de la ETSIDI facultad de la UPM",
   "main": "app.js",
   "scripts": {

@@ -101,7 +101,14 @@ app.post('/GSITAE/login', passport.authenticate('local', { failureRedirect: '/lo
   res.redirect('/');
 });
 
-app.use('/GSITAE', api);
+app.use('/GSITAE', connectEnsureLogin.ensureLoggedIn('/login'), api);
+
+app.get('/logout', (req, res) => {
+  req.logout();
+  req.session.destroy(() => {
+    res.redirect('/login');
+  });
+});
 
 app.get('/hasAccess', (req, res) => {
   if (!req.user) {

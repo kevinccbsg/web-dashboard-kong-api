@@ -117,9 +117,9 @@ class SidebarMenu extends Component {
             <div className="user-data">
               {user.code}
             </div>
-            <Link to="/logout">
+            <a href="/logout">
               <Icon size="big" name="log out" />
-            </Link>
+            </a>
           </div>
         </div>
       </Sidebar>
