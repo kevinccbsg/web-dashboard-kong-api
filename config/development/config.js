@@ -8,14 +8,6 @@ const {
 
 module.exports = {
   port: 3000,
-  ldap_OPTS: {
-    server: {
-      url: 'ldap://192.168.1.91:10389',
-      searchBase: 'ou=users,dc=example,dc=com',
-      searchFilter: '(cn={{username}})',
-      reconnect: true,
-    },
-  },
   redis: {
     host: 'localhost',
     port: 6379,
